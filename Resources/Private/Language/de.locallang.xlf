@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-11-13T00:38:36Z" product-name="glcrossword">
+		<header/>
+		<body>
+			<trans-unit id="code.error.double.question">
+				<source><![CDATA[There are two questions in this box with the same direction.
+				  Theres ist the question "%s" with the UID %u and there is the
+				  question "%s" with the UID %u.]]>
+				</source>
+				<target><![CDATA[Es gibt zwei Fragen in disem Kästchen mit der selben Richtung.
+						  Zum einen ist das die Frage "%s" mit der UID %u und zum anderen
+						  die Frage "%s" mit der UID %u.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.double.answerletter">
+				<source><![CDATA[There are two different letters in this field.
+						  From question "%s" with UID %u comes letter "%s"
+						  and from question "%s" with UID %u comes letter "%s".]]>
+				</source>
+				<target><![CDATA[Es gibt zwei verschiedene Buchstaben in diesem Feld.
+						  Von Frage "%s" mit der UID %u wird Buchstabe "%s" verlangt
+						  und von Frage "%s" mit UID %u wird Buchstabe "%s" verlangt.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.box.type.missmatch">
+				<source><![CDATA[In this field is a box of type %s causing of question %s with UID %u 
+						 and a box of type %s causing of question %s with UID %u
+						 at the same time.]]>
+				</source>
+				<target><![CDATA[In diesem Feld muss ein Kästchen vom Typ %s verursacht durch
+						 Frage %s mit UID %u und ein Kästchen vom Typ %s verursacht
+						 durch Frage %s mit UID %u zur selben Zeit sein.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.answer.box.out.of.bounds">
+				<source><![CDATA[The answer of the question "%s" with the UID %u and a length of %u  
+							reaches out of the bounds of the crossword.]]>
+				</source>
+				<target><![CDATA[Die Antwort von der Frage "%s" mit der UID %u und einer Länge von %u
+						ragt über die Grenzen dieses Kreuzworträtsels raus.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.question.box.out.of.bounds">
+				<source><![CDATA[The question "%s" with the UID %u has the x/y coordiante %d and   
+						%d and is out of the bounds of the crossword.]]>
+				</source>
+				<target><![CDATA[Die Frage "%s" mit der UID %u hat die x/y Koordinaten %d und 
+						%d und ist damit außerhalb der Grenzen dieses Kreuzworträtsels.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.empty.box.out.of.bounds">
+				<source><![CDATA[The empty box with the x/y coordiante %d and %d is out of the
+						  bounds of this crossword. This is an error in the source code.
+						  Please contact the developer.]]>
+				</source>
+				<target><![CDATA[Das leere Kästchen mit den x/y Koordinaten %d und %d liegt außerhalb
+						  der Grenzen dieses Kreuzworträtsels. Die Ursache liegt im Quellcode.
+						  Bitte kontaktieren Sie den Entwickler.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.general.dialog">
+				<source><![CDATA[There are errors in the setup of the crossword. For further information move 
+						the mouse over the highlighted field and correct this errors.]]>
+				</source>
+				<target><![CDATA[Es sind Fehler beim Kreuzworträtsel Setup aufgetreten. Für genauere Hinweise
+						 gehen Sie mit dem Mousecursor über die hervorgehobenen Felder und korrigieren
+						 Sie diese Fehler.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="code.error.wrong.answer">
+				<source><![CDATA[Your answer was: ]]>
+				</source>
+				<target><![CDATA[Ihre Antwort war: ]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="text.button.solution">
+				<source><![CDATA[Solution]]>
+				</source>
+				<target><![CDATA[Auflösen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="text.button.hint">
+				<source><![CDATA[Hint]]>
+				</source>
+				<target><![CDATA[Tipp]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="text.button.hint.description">
+				<source><![CDATA[Click on an answer box to get a hint]]>
+				</source>
+				<target><![CDATA[Klicken Sie auf ein Antwortfeld, um einen Hinweis zu erhalten.]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="text.hourglass.waiting">
+				<source><![CDATA[Waiting for data...]]>
+				</source>
+				<target><![CDATA[Warten auf Daten...]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="pi1_title">
+				<source><![CDATA[Crossword]]>
+				</source>
+				<target><![CDATA[Kreuzworträtsel]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="pi1_plus_wiz_description">
+				<source><![CDATA[Adds a new crossword puzzle]]>
+				</source>
+				<target><![CDATA[Neues Kreuzworträtsel hinzufügen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.sheet_title">
+				<source><![CDATA[Basic configurations]]>
+				</source>
+				<target><![CDATA[Grundeinstellungen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.crossword_title">
+				<source><![CDATA[Titel of the crossword puzzle]]>
+				</source>
+				<target><![CDATA[Titel des Kreuzworträtsels]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.width">
+				<source><![CDATA[Width]]>
+				</source>
+				<target><![CDATA[Breite]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.height">
+				<source><![CDATA[Height]]>
+				</source>
+				<target><![CDATA[Höhe]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.scale_xfactor">
+				<source><![CDATA[Factor to scale the width]]>
+				</source>
+				<target><![CDATA[Faktor um die Breite zu saklieren]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.scale_yfactor">
+				<source><![CDATA[Factor to scale the height]]>
+				</source>
+				<target><![CDATA[Faktor um die Höhe zu saklieren]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.border_width">
+				<source><![CDATA[Border width]]>
+				</source>
+				<target><![CDATA[Rahmendicke]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.css.file">
+				<source><![CDATA[Alternative CSS file]]>
+				</source>
+				<target><![CDATA[Alternative CSS Datei]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.bootstrap.css">
+				<source><![CDATA[Deactivate Bootstrap CSS file]]>
+				</source>
+				<target><![CDATA[Deaktiviere Bootstrap CSS-Datei]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.bootstrap.js">
+				<source><![CDATA[Deactivate Bootstrap JS file]]>
+				</source>
+				<target><![CDATA[Deaktiviere Bootstrap JS-Datei]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.general.jQuery">
+				<source><![CDATA[Deactivate jQuery library]]>
+				</source>
+				<target><![CDATA[Deaktiviere jQuery Bibliothek]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.questions.sheet_title">
+				<source><![CDATA[Questions]]>
+				</source>
+				<target><![CDATA[Fragen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.questions.questions">
+				<source><![CDATA[Select the relatet questions]]>
+				</source>
+				<target><![CDATA[Wählen Sie die zugehörigen Fragen aus]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="glcrossword.subcategory.libraries">
+				<source><![CDATA[Libraries]]>
+				</source>
+				<target><![CDATA[Bibliotheken]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="glcrossword.subcategory.css">
+				<source><![CDATA[CSS Settings]]>
+				</source>
+				<target><![CDATA[CSS Einstellungen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="glcrossword.constants.inlcudeJQuery">
+				<source><![CDATA[Include the jQuery library with this extension. Deactivate if you have your own jQuery library. Be aware, that you need jQeury 3.x]]>
+				</source>
+				<target><![CDATA[Füge die jQuery Bibliothek durch diese Extension ein. Deaktiviere dieses Einstellung, wenn Sie eine eigene jQuery Bibliothek eingebunden haben. Beachten Sie, dass sie jQuery 3.x benötigen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="glcrossword.constants.includeBootstrapJs">
+				<source><![CDATA[Include the Bootstrap javascript library with this extension. Deactivate if you have your own Bootstrap library. Be aware, that you need Bootstrap 3.x]]>
+				</source>
+				<target><![CDATA[Füge die Bootstrap Javascript Bibliothek durch diese Extension ein. Deaktiviere dieses Einstellung, wenn Sie eine eigene Bootstrap Bibliothek eingebunden haben. Beachten Sie, dass sie Bootstrap 3.x benötigen]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="glcrossword.constants.includeBootstrapCss">
+				<source><![CDATA[Include the Bootstrap CSS content file with this extension. Deactivate if you have your own Bootstrap CSS content file. Be aware, that you need Bootstrap 3.x]]>
+				</source>
+				<target><![CDATA[Füge die Bootstrap CSS-Datei durch diese Extension ein. Deaktiviere dieses Einstellung, wenn Sie eine eigene Bootstrap CSS-Datei eingebunden haben. Beachten Sie, dass sie Bootstrap 3.x benötigen]]>
+				</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

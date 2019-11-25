@@ -1,0 +1,49 @@
+2013-02-17  Gerald Lo?  <gerald.loss@gmx.de>
+
+	* Initial code generated with kickstarter
+
+2013-12-22  Gerald Loﬂ	<gerald.loss@gmx.de>
+
+	* Basic functionality (edit crossword, solution, get hints)
+	* more then one crossword in one html-page
+	* multi language support
+	* documentation
+
+2014-01-03  Gerald Loﬂ	<gerald.loss@gmx.de>
+
+	* Bugfix: Disable caching for this plugin. Otherwise the ajax content is not corect written in the session.
+	* Bugfix: Resolve UTF issue for the session. Add an extra troubleshooting chapter in the documentation.
+	* Bugfix: Resolf UTF error in the answers of the crossword. Answers with umlauts are now posible
+	* The editing of special letters with umlauts ‰ˆ¸ or È‡ is now possible.
+	* Bugfix: If you click in an answerfield with more then one letter, then backspace don't work. This is now resolved.
+	* Compressing the javascript library of glcrossword for better performance.
+	* Insert the ext_autoload.php feature.
+	
+2014-01-05	
+	
+	* A turning crossword ball as the hourglass for receiving data from the ajax connection.
+	* Stop freezing the screen while click on the solution button. The solution is now displayed field by field in the crossword	
+
+2014-01-09
+
+	* If pressing the enter key, then will be the edit vector in the crossword changed if possible.
+	* Some Improvements in this Documentation
+	* Performance improvements in the javascript
+	* Map compressed javascript source to uncompressed source for debugging
+	
+2014-01-11
+	
+	* Bugfix: Remove double IDs on the HTML elements, if you setup more then one crossword in a single HTML page. Now every ID gets the ID of the whole crossword as a suffix.
+
+2017-03-12
+
+	* Change to jQuery 3.x and Bootstrap 3.x library
+	* Remove qTip≤ and jQuery UI library
+	* Compatibility issues with Typo3 7.x
+	* Change old documentation to new ReST documentation
+	
+2019-11-13
+
+	* make it compatible with Typo3 major version 9
+	* switch to fluid functionality
+	* Attention! Compatibility break. You need to reconfigure felxform.

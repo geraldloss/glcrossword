@@ -1,0 +1,27 @@
+plugin.tx_glcrossword {
+
+	# the vendor name
+	vendorName = Loss
+	# the name of this extension
+	extensionname = glcrossword
+	
+	# the paths for the fluid templates
+	view {
+		# cat=plugin.tx_glcrossword/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:glcrossword/Resources/Private/Templates/
+		# cat=plugin.tx_glpairs/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:glcrossword/Resources/Private/Partials/
+		# cat=plugin.tx_glpairs/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:glcrossword/Resources/Private/Layouts/
+	}
+	
+	# the javascript libraries
+	libraries{
+		#cat=plugin.tx_glcrossword/libraries; type=boolean; label=LLL:EXT:glcrossword/locallang.xlf:glcrossword.constants.inlcudeJQuery
+		inlcudeJQuery = true
+		#cat=plugin.tx_glcrossword/libraries; type=boolean; label=LLL:EXT:glcrossword/locallang.xlf:glcrossword.constants.includeBootstrapJs
+		includeBootstrapJs = true
+		#cat=plugin.tx_glcrossword/libraries; type=boolean; label=LLL:EXT:glcrossword/locallang.xlf:glcrossword.constants.includeBootstrapCss
+		includeBootstrapCss = true
+	}
+}

@@ -1,0 +1,40 @@
+# ==============================================
+# FE-Plugin configuration for EXT:glcrossword
+# ==============================================
+plugin.tx_glcrossword {
+	view {
+		templateRootPaths {
+			0 = EXT:glcrossword/Resources/Private/Templates/
+			1 = {$plugin.tx_glcrossword.view.templateRootPath}
+		}
+
+		partialRootPaths {
+			0 = EXT:glcrossword/Resources/Private/Partials/
+			1 = {$plugin.tx_glcrossword.view.partialRootPath}
+		}
+
+		layoutRootPaths {
+			0 = EXT:glcrossword/Resources/Private/Layouts/
+			1 = {$plugin.tx_glcrossword.view.layoutRootPath}
+		}
+	}
+}
+
+page.includeJSFooter { 
+	# include jQuery library at the end of the body, if it is not deactivated
+	jQueryLib = EXT:glcrossword/Resources/Public/js/jquery-3.1.1.min.js
+	jQueryLib.if.isTrue = {$plugin.tx_glcrossword.libraries.inlcudeJQuery}
+
+	# include Bootstrap library at the end of the body, if it is not deactivated
+	bootstrapLib = EXT:glcrossword/Resources/Public/js/bootstrap.min.js
+	bootstrapLib.if.isTrue = {$plugin.tx_glcrossword.libraries.includeBootstrapJs}
+
+	# include the glcrossword library at the end of the body, if it is not deactivated
+	glcrosswordLib = EXT:glcrossword/Resources/Public/js/glcrossword.min.js
+}
+
+page.includeCSS {
+	# include the Bootstrap CSS content file, if it is not deactivated in the options
+	bootstrapCss = EXT:glcrossword/Resources/Public/css/bootstrap.min.css
+	bootstrapCss.if.isTrue = {$plugin.tx_glcrossword.libraries.includeBootstrapCss}
+}

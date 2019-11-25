@@ -1,0 +1,257 @@
+@charset "utf-8";
+/* CSS Document for the crossword extension glcrossword*/
+
+/* Basic Layout of the main frame around the crossword */
+#glcrossword_main_frame{
+        position: absolute;
+        border-style: none;
+        left: 10px;
+        top: 20px;
+}
+
+/* Basic Layout of one cell */
+div.glcrossword_cell_layout{
+        position: absolute;
+        border-color: #000000;
+        border-style: solid;
+        font-family: "Comic Sans MS", cursive;
+        font-weight: bold;
+        vertical-align: middle;
+        text-align: center;
+}
+
+/* general triangle settings*/
+div.glcrossword_triangle{
+        position: absolute;
+        width: 0px;
+        height: 0px;
+}
+
+/* the main format for the arrowline left and top */
+div.glcrossword_line_left_top{
+        position: absolute;
+        border-top: 1px;
+        border-top-style: solid;
+        border-left: 1px;
+        border-left-style: solid;
+}
+/* the default format for the arrowline left and top */
+div.glcrossword_line_left_top_default{
+        border-top-color: #000;
+        border-left-color: #000;
+}
+/* the highlight format for the arrowline left and top */
+div.glcrossword_line_left_top_highlighted{
+        border-top-color: #DA1B20;
+        border-left-color: #DA1B20;
+}
+
+/* the main format for the arrowline left and bottom */
+div.glcrossword_line_left_bottom{
+        position: absolute;
+        border-bottom: 1px;
+        border-bottom-style: solid;
+        border-left: 1px;
+        border-left-style: solid;
+}
+/* the default format for the arrowline left and bottom */
+div.glcrossword_line_left_bottom_default{
+        border-bottom-color: #000;
+        border-left-color: #000;
+}
+/* the highlighted format for the arrowline left and bottom */
+div.glcrossword_line_left_bottom_highlighted{
+        border-bottom-color: #DA1B20;
+        border-left-color: #DA1B20;
+}
+
+/* the main format for the arrowline right and top */
+div.glcrossword_line_right_top{
+        position: absolute;
+        border-top: 1px;
+        border-top-style: solid;
+        border-right: 1px;
+        border-right-style: solid;
+}
+/* the default format for the arrowline right and top */
+div.glcrossword_line_right_top_default{
+        border-top-color: #000;
+        border-right-color: #000;
+}
+/* the highlighted format for the arrowline right and top */
+div.glcrossword_line_right_top_highlighted{
+        border-top-color: #DA1B20;
+        border-right-color: #DA1B20;
+}
+
+/* the main format for the arrowline right and bottom */
+div.glcrossword_line_right_bottom{
+        position: absolute;
+        border-bottom: 1px;
+        border-bottom-style: solid;
+        border-right: 1px;
+        border-right-style: solid;
+}
+/* the default format for the arrowline right and bottom */
+div.glcrossword_line_right_bottom_default{
+        border-bottom-color: #000;
+        border-right-color: #000;
+}
+/* the highlighted format for the arrowline right and bottom */
+div.glcrossword_line_right_bottom_highlighted{
+        border-bottom-color: #DA1B20;
+        border-right-color: #DA1B20;
+}
+
+/* format of the errors wich are out of bound*/
+div.glcrossword_error_oob {
+        position: absolute;
+        border-color: #000000;
+        border-style: solid;
+        background-color: #D91111;
+}
+
+/* format of the question fields */
+div.glcrossword_question {
+        background-color: #B1B1B1;
+}
+/* format of the question fields with error*/
+div.glcrossword_question_error {
+        background-color: #D91111;
+}
+
+/* format of the answer fields */
+div.glcrossword_answer {
+        background-color: #FFF;
+}
+/* format of the answer fields emphasized*/
+div.glcrossword_answer_emph {
+        background-color: #F8FE83;
+}
+
+/* format of the answer fields in edit mode*/
+div.glcrossword_answer_edit {
+        background-color: #FBFEB8;
+}
+
+/* format of the answer fields with error*/
+div.glcrossword_answer_error {
+        background-color: #DA3030;
+}
+
+/* format of the answer fields with the right answer*/
+div.glcrossword_answer_right {
+        background-color: #D2F0CA;
+}
+
+/* format of the empty fields */
+div.glcrossword_empty {
+        background-color: #000;
+}
+/* format of the empty fields with errors*/
+div.glcrossword_empty_error {
+        background-color: #8E0D06;
+}
+
+/* the format of the small box with the letter count in the corner of a crossword box */
+div.glcrossword_letter_count {
+        background-color: transparent;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0px;
+        border: none;
+        padding: 0px;
+        top: 0px;
+        left: 0px;
+        position: absolute;
+}
+
+/* format for the invisible caret */
+div.glcrossword_caret_inactive {
+         position: absolute;
+         border-style: solid;
+         border-color: transparent;
+}
+
+/* format for the visible caret */
+div.glcrossword_caret_active {
+         position: absolute;
+         border-style: solid;
+         border-color: black;
+}
+
+/* format for the table with the answer text */
+table.glcrossword_answer_text {
+        position: absolute;
+        background-color: transparent;
+        margin: 0px;
+        border: none;
+        padding: 0px;
+        top: 0px;
+        left: 0px;
+}
+
+/* format for the answer text */
+td.glcrossword_answer_text {
+        background-color: transparent;
+        font-family: "Comic Sans MS", cursive;
+        font-weight: bold;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0px;
+}
+
+/* format for button container in the crossword */
+div.glcrossword_button_container {
+         position: absolute;
+         border-style: solid;
+         border-color: transparent;
+}
+
+/* format of the hourglass for ajax operations
+ * First for the outer div element */
+div.glcrossword_ajax_hourglass_outer {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0,0,0,0.8);
+        display: table;
+}
+
+/* The middle div element for the ajax hourglass */
+div.glcrossword_ajax_hourglass_middle {
+		display: table-cell;
+        vertical-align: middle;
+}
+
+/* The middle div element for the ajax hourglass */
+div.glcrossword_ajax_hourglass_inner {
+        text-align: center;		
+}
+
+/* format of the animated gif for the hourglass for ajax operations */
+img.glcrossword_ajax_hourglass {
+       opacity: 1;
+       filter: Alpha(Opacity=100);        
+}
+
+/* The deactivated hourglass */
+#glcrossword_ajax_hourglass_off {
+       display: none;        	
+}
+
+/* for the text of the hourglass */
+p.glcrossword_ajax_hourglass_text {
+	color: white;
+}
+
+/* The hourglass for the hint */
+img.glcrossword_ajax_hourglass_hint {
+	position: absolute;
+	background-color: rgb(220,220,220);	
+}
+
+/* 	For the bootstrap popover messages. Linebreaks \n will lead to a 
+	line break with this option */
+.popover {
+    white-space: pre-line;    
+}

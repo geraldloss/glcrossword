@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-11-13T00:38:36Z" product-name="glcrossword">
+		<header/>
+		<body>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
+				<source><![CDATA[Crossword]]></source>
+				<target><![CDATA[Kreuzworträtsel]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions" xml:space="preserve">
+				<source><![CDATA[Questions]]></source>
+				<target><![CDATA[Fragen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.question" xml:space="preserve">
+				<source><![CDATA[Question]]></source>
+				<target><![CDATA[Frage]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.answer" xml:space="preserve">
+				<source><![CDATA[Answer]]></source>
+				<target><![CDATA[Antwort]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.mask" xml:space="preserve">
+				<source><![CDATA[Mask]]></source>
+				<target><![CDATA[Maske]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.xpos" xml:space="preserve">
+				<source><![CDATA[X position in crossword]]></source>
+				<target><![CDATA[X Position im Kreuzworträtsel]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.ypos" xml:space="preserve">
+				<source><![CDATA[Y position in crossword]]></source>
+				<target><![CDATA[Y Position im Kreuzworträtsel]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.0" xml:space="preserve">
+				<source><![CDATA[Top to the left]]></source>
+				<target><![CDATA[Oben nach links]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.1" xml:space="preserve">
+				<source><![CDATA[To the top]]></source>
+				<target><![CDATA[Nach oben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.2" xml:space="preserve">
+				<source><![CDATA[Top to the right]]></source>
+				<target><![CDATA[Oben nach rechts]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.3" xml:space="preserve">
+				<source><![CDATA[Right to the top]]></source>
+				<target><![CDATA[Rechts nach oben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.4" xml:space="preserve">
+				<source><![CDATA[To the right]]></source>
+				<target><![CDATA[Nach rechts]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.5" xml:space="preserve">
+				<source><![CDATA[Right to the bottom]]></source>
+				<target><![CDATA[Rechts nach unten]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.6" xml:space="preserve">
+				<source><![CDATA[Down to the rigth]]></source>
+				<target><![CDATA[Unten nach rechts]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.7" xml:space="preserve">
+				<source><![CDATA[To the bottom]]></source>
+				<target><![CDATA[Nach unten]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.8" xml:space="preserve">
+				<source><![CDATA[Down to the left]]></source>
+				<target><![CDATA[Unten nach links]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.9" xml:space="preserve">
+				<source><![CDATA[Left to the bottom]]></source>
+				<target><![CDATA[Links nach unten]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.10" xml:space="preserve">
+				<source><![CDATA[To the left]]></source>
+				<target><![CDATA[Nach links]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction.I.11" xml:space="preserve">
+				<source><![CDATA[Left to the top]]></source>
+				<target><![CDATA[Links nach oben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_glcrossword_questions.direction" xml:space="preserve">
+				<source><![CDATA[Direction of the answer]]></source>
+				<target><![CDATA[Richtung der Antwort]]></target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

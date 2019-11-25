@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-16T11:47:43Z" product-name="glcrossword">
+		<header/>
+		<body>
+			<trans-unit id="settings.titleOfCrossword.alttitle" xml:space="preserve">
+				<source>Titel of the crossword puzzle</source>
+			</trans-unit>
+			<trans-unit id="settings.titleOfCrossword.description" xml:space="preserve">
+				<source>Titel of the crossword puzzle only for internal description. 
+      											  This title doesn't apears on the frontend.</source>
+			</trans-unit>
+			<trans-unit id="settings.widthOfCrossword.alttitle" xml:space="preserve">
+				<source>Width of the crossword puzzle</source>
+			</trans-unit>
+			<trans-unit id="settings.widthOfCrossword.description" xml:space="preserve">
+				<source>Number of fields in width</source>
+			</trans-unit>
+			<trans-unit id="settings.widthOfCrossword.details" xml:space="preserve">
+				<source>If the crossword should contain 10 fields in width, then write 10 in this field.</source>
+			</trans-unit>
+			<trans-unit id="settings.heightOfCrossword.alttitle" xml:space="preserve">
+				<source>Height of the crossword puzzle</source>
+			</trans-unit>
+			<trans-unit id="settings.heightOfCrossword.description" xml:space="preserve">
+				<source>Number of fields in height</source>
+			</trans-unit>
+			<trans-unit id="settings.heightOfCrossword.details" xml:space="preserve">
+				<source>If the crossword should contain 10 fields in height, then write 10 in this field.</source>
+			</trans-unit>
+			<trans-unit id="settings.relatetQuestions.alttitle" xml:space="preserve">
+				<source>Relatet questions of the crossword puzzle</source>
+			</trans-unit>
+			<trans-unit id="settings.relatetQuestions.description" xml:space="preserve">
+				<source>All questions which are relatet to this crossword. Click hier for full description.</source>
+			</trans-unit>
+			<trans-unit id="settings.relatetQuestions.details" xml:space="preserve">
+				<source>You have to create in a sysFolder all questions for this crossword. Go in the list view
+      										  to a sysFolder and create a new item of the type question. Then you can assign this question
+      										  to this field of the crossword.</source>
+			</trans-unit>
+			<trans-unit id="settings.scaleXFactor.alttitle" xml:space="preserve">
+				<source>Factor to scale the width of the crossword</source>
+			</trans-unit>
+			<trans-unit id="settings.scaleXFactor.description" xml:space="preserve">
+				<source>Write 2 to double the width or 0.5 to shrink to half.</source>
+			</trans-unit>
+			<trans-unit id="settings.scaleYFactor.alttitle" xml:space="preserve">
+				<source>Factor to scale the height of the crossword</source>
+			</trans-unit>
+			<trans-unit id="settings.scaleYFactor.description" xml:space="preserve">
+				<source>Write 2 to double the height or 0.5 to shrink to half.</source>
+			</trans-unit>
+			<trans-unit id="settings.borderWidth.alttitle" xml:space="preserve">
+				<source>Border width of the crossword boxes in pixel</source>
+			</trans-unit>
+			<trans-unit id="settings.cssFile.alttitle" xml:space="preserve">
+				<source>Alternative CSS file with individual layout configuration for the crossword. Look at the long description.</source>
+			</trans-unit>
+			<trans-unit id="settings.cssFile.description" xml:space="preserve">
+				<source>Click here to see the long text.</source>
+			</trans-unit>
+			<trans-unit id="settings.cssFile.details" xml:space="preserve">
+				<source>If you like to create your own layout for the crossword, then copy the file glcrossword.css
+      									from the folder /typo3conf/ext/glcrossword/css/ in any place under /fileadmin/ and 
+      									customize it for your own needs. Never alter the name of the classes. Only the content of the
+      									classes is allowed for changings. 
+      									Then describe the path to this file from the fileadmin-folder in this field.
+      									For instance if you have place your own css file in the folder 
+      									/fileadmin/myHomepage/myowncrossword.css then you have to write myHomepage/myowncrossword.css
+      									into this field. If you leave it empty, then this plugin use the default css file.
+      									Should you try to set more then one crossword on one page, then you need to place in every crossword
+      									the same alternate CSS file. Otherwise would win alway the css file of the last crossword.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

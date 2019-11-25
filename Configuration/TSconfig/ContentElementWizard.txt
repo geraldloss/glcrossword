@@ -1,0 +1,13 @@
+mod.wizards.newContentElement.wizardItems.plugins {
+	elements {
+		glcrossword {
+			iconIdentifier = ext-glcrossword-wizard-icon
+			title = LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:pi1_title
+			description = LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:pi1_plus_wiz_description
+			tt_content_defValues {
+				CType = list
+				list_type = glcrossword_pi1
+			}
+		}
+	}
+}

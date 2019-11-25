@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-16T11:47:43Z" product-name="glcrossword">
+		<header/>
+		<body>
+			<trans-unit id="question.alttitle" xml:space="preserve">
+				<source>Questiontext</source>
+			</trans-unit>
+			<trans-unit id="question.description" xml:space="preserve">
+				<source>This field contains the text of the question.</source>
+			</trans-unit>
+			<trans-unit id="answer.alttitle" xml:space="preserve">
+				<source>Answertext</source>
+			</trans-unit>
+			<trans-unit id="answer.description" xml:space="preserve">
+				<source>This field contains the text of the answer.</source>
+			</trans-unit>
+			<trans-unit id="mask.alttitle" xml:space="preserve">
+				<source>Edit mask for the answer</source>
+			</trans-unit>
+			<trans-unit id="mask.description" xml:space="preserve">
+				<source>Configure if some letters should come together in one field. Click here for more details.</source>
+			</trans-unit>
+			<trans-unit id="mask.details" xml:space="preserve">
+				<source>You can for every field describe how many letter it should contain.
+      							  For instance if the first 3 field should contain only one letter and the fourth field should contain 2 letters,
+      							  then you have to write 1112 into this field. If all fields after the fourth field contain only one letter again,
+      							  then you can omit this in the mask. If all fields contain only one field, then left the mask empty</source>
+			</trans-unit>
+			<trans-unit id="mask.syntax" xml:space="preserve">
+				<source>If the answer ist weather and you want th in one field then write 1112111 or 1112</source>
+			</trans-unit>
+			<trans-unit id="mask.image" xml:space="preserve">
+				<source>gfx/helpbubble.gif</source>
+			</trans-unit>
+			<trans-unit id="xpos.alttitle" xml:space="preserve">
+				<source>X position of the question</source>
+			</trans-unit>
+			<trans-unit id="xpos.description" xml:space="preserve">
+				<source>Column of the position of the question.
+      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 3.</source>
+			</trans-unit>
+			<trans-unit id="ypos.alttitle" xml:space="preserve">
+				<source>Y position of the question</source>
+			</trans-unit>
+			<trans-unit id="ypos.description" xml:space="preserve">
+				<source>Column of the position of the question.
+      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 5.</source>
+			</trans-unit>
+			<trans-unit id="direction.alttitle" xml:space="preserve">
+				<source>Direction for the answer.</source>
+			</trans-unit>
+			<trans-unit id="direction.description" xml:space="preserve">
+				<source>Direction for the answser. If the answer should lead from the top of the question
+      									   to the right, then choose "Top to the right".</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
