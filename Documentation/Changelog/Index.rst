@@ -72,6 +72,10 @@ Version:  Changes:
           library. The libraries jQuery UI and qTip² are not
           used any longer.
 --------  -------------------------------------------------------
+5.x       Update to extbase with fluid. Attention! This breaks with
+          downward compatibility. Read Chapter :ref:`Migration<migration>` bevore you update to this version. Otherwise you may lost
+          some data.
+--------  -------------------------------------------------------
 \
 --------  -------------------------------------------------------
 \

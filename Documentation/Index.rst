@@ -24,22 +24,19 @@ Crossword
 
     :Description:
         Supplies a crossword extension, to create your own crossword on a homepage.
-        		This extension is very flexible. You can define crosswords of every size,
-        		answer fields with more then one letter and you can define answers in every posible
-        direction.
-        		All you need is to create your own questions and answers and assign it with your
-        crossword.
-        		In the frontend you can edit the crossword with javascript very user friendly.
-        		The communication with the backend is performed with ajax.
-        		See under http://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an
-        online example.
-        		This extension use jQuery 3.x and Bootstrap 3.x.
+        This extension is very flexible. You can define crosswords of every size,
+        answer fields with more then one letter and you can define answers in every posible direction.
+        All you need is to create your own questions and answers and assign it with your crossword.
+        In the frontend you can edit the crossword with javascript very user friendly.
+        The communication with the backend is performed with ajax.
+        See under http://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an online example.
+        This extension use jQuery 3.x and Bootstrap 3.x.
 
     :Keywords:
         crossword, forAdmins, forIntermediates
 
     :Copyright:
-        2010-2018
+        2010-2019
 
     :Author:
         Gerald Loß
@@ -57,11 +54,7 @@ Crossword
     The content of this document is related to TYPO3,
     a GNU/GPL CMS/Framework available from `www.typo3.org <https://typo3.org/>`__.
 
-    ==================================================================================================================================================================================
-    Attention! Since version 3.0.1 you need to include a static template. Please make sure to include this template like in the chapter :ref:`Configuration<configuration>` described.
-    ==================================================================================================================================================================================
-
-
+    
     **Table of Contents**
 
 .. toctree::

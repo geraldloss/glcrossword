@@ -44,11 +44,9 @@ the following error “Call to a member function getQuestionsArray() on a non-ob
 This error happen not every time. Sometimes it happens only with certain browsers or if you
 change your IP address.
 
-That means you are in trouble with your unicode setting of your database. Mostly it happens in
-case of umlauts or special characters in your crossword. The the session could be broken and the
-ajax comunication is crashing because of the error above. See the chapter :ref:`Unicode setting for mysql
-database<administration-unicode-setting-for-mysql>` in the Adminstration chapter how to fix this issue. Clear your
-cache after you have done this settings.
+That means you are in trouble with your session data. In older versions the problem was an encoding problem with unicode, but in current versions is this
+rather unlikely. Check if this issue only happens, if you hav umlauts in your crossword. In other cases maybe your browser dosn't store the session correct 
+or you have problems with the typo3 cache. By default caching is deactivated for this extension.
 
 **Hourglas is not stopping**
 
@@ -83,3 +81,18 @@ Additionally you should check, if the constants for deactivating/activating the 
 .. figure:: ../Images/configuration_edit_constants.png
    :alt: The static template is includet
 
+
+**Very odd presentation of the crossword**
+
+If you can only se a very odd presentation of the crossword like that.
+
+.. figure:: ../Images/crossword_no_css.png
+   :alt: Crossword without css file
+   
+You most probably have no access to the crosswords css file under /typo3conf/ext/glcrossword/Resources/Public/css/glcrossword.css
+You can check in your browser with Ctrl+Shift+J if you find error messages in your console like that.
+
+.. figure:: ../Images/crossword_no_css_2.png
+   :alt: Crossword without css file
+
+In this case you should check your apache configuration if you have access to the public folder of this extension in the folder Resources. See the chapter :ref:`Providing access to glcrossword with Apache<administration-providing-access-to>` for that.

@@ -16,4 +16,4 @@ Administration
     :titlesonly:
 
     ProvidingAccessTo/Index
-    UnicodeSettingForMysql/Index
+    Migration/Index
