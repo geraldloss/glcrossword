@@ -18,7 +18,7 @@ So after an upgrade you are looking in an empty flexform.
 .. figure:: ../../Images/empty_flexform.png
 	:alt: Empty flexform of glcrossword
 
-Make bevore the upgrade screenshots of the old flexform with all the settings and reconfigure after the upgrade the flexform in the plugin manually.
+Make before the upgrade screenshots of the old flexform with all the settings and reconfigure after the upgrade the flexform in the plugin manually.
 
 .. figure:: ../../Images/filled_flexform_1.png
 	:alt: The first tab of the filled flexform
