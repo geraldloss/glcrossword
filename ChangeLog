@@ -42,6 +42,10 @@
 	* Compatibility issues with Typo3 7.x
 	* Change old documentation to new ReST documentation
 	
+2018-12-09
+	
+	* Updated version for Typo3 8 and PHP 7.
+	
 2019-11-13
 
 	* make it compatible with Typo3 major version 9
