@@ -29,10 +29,6 @@
                 // after TypoScriptFrontendController->fe_user is created
                 'typo3/cms-frontend/authentication'
             ],
-            'before' => [
-                // but before all the other middlewares
-                'typo3/cms-frontend/backend-user-authentication'
-            ],
         ],
     ]
 ];        
