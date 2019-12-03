@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
 *
-*  (c) 2013 Gerald Loﬂ <gerald.loss@gmx.de>
+*  (c) 2013 Gerald Lo√ü <gerald.loss@gmx.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,7 +27,7 @@ namespace Loss\Glcrossword\Pi1;
 /**
  * Class with the one field of the answert
  *
- * @author	Gerald Loﬂ <gerald.loss@gmx.de>
+ * @author	Gerald Lo√ü <gerald.loss@gmx.de>
  * @package	glcrossword
  */
 class GlcrosswordContentAnswerfield {

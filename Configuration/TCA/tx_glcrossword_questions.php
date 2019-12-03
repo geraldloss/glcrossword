@@ -48,6 +48,7 @@ $tx_glcrossword_questions = array(
 					array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.default_value', 0)
 				),
 				'renderType' => 'selectSingle',
+			    'default' => 0,
 			)
 		),
 		'l10n_parent' => array(		

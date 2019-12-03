@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2019 Gerald Loﬂ <gerald.loss@gmx.de>
+ *  (c) 2019 Gerald Lo√ü <gerald.loss@gmx.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

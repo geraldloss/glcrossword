@@ -21,12 +21,12 @@ $EM_CONF[$_EXTKEY] = array (
 		See under https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an online example.
 		This extension use jQuery 3.x and Bootstrap 3.x.',
 	'category' => 'plugin',
-	'version' => '5.0.1',
+	'version' => '5.0.2',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',
 	'clearcacheonload' => true,
-	'author' => 'Gerald Loss',
+	'author' => 'Gerald Loß',
 	'author_email' => 'gerald.loss@gmx.de',
 	'author_company' => '',
 	'constraints' => 

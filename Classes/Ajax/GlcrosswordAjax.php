@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Gerald Loﬂ <gerald.loss@gmx.de>
+ *  (c) 2013 Gerald Lo√ü <gerald.loss@gmx.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,7 +33,7 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 /**
  * Plugin 'glcrossword AJAX manager' for the 'glcrossword' extension.
  *
- * @author	Gerald Loﬂ <gerald.loss@gmx.de>
+ * @author	Gerald Lo√ü <gerald.loss@gmx.de>
  * @package	glcrossword
  */
 class GlcrosswordAjax {
