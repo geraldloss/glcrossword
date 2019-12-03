@@ -27,7 +27,7 @@ namespace Loss\Glcrossword\Filters;
 /**
  * Filter methods for the select in group boxes in a TCA 
  *
- * @author	Gerald Loﬂ <gerald.loss@gmx.de>
+ * @author	Gerald Lo√ü <gerald.loss@gmx.de>
  * @package	glcrossword
  */
 class GlcrosswordFilters {

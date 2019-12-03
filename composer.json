@@ -3,7 +3,7 @@
 	"type" : "typo3-cms-extension",
 	"description" : "Supplies a crossword extension, to create your own crossword on a homepage. This extension is very flexible. You can define crosswords of every size, answer fields with more then one letter and you can define answers in every posible direction. All you need is to create your own questions and answers and assign it with your crossword. In the frontend you can edit the crossword with javascript very user friendly. The communication with the backend is performed with ajax. See under https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an online example. This extension use jQuery 3.x and Bootstrap 3.x.",
 	"authors" : [{
-			"name" : "Gerald Loss",
+			"name" : "Gerald Loß",
 			"role" : "Developer"
 		}
 	],
@@ -21,7 +21,9 @@
 	},
 	"homepage" : "https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel",
 	"support" : {
-		"email" : "gerald.loss@gmx.de"
+		"email" : "gerald.loss@gmx.de",
+		"issues" : "https://github.com/geraldloss/glcrossword/issues",
+		"source" : "https://github.com/geraldloss/glcrossword"
 	},
 	"license" : "GPL-3.0+",
 	"keywords" : [

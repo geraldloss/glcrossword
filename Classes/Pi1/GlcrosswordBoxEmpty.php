@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
 *
-*  (c) 2013 Gerald Loﬂ <gerald.loss@gmx.de>
+*  (c) 2013 Gerald Lo√ü <gerald.loss@gmx.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@ use Loss\Glcrossword\Controller\GlcrosswordController;
 /**
  * Class to define an empty box
  *
- * @author	Gerald Loﬂ <gerald.loss@gmx.de>
+ * @author	Gerald Lo√ü <gerald.loss@gmx.de>
  * @package	glcrossword
  */
 class GlcrosswordBoxEmpty extends GlcrosswordBox {
@@ -91,8 +91,6 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 			// if there is a type missmatch
 			} else {
 		
-				// get all informations of the current object for the error message
-				GlcrosswordBox::getCausingQuestionInformation($l_objCurrentBox, $l_strCurrentQuestionText, $l_intCurrentQuestionUID);
 		
 				// In this field is a box of type %s causing of question "%s" with UID %u
 				// and a box of type %s causing of question "%s" with UID %u

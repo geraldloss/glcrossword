@@ -4,7 +4,7 @@
  *
  *  Copyright notice
  *
- *  (c) 2019 Gerald Loﬂ <gerald.loss@gmx.de>
+ *  (c) 2019 Gerald Lo√ü <gerald.loss@gmx.de>
  *
  *  All rights reserved
  *

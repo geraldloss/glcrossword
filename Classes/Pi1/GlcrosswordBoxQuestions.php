@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
 *
-*  (c) 2013 Gerald Loﬂ <gerald.loss@gmx.de>
+*  (c) 2013 Gerald Lo√ü <gerald.loss@gmx.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@ use Loss\Glcrossword\Controller\GlcrosswordController;
 /**
  * Class to define a box with one or more questions
  *
- * @author	Gerald Loﬂ <gerald.loss@gmx.de>
+ * @author	Gerald Lo√ü <gerald.loss@gmx.de>
  * @package	glcrossword
  */
 class GlcrosswordBoxQuestions extends GlcrosswordBox {
@@ -85,6 +85,11 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$l_strTempErrorText = '';
 		// the current question UID
 		$l_intCurrentQuestionUID = 0;
+		// the Causing Question of a Box
+		/* @var GlcrosswordBoxQuestions $l_objCausingQuestion */
+		$l_objCausingQuestion = Null;
+		// the direction of the Causing Question
+		$l_intCausingDirection = 0;
 		
 		// read the box of this coordinates
 		$l_objCurrentBox = $i_objCrossword->getBox($i_intX, $i_intY);
@@ -125,7 +130,8 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 				// if there is a type missmatch
 			} else {
 				// get all informations of this object for the error message
-				GlcrosswordBox::getCausingQuestionInformation($l_objCurrentBox, $l_strCurrentQuestionText, $l_intCurrentQuestionUID);
+				GlcrosswordBox::getCausingQuestionInformation($l_objCurrentBox, $l_strCurrentQuestionText, $l_intCurrentQuestionUID,
+				                                              $l_intActualLength, $l_objCausingQuestion, $l_intCausingDirection );
 				
 				// In this field is a box of type %s causing of question "%s" with UID %u
 				// and a box of type %s causing of question "%s" with UID %u
@@ -135,8 +141,11 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 				
 				$l_strTempErrorText = sprintf($l_strTempErrorText,
 											 $l_strCurrentType,
-											 filter_var($l_strCurrentQuestionText,FILTER_SANITIZE_FULL_SPECIAL_CHARS),
-											 $l_intCurrentQuestionUID,
+                         				     filter_var($l_objCausingQuestion
+                                				          ->get_objQuestion($l_intCausingDirection)
+                                				          ->get_strQuestion()
+                                				        ,FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+                        				     $l_intCurrentQuestionUID,
 											 GlcrosswordBox::C_STR_TYPE_QUESTION,
 											 filter_var($i_strQuestion,FILTER_SANITIZE_FULL_SPECIAL_CHARS),
 											 $i_intUID );
@@ -256,12 +265,12 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param	integer	$e_intDirection					Direction of the first question.
 	 * @return 			GlcrosswordContentQuestion	
 	 */
-	public function getFirstQuestion(&$e_intDirection) {
+	public function getFirstQuestion(&$e_intDirection = 0) {
 		$l_objContentQuestion = NULL;
 		for ($i = 0; $i <= self::C_INT_DIR_MAX; $i++) {
 			$l_objContentQuestion = $this->get_objQuestion($i);
 			if (isset($l_objContentQuestion)) {
-				$e_intDirection = i;
+				$e_intDirection = $i;
 				break;
 			}
 		}
