@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array (
 		See under https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an online example.
 		This extension use jQuery 3.x and Bootstrap 3.x.',
 	'category' => 'plugin',
-	'version' => '5.0.2',
+	'version' => '5.0.3',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array (
 		'depends' => 
 		array (
 			'php' => '7.2.0-7.3.99',
-			'typo3' => '9.0.0-10.1.99',
+			'typo3' => '9.0.0-10.2.99',
 		),
 		'conflicts' => 
 		array (
