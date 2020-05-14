@@ -198,6 +198,7 @@ td.glcrossword_answer_text {
         vertical-align: middle;
         text-align: center;
         padding: 0px;
+		border: none;
 }
 
 /* format for button container in the crossword */
