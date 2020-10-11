@@ -23,9 +23,6 @@ $tx_glcrossword_questions = array(
         ),
         'iconfile'          => 'EXT:glcrossword/Resources/Public/Icons/icon_tx_glcrossword_questions.gif',
     ),
-	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,question,answer,mask,xpos,ypos,direction'
-	),
 	'feInterface' => $TCA['tx_glcrossword_questions']['feInterface'],
 	'columns' => array(
 		't3ver_label' => array(		
@@ -53,7 +50,6 @@ $tx_glcrossword_questions = array(
 		),
 		'l10n_parent' => array(		
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
-			'exclude'     => 1,
 			'label'       => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.l18n_parent',
 			'config'      => array(
 				'type'  => 'select',
