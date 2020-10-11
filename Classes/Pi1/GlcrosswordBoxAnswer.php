@@ -527,17 +527,21 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		$l_intYInfoBoxWidth = 0;
 		// the font size of the info box
 		$l_intInfoBoxFontSize = 0;
-		// size for the Table with the answer content
-		$l_intXTableSize = 0;
-		$l_intYTableSize = 0;
 		// the caret id
 		$l_strCaretId = '';
 		// the size parameters of the caret
 		$l_intCaretLeft = 0;
 		$l_intCaretTop = 0;
 		$l_intCaretWidth = 0;
-		// the extra border width
-		$l_intExtraBorderWidth = 0;
+		// the coordinates from the left
+		$l_intLeft = 0;
+		// the coordinates from the top
+		$l_intTop = 0;
+		// the width of the box
+		$l_intWidth = 0;
+		// the height of the box
+		$l_intHeight = 0;
+		
 		
 		
 		// get the smaller scale option, this will determine the size of the font
@@ -547,51 +551,41 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 			$l_fltFontScale = $i_fltYScale;
 		}
 		
-		// compute the font size
-		$l_intFontSize = round( 36 * $l_fltFontScale );
-		
 		$l_objContentAnswerfield = $this->getContentObject(self::C_INT_CONTENT_INDEX); 
 		
-		// if this answer letter are 1 
-		if ($l_objContentAnswerfield->get_intLength() <= 1) {
-
-			$l_strContent = '">' . "\n";
-			
+		// get the box properties
+		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
+		
+		// close the open div element
+		$l_strContent = '" >' . "\n";
+		
 		// if the answer is longer then 1 letters in this box
-		} else {
-			// then we have to deal with tables, because the vertical-align: middle; parameter 
-			// dont works with div elements
+		if ($l_objContentAnswerfield->get_intLength() > 1) {
+
 			
-			// get the font size in dependece of the letter count
+			// get the font size in dependence of the letter count
 			$l_intFontSize = $this->getFontSize($l_objContentAnswerfield->get_intLength(), $l_fltFontScale);
-			// compute the X and Y size of the content table
-			$l_intXTableSize = round((GlcrosswordBox::C_INT_BOX_SIZE - 1) * $i_fltXScale);
-			$l_intYTableSize = round((GlcrosswordBox::C_INT_BOX_SIZE - 1) * $i_fltYScale);
-			
-			// if we have an extra border at the bottom
-			if ($this->get_blnExtraBorderBottom() == true) {
-				// we need to shorten the table a little bit
-				$l_intExtraBorderWidth = $i_intBorderWidth * 3;
-				$l_intYTableSize -= $l_intExtraBorderWidth;
-			}
-			
-			// close the open div element
-			$l_strContent = '" >' . "\n";
-			$l_strContent .= "\t\t\t\t" . '<table class="glcrossword_answer_text" style="width: ' . $l_intXTableSize . 
-							 'px; height: ' . $l_intYTableSize . 'px;">' . "\n";
-            $l_strContent .= "\t\t\t\t\t" . '<tr><td class="glcrossword_answer_text" id="content' . $this->m_intX . 'x' . 
-            										$this->m_intY . '_' . $this->m_objCrossword->get_uniqueId() . 
-            										'" style="font-size: ' . $l_intFontSize . 'px; padding: 0px;">' . "\n";
-  	        $l_strContent .= "\t\t\t\t\t" . '</td></tr>' . "\n";
-            $l_strContent .= "\t\t\t\t" . '</table>' . "\n";
+		
+		    // insert an input box
+		    $l_strContent .= "\t\t\t" . '<input id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
+				$this->m_objCrossword->get_uniqueId() .
+				'" class="glcrossword_cell_layout" ' .
+				'style="width: ' . ($l_intWidth - 2) . 'px;height: ' . ($l_intHeight - 2) . 'px;font-size: ' . $l_intFontSize . 
+		        'px;" type="text" value="">';
 		}
 		
 		// if there is 1 letter for this box
 		if ($l_objContentAnswerfield->get_intLength() == 1) {
-			// append the content area for this kind of boxes
-			$l_strContent .= "\t\t\t" . '<div id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
+           
+		    // compute the font size
+		    $l_intFontSize = round( 36 * $l_fltFontScale );
+		    
+		    // insert an input box
+		    $l_strContent .= "\t\t\t" . '<input id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
 				$this->m_objCrossword->get_uniqueId() .
-				'" style="font-size: ' . $l_intFontSize . 'px;"></div>' . "\n";
+				'" class="glcrossword_cell_layout" ' .
+				'style="width: ' . ($l_intWidth - 2) . 'px;height: ' . ($l_intHeight - 2) . 'px;font-size: ' . $l_intFontSize . 
+		        'px;" type="text" value="">';
 		}
 		
 		// if there are more then one letter in this box

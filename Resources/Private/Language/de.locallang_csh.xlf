@@ -53,19 +53,23 @@
 			</trans-unit>
 			<trans-unit id="xpos.description" xml:space="preserve">
 				<source>Column of the position of the question.
-      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 3.</source>
+      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 3.
+									  Column 1 and Row 1 is located in the upper left corner</source>
 				<target>Spalte wo die Frage im Kreuzworträtsel stehen soll.
-      								  Wenn z. B. die Frage in der 3. Spalte auf der 5. Zeile stehen soll, dann muss hier eine 3 rein.</target>
+      								  Wenn z. B. die Frage in der 3. Spalte auf der 5. Zeile stehen soll, dann muss hier eine 3 rein.
+									  Spalte 1 und Zeile 1 liegen in der linken oberen Ecke.</target>
 			</trans-unit>
 			<trans-unit id="ypos.alttitle" xml:space="preserve">
 				<source>Y position of the question</source>
 				<target>Y Position der Frage</target>
 			</trans-unit>
 			<trans-unit id="ypos.description" xml:space="preserve">
-				<source>Column of the position of the question.
-      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 5.</source>
+				<source>Row of the position of the question.
+      								  If the question is in colomn 3 and row 5 locatet, then you have to enter 5.
+									  Column 1 and Row 1 is located in the upper left corner</source>
 				<target>Zeile wo die Frage im Kreuzworträtsel stehen soll.
-      								  Wenn z. B. die Frage in der 3. Spalte auf der 5. Zeile stehen soll, dann muss hier eine 5 rein.</target>
+      								  Wenn z. B. die Frage in der 3. Spalte auf der 5. Zeile stehen soll, dann muss hier eine 5 rein.
+									  Spalte 1 und Zeile 1 liegen in der linken oberen Ecke.</target>
 			</trans-unit>
 			<trans-unit id="direction.alttitle" xml:space="preserve">
 				<source>Direction for the answer.</source>

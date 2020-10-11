@@ -12,12 +12,28 @@
 /* Basic Layout of one cell */
 div.glcrossword_cell_layout{
         position: absolute;
-        border-color: #000000;
+        border-color: #999999;
         border-style: solid;
         font-family: "Comic Sans MS", cursive;
         font-weight: bold;
         vertical-align: middle;
         text-align: center;
+}
+
+/* Basic Layout of the inputbox in the cell */
+input.glcrossword_cell_layout{
+        position: absolute;
+        font-family: "Comic Sans MS", cursive;
+        font-weight: bold;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0px 0px;
+        left: 0px; 
+        border: none; 
+        color: transparent;
+		border-color: transparent;
+		background-color: transparent;
+        text-shadow: 0 0 0 black;     
 }
 
 /* general triangle settings*/
@@ -198,7 +214,7 @@ td.glcrossword_answer_text {
         vertical-align: middle;
         text-align: center;
         padding: 0px;
-		border: none;
+        border: none;
 }
 
 /* format for button container in the crossword */
@@ -255,4 +271,15 @@ img.glcrossword_ajax_hourglass_hint {
 	line break with this option */
 .popover {
     white-space: pre-line;    
+}
+
+.glcrossword_answer_input{
+        border: none;
+        /*color: transparent;*/
+        text-shadow: 0 0 0 gray;
+        text-align: center;
+
+        &:focus {
+        outline: none;
+        }
 }

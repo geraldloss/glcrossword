@@ -488,7 +488,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$l_intWidth = 0;
 		$l_intHeight = 0;
 		
-		$l_strContent = "\\t\t\t" . '<!-- Cell ' . $this->m_intX . 'x' . $this->m_intY . ' arrow left to the bottom -->' . "\n";
+		$l_strContent = "\t\t\t" . '<!-- Cell ' . $this->m_intX . 'x' . $this->m_intY . ' arrow left to the bottom -->' . "\n";
 	
 		// get the general box properties
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);

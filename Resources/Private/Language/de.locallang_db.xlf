@@ -24,12 +24,12 @@
 				<target><![CDATA[Maske]]></target>
 			</trans-unit>
 			<trans-unit id="tx_glcrossword_questions.xpos" xml:space="preserve">
-				<source><![CDATA[X position in crossword]]></source>
-				<target><![CDATA[X Position im Kreuzworträtsel]]></target>
+				<source><![CDATA[Column position in crossword]]></source>
+				<target><![CDATA[Spalte im Kreuzworträtsel]]></target>
 			</trans-unit>
 			<trans-unit id="tx_glcrossword_questions.ypos" xml:space="preserve">
-				<source><![CDATA[Y position in crossword]]></source>
-				<target><![CDATA[Y Position im Kreuzworträtsel]]></target>
+				<source><![CDATA[Row in crossword]]></source>
+				<target><![CDATA[Zeile im Kreuzworträtsel]]></target>
 			</trans-unit>
 			<trans-unit id="tx_glcrossword_questions.direction.I.0" xml:space="preserve">
 				<source><![CDATA[Top to the left]]></source>
