@@ -229,8 +229,8 @@ class GlcrosswordCrossword  {
 		$arrayRows = array_fill(1, $this->m_intHeighthOfCrossword, NULL);
 		$this->m_arrBoxes = array_fill(1, $this->m_intWidthOfCrossword, $arrayRows);
 		
-		// build the box array for the crossword with the questions from the database
-		$this->buildBoxesArray($i_strRelatedQuestions);
+	    // build the box array for the crossword with the questions from the database
+	    $this->buildBoxesArray($i_strRelatedQuestions);
 	}
 	
 	/**
@@ -1169,7 +1169,7 @@ class GlcrosswordCrossword  {
 		for ($i = 0; $i <= GlcrosswordBoxQuestions::C_INT_DIR_MAX; $i++) {
 			
 			// if in this direction is no question
-			if ($l_arrAllQuestions[$i] == NULL) {
+		    if (!array_key_exists($i, $l_arrAllQuestions)) {
 				// jump to the next direction
 				continue;
 			}

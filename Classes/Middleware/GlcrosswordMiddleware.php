@@ -23,6 +23,7 @@
  ***************************************************************/
 namespace Loss\Glcrossword\Middleware;
 
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -32,12 +33,25 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Loss\Glcrossword\Ajax\GlcrosswordAjax;
 
+// autoload classes in the 
+// spl_autoload_register(function ($class_name) {
+//     include $class_name . '.php';
+// });
+
 /**
  * PSR-15 Middleware for glcrossword
  *
  * @internal
  */
 class GlcrosswordMiddleware implements MiddlewareInterface{
+    
+    /** @var ResponseFactoryInterface */
+    private $responseFactory;
+    
+    public function __construct(ResponseFactoryInterface $responseFactory)
+    {
+        $this->responseFactory = $responseFactory;
+    }
     
     /**
      * Provides all informations about the crossword content
@@ -54,20 +68,16 @@ class GlcrosswordMiddleware implements MiddlewareInterface{
             return $handler->handle($request);
         }
         
-        // Remove any output produced until now
-        ob_clean();
-        
         /** @var Response $response */
-        $response = GeneralUtility::makeInstance(Response::class);
+        $response = $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'application/json; charset=utf-8');
         
         /** @var GlcrosswordAjax $glcrosswordAjax */
         $glcrosswordAjax = GeneralUtility::makeInstance(GlcrosswordAjax::class);
+            
+        $response->getBody()->write($glcrosswordAjax->handleAjaxRequest());
         
-        // call the actual ajax handler and write the result in the standard output
-        echo $glcrosswordAjax->handleAjaxRequest();
-        
-        // no further middleware processing
-        return new NullResponse();
+        return $response;
     }
 }
 ?>

@@ -32,6 +32,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Loss\Glcrossword\Pi1\GlcrosswordData;
 use Loss\Glcrossword\Pi1\GlcrosswordCrossword;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  *
@@ -85,7 +87,24 @@ class GlcrosswordController extends ActionController {
 	// The member attributes of this class
 	//*****************************************************************************
 	
-
+	/**
+	 * Initializes the view before invoking an action method.
+	 * Override this method to solve assign variables common for all actions
+	 * or prepare the view in another way before the action is called.
+	 *
+	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view The view to be initialized
+	 *
+	 * @return void
+	 */
+	protected function initializeView(ViewInterface $view)
+	{
+	    $view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+	    if (is_object($GLOBALS['TSFE'])) {
+	        $view->assign('pageData', $GLOBALS['TSFE']->page);
+	    }
+	    parent::initializeView($view);
+	}
+	
 	/**
 	 * All actions which we need to perform before avery other action
 	 * @see ActionController::initializeAction()
@@ -118,19 +137,23 @@ class GlcrosswordController extends ActionController {
 	            'EXT:glcrossword' . '/Resources/Public/css/glcrossword.css' ));
 	    }
 	    
+	    $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+	    $pageRenderer->addCssFile($l_strPathCss);
+    
 	    
-	    // if the link to crossword css not already exist
-	    if (!$this->existAdditionalHeaderData($this->response->getAdditionalHeaderData(), $l_strPathCss)) {
-	        // set the path to the css file of this extension
-	        $l_strPathCss = '<link href="' . $l_strPathCss .  '" rel="stylesheet" type="text/css" />';
-	        
-	        
-	    }
+//         // if there is already a view created and thr CSS link is not already in the header	    
+// 	    if ($this->view === null || $this->htmlResponse()->hasHeader($l_strPathCss)) {
+// 	        // set the path to the css file of this extension
+// 	        $l_strPathCss = '<link href="' . $l_strPathCss .  '" rel="stylesheet" type="text/css" />';
+// 	    }
+	    
+// 	    // if the link to crossword css not already exist
+// 	    if (!$this->existAdditionalHeaderData($this->response->getAdditionalHeaderData(), $l_strPathCss)) {
+// 	        // set the path to the css file of this extension
+// 	        $l_strPathCss = '<link href="' . $l_strPathCss .  '" rel="stylesheet" type="text/css" />';
+// 	    }
 	    
 	    $l_strHeaderContent = '<!-- Start of header files of extension glcrossword with ID ' . $l_intUniqueId . ' -->';
-	    
-	    // inser CSS File
-	    $l_strHeaderContent .= "\n" . $l_strPathCss;
 	    
 	    // insert the start of the main function
 	    $l_strHeaderContent .= "\n" . '<script type="text/javascript">' . "\n";
@@ -148,8 +171,9 @@ class GlcrosswordController extends ActionController {
 			}';
 	    
 	    $l_strHeaderContent .= "\n" . '</script>' . "\n\n";
-	
-	    $this->response->addAdditionalHeaderData($l_strHeaderContent);
+        
+	    $pageRenderer->addHeaderData($l_strHeaderContent);
+//	    $this->response->addAdditionalHeaderData($l_strHeaderContent);
 	}
 	
 	

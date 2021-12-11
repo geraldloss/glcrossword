@@ -23,7 +23,6 @@ $tx_glcrossword_questions = array(
         ),
         'iconfile'          => 'EXT:glcrossword/Resources/Public/Icons/icon_tx_glcrossword_questions.gif',
     ),
-	'feInterface' => $TCA['tx_glcrossword_questions']['feInterface'],
 	'columns' => array(
 		't3ver_label' => array(		
 			'label'  => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.versionLabel',

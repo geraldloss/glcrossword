@@ -36,7 +36,7 @@ Crossword
         crossword, forAdmins, forIntermediates
 
     :Copyright:
-        2010-2019
+        2010-2021
 
     :Author:
         Gerald Loß

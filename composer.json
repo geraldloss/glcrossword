@@ -8,7 +8,7 @@
 		}
 	],
 	"require" : {
-		"typo3/cms-core" : "^9.5.0"
+		"typo3/cms-core" : "^10.4 || ^11.5"
 	},
 	"autoload" : {
 		"psr-4" : {
@@ -19,7 +19,7 @@
 		"glcrossword" : "self.version",
 		"typo3-ter/glcrossword" : "self.version"
 	},
-	"homepage" : "https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel",
+	"homepage" : "https://www.schulze-thulin.de/en/games/welsh-crossword",
 	"support" : {
 		"email" : "gerald.loss@gmx.de",
 		"issues" : "https://github.com/geraldloss/glcrossword/issues",
@@ -31,5 +31,10 @@
 		"extension",
 		"crossword",
 		"game"
-	]
+	],
+	"extra" : {
+		"typo3/cms" : {
+			"extension-key" : "glcrossword"
+		}
+	}
 }

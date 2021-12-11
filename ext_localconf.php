@@ -7,11 +7,11 @@ if (!defined('TYPO3_MODE')) {
     'Loss.glcrossword',
     'Pi1',
     array(
-        'Glcrossword' => 'main',
+        \Loss\Glcrossword\Controller\GlcrosswordController::class => 'main',
     ),
     // non-cacheable actions
     array(
-        'Glcrossword' => 'main',
+        \Loss\Glcrossword\Controller\GlcrosswordController::class => 'main',
     )
 );
 

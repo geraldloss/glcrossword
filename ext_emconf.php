@@ -12,16 +12,16 @@
 
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'Crossword',
-	'description' => 'Supplies a crossword extension, to create your own crossword on a homepage. 
-		This extension is very flexible. You can define crosswords of every size, 
-		answer fields with more then one letter and you can define answers in every posible direction.
+	'description' => 'This fontend extension supplies a versatile crossword game. 
+		You can define crosswords of every size, answer fields with more then one letter 
+        and you can define answers in every posible direction.
 		All you need is to create your own questions and answers and assign it with your crossword.
 		In the frontend you can edit the crossword with javascript very user friendly. 
 		The communication with the backend is performed with ajax.
-		See under https://www.schulze-thulin.de/en/games/walisisches-kreuzwortraetsel/ for an online example.
+		See under https://www.schulze-thulin.de/en/games/welsh-crossword for an online example.
 		This extension use jQuery 3.x and Bootstrap 3.x.',
 	'category' => 'plugin',
-	'version' => '5.1.1',
+	'version' => '6.0.0',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',
@@ -33,8 +33,8 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'php' => '7.2.0-7.3.99',
-		    'typo3' => '9.5.17-10.9.99',
+			'php' => '7.3.0-8.0.99',
+		    'typo3' => '10.0.00-11.9.99',
 		),
 		'conflicts' => 
 		array (

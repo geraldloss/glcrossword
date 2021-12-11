@@ -83,6 +83,9 @@ class GlcrosswordAjax {
 		// get the Crossword with this ID
 		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
 		
+		// repair defect object from session
+		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
+		
 		// create all data infostructures of the crossword for the frontend
 		$l_arrResult = array(
 					// array with all questiondata
@@ -117,6 +120,19 @@ class GlcrosswordAjax {
 	}
 	
 	/**
+	 * Korrigiert Objekte aus der Session die beim deserialisieren ein __PHP_Incomplete_Class Objekt werden
+	 * @param object $i_objObject
+	 * @return object
+	 */
+	protected function fixSessionObject(&$i_objObject){
+	    
+	    if (is_object ($i_objObject) && get_class($i_objObject) == '__PHP_Incomplete_Class')
+	       return ($i_objObject = unserialize(serialize($i_objObject)));
+	    
+	    return $i_objObject;
+	}
+	
+	/**
 	 * Get the all data with the solution of the crossword
 	 * 
 	 * @param 	integer $i_intUniqueId 	The unique ID of the crossword.
@@ -132,6 +148,9 @@ class GlcrosswordAjax {
 		
 		// get the Crossword with this ID
 		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
+		
+		// repair defect object from session
+		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
 		
 		// create all data infostructures of the crossword for the frontend
 		$l_arrResult = array(
@@ -158,6 +177,9 @@ class GlcrosswordAjax {
 		
 		// get the Crossword with this ID
 		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
+		
+		// repair defect object from session
+		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
 		
 		// create all data infostructures of the crossword for the frontend
 		$l_arrResult = array(

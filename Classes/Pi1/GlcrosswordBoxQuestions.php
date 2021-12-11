@@ -349,7 +349,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 */
 	public function draw_arrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
 		// draw the arrows for the questions
-		$l_strContent .= $this->getQuestionsArrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth);
+		$l_strContent = $this->getQuestionsArrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth);
 		
 		return $l_strContent;
 	}

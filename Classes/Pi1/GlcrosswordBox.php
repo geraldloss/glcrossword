@@ -340,7 +340,11 @@ abstract class GlcrosswordBox  {
 	 * @return mixed Contentobject
 	 */
 	public function getContentObject($i_intIndex) {
-		return $this->m_arrContent[$i_intIndex];
+	    if (array_key_exists($i_intIndex, $this->m_arrContent)){
+	       return $this->m_arrContent[$i_intIndex];
+	    } else {
+	       return null;
+	    }
 	}
 	
 	/**
