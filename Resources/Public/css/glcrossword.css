@@ -273,13 +273,18 @@ img.glcrossword_ajax_hourglass_hint {
     white-space: pre-line;    
 }
 
-.glcrossword_answer_input{
-        border: none;
-        /*color: transparent;*/
-        text-shadow: 0 0 0 gray;
-        text-align: center;
+/* to mark the inpute boxes of the answer boxes */
+.glcrossword_inputbox_answer{}
 
-        &:focus {
-        outline: none;
-        }
+/* only for the mouse cursors of the answer fiels with the input boxes */
+.glcrossword_cursor_default {
+	cursor: default
+}
+
+.glcrossword_cursor_help {
+	cursor: help
+}
+
+.glcrossword_cursor_wait {
+	cursor: wait
 }

@@ -49,8 +49,8 @@ libraries.inlcudeJQuery
 
 :typoscript:`plugin.tx_glcrossword.libraries.inlcudeJQuery =` :ref:`t3tsref:data-type-boolean`
 
-Activate this flag, if you want to inlcude the jQuery 3.x library shipped with this extension. If you have your own
-jQuery library included in your homepage, you can deactivate this flag. Keep in mind, that you use always jQuery 3.x.
+Activate this flag, if you want to inlcude the jQuery 3.6 library shipped with this extension. If you have your own
+jQuery library included in your homepage, you can deactivate this flag. Keep in mind, that you use always jQuery 3.6.
 Other versions could break this extension.
 
 
@@ -62,9 +62,10 @@ libraries.includeBootstrapJs
 
 :typoscript:`plugin.tx_glcrossword.libraries.includeBootstrapJs =` :ref:`t3tsref:data-type-boolean`
 
-Activate this flag, if you want to inlcude the Bootstrap 3.x library shipped with this extension. If you have your own
-Bootstrap library included in your homepage, you can deactivate this flag. Keep in mind, that you use always Bootstrap 3.x.
-Other versions could break this extension.
+Activate this flag, if you want to inlcude the Bootstrap 5.1 library shipped with this extension. If you have your own
+Bootstrap library included in your homepage, you can deactivate this flag. Keep in mind, that you use always Bootstrap 5.1 Bundle
+with popover and tooltip plugin included.
+Other versions could cause errors.
 
 
 .. _ts-plugin-tx-glcrossword-libraries.includeBootstrapCss:
@@ -76,6 +77,6 @@ libraries.includeBootstrapCss
 
 Activate this flag, if you want to inlcude the Bootstrap CSS content file shipped with this extension. If you have your own
 Bootstrap library with CSS file included in your homepage, you can deactivate this flag. Keep in mind, that you use always
-Bootstrap 3.x. Other versions could break this extension.
+Bootstrap 5.1. Other versions could cause errors.
 
 

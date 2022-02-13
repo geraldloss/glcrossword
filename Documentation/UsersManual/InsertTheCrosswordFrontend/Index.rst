@@ -32,11 +32,9 @@ If you edit this element then you can find on the plugin tab the configuration f
 the tab “Basic configurations” you can setup general options like the size of the crossword.
 Again you find on every title of the fields with your mouse cursor an explanation of the options.
 
-.. figure:: ../../Images/image-20.png
+.. figure:: ../../Images/image-20a.png
 	:alt: The first part of the plugin confiration tab
 
-.. figure:: ../../Images/image-19.png
-	:alt: The second part of the plugin confiration tab
 
 On the tab questions you must select all questions which you have created in the section before an
 which belongs to this crossword.
@@ -47,7 +45,7 @@ which belongs to this crossword.
 Check if you already using the Bootstrap or jQuery libraries in your homepage. In this case you
 can deactivate this libraries in the tab “Basic configurations” to prevent double including this
 libraries (:ref:`see troubleshooting for this issue<troubleshooting>`). Be aware, that you need
-jQuery 3.x and Bootsstrap 3.x. With other versions you can lead into trouble.
+jQuery 3.6 and Bootsstrap 5.1 With other versions you can get some trouble.
 
 In the end you can access your homepage and see the result. If you have any misconfiguration you get
 red highlighted boxes, where you can find further informations with the mouse cursor over the boxes.

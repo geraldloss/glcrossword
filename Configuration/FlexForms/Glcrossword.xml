@@ -113,6 +113,15 @@
 							</config>
 						</TCEforms>
 			        </settings.cssFile>
+			        <settings.darkCssFile>
+						<TCEforms>
+			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.darkcss.file</label>
+							<config>
+								<type>check</type>
+								<default>1</default>
+							</config>
+						</TCEforms>
+			        </settings.darkCssFile>
 				</el>
 			</ROOT>
 		</sDEF>

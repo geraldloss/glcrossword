@@ -137,21 +137,20 @@ class GlcrosswordController extends ActionController {
 	            'EXT:glcrossword' . '/Resources/Public/css/glcrossword.css' ));
 	    }
 	    
+	    /**
+	     * @var $pageRenderer $pageRenderer
+	     */
 	    $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 	    $pageRenderer->addCssFile($l_strPathCss);
     
+	    // include css for dark color scheme
+	    if ($this->settings['darkCssFile'] == true) {
+	        $l_strPathCss = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
+	            'EXT:glcrossword' . '/Resources/Public/css/glcrossword-dark.css' ));
+	        $pageRenderer->addCssFile($l_strPathCss);
+	    }
 	    
-//         // if there is already a view created and thr CSS link is not already in the header	    
-// 	    if ($this->view === null || $this->htmlResponse()->hasHeader($l_strPathCss)) {
-// 	        // set the path to the css file of this extension
-// 	        $l_strPathCss = '<link href="' . $l_strPathCss .  '" rel="stylesheet" type="text/css" />';
-// 	    }
 	    
-// 	    // if the link to crossword css not already exist
-// 	    if (!$this->existAdditionalHeaderData($this->response->getAdditionalHeaderData(), $l_strPathCss)) {
-// 	        // set the path to the css file of this extension
-// 	        $l_strPathCss = '<link href="' . $l_strPathCss .  '" rel="stylesheet" type="text/css" />';
-// 	    }
 	    
 	    $l_strHeaderContent = '<!-- Start of header files of extension glcrossword with ID ' . $l_intUniqueId . ' -->';
 	    

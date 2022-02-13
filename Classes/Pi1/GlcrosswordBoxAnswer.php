@@ -569,7 +569,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		    // insert an input box
 		    $l_strContent .= "\t\t\t" . '<input id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
 				$this->m_objCrossword->get_uniqueId() .
-				'" class="glcrossword_cell_layout" ' .
+				'" class="glcrossword_inputbox_answer glcrossword_cell_layout glcrossword_cursor_default" ' .
 				'style="width: ' . ($l_intWidth - 2) . 'px;height: ' . ($l_intHeight - 2) . 'px;font-size: ' . $l_intFontSize . 
 		        'px;" type="text" value="">';
 		}
@@ -583,7 +583,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		    // insert an input box
 		    $l_strContent .= "\t\t\t" . '<input id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
 				$this->m_objCrossword->get_uniqueId() .
-				'" class="glcrossword_cell_layout" ' .
+				'" class="glcrossword_inputbox_answer glcrossword_cell_layout glcrossword_cursor_default" ' .
 				'style="width: ' . ($l_intWidth - 2) . 'px;height: ' . ($l_intHeight - 2) . 'px;font-size: ' . $l_intFontSize . 
 		        'px;" type="text" value="">';
 		}

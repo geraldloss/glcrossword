@@ -40,3 +40,8 @@ You are able to define answer boxes with more then one letter.
 
 .. figure:: ../../Images/image-6.png
 	:alt: Answerbox with two letters
+    
+You can support dark color schemes
+
+.. figure:: ../../Images/dark_mode_example.png
+    :alt: Crossword with dark color scheme

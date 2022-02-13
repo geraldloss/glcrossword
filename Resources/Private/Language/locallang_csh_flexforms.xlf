@@ -72,6 +72,14 @@
       									Should you try to set more then one crossword on one page, then you need to place in every crossword
       									the same alternate CSS file. Otherwise would win alway the css file of the last crossword.</source>
 			</trans-unit>
+			<trans-unit id="settings.darkCssFile.alttitle" xml:space="preserve">
+				<source>Include css file for dark color scheme, if you like to support "color-scheme: dark" of the browser.</source>
+			</trans-unit>
+			<trans-unit id="settings.darkCssFile.description" xml:space="preserve">
+				<source><![CDATA[Modern Browsers support the meta tag 'meta name="color-scheme" content="light dark"'
+				                 With that settings you can support two different color schemes in one page.
+				                 If you like to support dark and light color schemes, you should activate this option.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

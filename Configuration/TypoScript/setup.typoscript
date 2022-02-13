@@ -22,11 +22,11 @@ plugin.tx_glcrossword {
 
 page.includeJSFooter { 
 	# include jQuery library at the end of the body, if it is not deactivated
-	jQueryLib = EXT:glcrossword/Resources/Public/js/jquery-3.1.1.min.js
+	jQueryLib = EXT:glcrossword/Resources/Public/js/jquery.min.js
 	jQueryLib.if.isTrue = {$plugin.tx_glcrossword.libraries.inlcudeJQuery}
 
 	# include Bootstrap library at the end of the body, if it is not deactivated
-	bootstrapLib = EXT:glcrossword/Resources/Public/js/bootstrap.min.js
+	bootstrapLib = EXT:glcrossword/Resources/Public/js/bootstrap.bundle.min.js
 	bootstrapLib.if.isTrue = {$plugin.tx_glcrossword.libraries.includeBootstrapJs}
 
 	# include the glcrossword library at the end of the body, if it is not deactivated

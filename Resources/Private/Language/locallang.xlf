@@ -101,6 +101,10 @@
 				<source><![CDATA[Alternative CSS file]]>
 				</source>
 			</trans-unit>
+			<trans-unit id="flexform.plugin.general.darkcss.file">
+				<source><![CDATA[CSS file for dark color scheme]]>
+				</source>
+			</trans-unit>
 			<trans-unit id="flexform.plugin.general.bootstrap.css">
 				<source><![CDATA[Deactivate Bootstrap CSS file]]>
 				</source>
