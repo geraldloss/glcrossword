@@ -1061,6 +1061,8 @@ class GlcrosswordCrossword  {
 		                  
         $l_objResult = $l_objQueryBuilder->execute(); 
 		                  
+        // exchange fetch() with fetchAssociative() up to Typo3 v11 -> Method fetch() will be removed
+//        while($row = $l_objResult->fetchAssociative() ){
         while($row = $l_objResult->fetch() ){
 			// if there is a valid row (should be always the case)
 			// and if the current row language is different from the currently needed language

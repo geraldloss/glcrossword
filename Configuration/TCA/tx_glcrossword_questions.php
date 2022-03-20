@@ -35,15 +35,19 @@ $tx_glcrossword_questions = array(
 		'sys_language_uid' => array(		
 			'exclude' => 1,
 			'label'  => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.language',
-			'config' => array(
-				'type'                => 'select',
-				'foreign_table'       => 'sys_language',
-				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.default_value', 0)
-				),
-				'renderType' => 'selectSingle',
+		    // for typo 11 change the whole config array to this simple sssstatement 
+// 		    'config' => array(
+// 		        'type'       => 'language',
+// 		    )
+		    'config' => array(
+			    'type'                => 'select',
+			    'foreign_table'       => 'sys_language',
+			    'foreign_table_where' => 'ORDER BY sys_language.title',
+			    'items' => array(
+			        array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.allLanguages', -1),
+			        array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.default_value', 0)
+			    ),
+			    'renderType' => 'selectSingle',
 			    'default' => 0,
 			)
 		),

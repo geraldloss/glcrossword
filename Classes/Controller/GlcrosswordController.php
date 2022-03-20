@@ -88,24 +88,6 @@ class GlcrosswordController extends ActionController {
 	//*****************************************************************************
 	
 	/**
-	 * Initializes the view before invoking an action method.
-	 * Override this method to solve assign variables common for all actions
-	 * or prepare the view in another way before the action is called.
-	 *
-	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view The view to be initialized
-	 *
-	 * @return void
-	 */
-	protected function initializeView(ViewInterface $view)
-	{
-	    $view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
-	    if (is_object($GLOBALS['TSFE'])) {
-	        $view->assign('pageData', $GLOBALS['TSFE']->page);
-	    }
-	    parent::initializeView($view);
-	}
-	
-	/**
 	 * All actions which we need to perform before avery other action
 	 * @see ActionController::initializeAction()
 	 */
@@ -114,6 +96,12 @@ class GlcrosswordController extends ActionController {
 	    $l_strPathCss = '';
 	    // the header content
 	    $l_strHeaderContent = '';
+
+// 	    $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+// 	    if (is_object($GLOBALS['TSFE'])) {
+// 	        $view->assign('pageData', $GLOBALS['TSFE']->page);
+// 	    }
+	    	    
 	    // get the UID of the crossword
 	    $l_intUniqueId = $this->configurationManager->getContentObject()->data['uid'];
 	    
@@ -185,6 +173,11 @@ class GlcrosswordController extends ActionController {
 		// the morphing quiz game
 		/* @var GlcrosswordData $l_objCrosswordData */
 		$l_objCrosswordData = NULL;
+		
+		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+		if (is_object($GLOBALS['TSFE'])) {
+		    $this->view->assign('pageData', $GLOBALS['TSFE']->page);
+		}
 		
 		// the height and the width of the crossword
 		$l_intHeightOfCrossword = 0;
