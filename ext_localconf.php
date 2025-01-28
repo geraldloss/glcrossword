@@ -2,7 +2,7 @@
 if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
-
+// Test
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Loss.glcrossword',
     'Pi1',
