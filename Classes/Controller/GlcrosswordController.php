@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /***************************************************************
  *
@@ -34,6 +35,9 @@ use Loss\Glcrossword\Pi1\GlcrosswordCrossword;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  *
@@ -49,19 +53,19 @@ class GlcrosswordController extends ActionController {
 	//*****************************************************************************
 	/**
 	 * The vendor of this extension
-	 * @var \string
+	 * @var string
 	 */
 	const c_strVendor = 'loss';
 	
 	/**
 	 * The name of this extension
-	 * @var \string
+	 * @var string
 	 */
 	const c_strExtensionName = 'glcrossword';
 	
 	/**
 	 * The Plugin Name
-	 * @var \string
+	 * @var string
 	 */
 	const c_strPluginName = 'pi1';
 	
@@ -73,7 +77,6 @@ class GlcrosswordController extends ActionController {
 
 	/**
 	 * Database table with the questions.
-	 * @access protected
 	 * @var string
 	 */
 	const C_STR_DB_TABLE_QUESTIONS = 'tx_glcrossword_questions';
@@ -82,31 +85,40 @@ class GlcrosswordController extends ActionController {
 	// The static members of this class
 	//*****************************************************************************
 	
+	/**
+	 * The crossword object
+	 * @var GlcrosswordCrossword|null
+	 */
+	protected ?GlcrosswordCrossword $m_objCrossword = null;
 
 	//*****************************************************************************
 	// The member attributes of this class
 	//*****************************************************************************
 	
+	
+	
 	/**
-	 * All actions which we need to perform before avery other action
+	 * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer
+	 */
+	public function __construct( protected readonly ContentObjectRenderer $contentObjectRenderer,
+	                             protected readonly PageRepository $pageRepository ) { 
+	}
+	
+	/**
+	 * All actions which we need to perform before every other action
 	 * @see ActionController::initializeAction()
 	 */
-	protected function initializeAction() {
+	protected function initializeAction(): void {
 	    // path to the css file
 	    $l_strPathCss = '';
 	    // the header content
 	    $l_strHeaderContent = '';
-
-// 	    $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
-// 	    if (is_object($GLOBALS['TSFE'])) {
-// 	        $view->assign('pageData', $GLOBALS['TSFE']->page);
-// 	    }
-	    	    
+    	    
 	    // get the UID of the crossword
-	    $l_intUniqueId = $this->configurationManager->getContentObject()->data['uid'];
+	    $l_intUniqueId = (int)$GLOBALS['TSFE']->id;
 	    
 	    // read the alternate CSS file
-	    $l_strAlternateCssFile = $this->settings['cssFile'];
+	    $l_strAlternateCssFile = (string)$this->settings['cssFile'];
 	    
 	    // if an alternative CSS file is given
 	    if ($l_strAlternateCssFile != '') {
@@ -167,14 +179,14 @@ class GlcrosswordController extends ActionController {
 	/**
 	 * action list
 	 * 
-	 * @return void
+	 * @return \Psr\Http\Message\ResponseInterface
 	 */
-	public function mainAction() {
-		// the morphing quiz game
+	public function mainAction(): ResponseInterface {
+		
 		/* @var GlcrosswordData $l_objCrosswordData */
 		$l_objCrosswordData = NULL;
 		
-		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+		$this->view->assign('contentObjectData', $this->contentObjectRenderer->data);
 		if (is_object($GLOBALS['TSFE'])) {
 		    $this->view->assign('pageData', $GLOBALS['TSFE']->page);
 		}
@@ -191,26 +203,26 @@ class GlcrosswordController extends ActionController {
 		// the borderwidth of the crossword
 		$l_intBorderWidth = 0;
 		// the unique ID of this content element
-		$l_intUniqueId = $this->configurationManager->getContentObject()->data['uid'];
+		$l_intUniqueId = $GLOBALS['TSFE']->id;
 		// title of the crossword
 		$l_strCrosswordTitle = '';
 		
 		// read the title of the crossword
-		$l_strCrosswordTitle = $this->settings['titleOfCrossword'];
+		$l_strCrosswordTitle = (string)$this->settings['titleOfCrossword'];
 		// read the width of the crossword
-		$l_intWidthOfCrossword = $this->settings['widthOfCrossword'];
+		$l_intWidthOfCrossword = (int)$this->settings['widthOfCrossword'];
 		// read the height of the crossword
-		$l_intHeightOfCrossword = $this->settings['heightOfCrossword'];
+		$l_intHeightOfCrossword = (int)$this->settings['heightOfCrossword'];
 		
 		// read the PIDs of the related questions
-		$l_strRelatedQuestions = $this->settings['relatetQuestions'];
+		$l_strRelatedQuestions = (string)$this->settings['relatetQuestions'];
 		
 		// read the scale factor for the width of the crossword
-		$l_fltXScale = $this->settings['scaleXFactor'];
+		$l_fltXScale = (float)$this->settings['scaleXFactor'];
 		// read the scale factor for the height of the crossword
-		$l_fltYScale = $this->settings['scaleYFactor'];
+		$l_fltYScale = (float)$this->settings['scaleYFactor'];
 		// read the border width of the crossword boxes
-		$l_intBorderWidth = $this->settings['borderWidth'];
+		$l_intBorderWidth = (int)$this->settings['borderWidth'];
 		
 		// create a crossword object
 		$this->m_objCrossword = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance( GlcrosswordCrossword::class,
@@ -221,7 +233,8 @@ class GlcrosswordController extends ActionController {
 		    $l_fltXScale,
 		    $l_fltYScale,
 		    $l_intBorderWidth,
-		    $l_strRelatedQuestions );
+		    $l_strRelatedQuestions,
+		    $this->pageRepository );
 		
 		$l_objCrosswordData = GeneralUtility::makeInstance(GlcrosswordData::class);
 		
@@ -233,6 +246,9 @@ class GlcrosswordController extends ActionController {
 	
 		// assign the data to the view
 		$this->view->assign('crossworddata', $l_objCrosswordData);
+		
+		// return response object
+		return $this->htmlResponse();
 	}
 
 	/**
@@ -241,7 +257,7 @@ class GlcrosswordController extends ActionController {
 	 * @param 	string 	$i_strValue					The value vor which we should search
 	 * @return	boolean								True if we have found the value
 	 */
-	protected function existAdditionalHeaderData($i_arrAdditionalHeaderData, $i_strValue) {
+	protected function existAdditionalHeaderData(array $i_arrAdditionalHeaderData, string $i_strValue): bool {
 	    // one line in the header data
 	    $l_strHeaderLine = '';
 	    // the returning value

@@ -37,36 +37,36 @@ class GlcrosswordContentQuestion {
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intUid;
+	protected int $m_intUid;
 	
 	/**
 	 * Question text 
 	 * @var string
 	 * @access protected
 	 */
-	protected $m_strQuestion;
+	protected string $m_strQuestion;
 	
 	/**
 	 * Answert of the question
 	 * @var string
 	 * @access protected
 	 */
-	protected $m_strAnswer;
+	protected string $m_strAnswer;
 
 	/**
 	 * Edit mask of the answer. 1121 means 2 letters in the third box and
 	 * one letter in box one, two and for.
-	 * @var integer
+	 * @var string
 	 * @access protected
 	 */
-	protected $m_intEditMask;
+	protected string $m_strEditMask;
 	
 	/**
 	 * Actual length of the answer considering the edit mask.
 	 * @var integer
 	 * @access public
 	 */
-	protected $m_intActualLength;
+	protected int $m_intActualLength;
 	
 	
 	/**
@@ -74,33 +74,33 @@ class GlcrosswordContentQuestion {
 	 * @param integer $i_intUID 		UID of the question in the database
 	 * @param string  $i_strQuestion 	Question text
 	 * @param string  $i_strAnswer 		Answer text
-	 * @param integer $i_intEditMask	Edit mask for the answer text
+	 * @param string  $i_strEditMask	Edit mask for the answer text
 	 */
-	public function __construct($i_intUID, $i_strQuestion, $i_strAnswer, $i_intEditMask) {
+	public function __construct(int $i_intUID, string $i_strQuestion, string $i_strAnswer, string $i_strEditMask) {
 		
 		$this->m_intUid = $i_intUID;
 		$this->m_strQuestion = $i_strQuestion;
 		$this->m_strAnswer = $i_strAnswer;
-		$this->m_intEditMask = $i_intEditMask;		
+		$this->m_strEditMask = $i_strEditMask;		
 
 		// calculate the actual lenght of the answer considering the edit mask
-		$this->m_intActualLength = $this->calculateLenght($i_strAnswer, $i_intEditMask);
+		$this->m_intActualLength = $this->calculateLenght($i_strAnswer, $i_strEditMask);
 	}
 	
 		
 	/**
 	 * Calculate the lenght of the ansert with the dependencies of the edit mask
 	 * @param string $i_strAnswer The answer text of the question
-	 * @param integer $i_intEditMask The edit mask 
+	 * @param string $i_strEditMask The edit mask 
 	 * @return integer The length of the answer. 
 	 */
-	protected function calculateLenght($i_strAnswer, $i_intEditMask) {
+	protected function calculateLenght(string $i_strAnswer, string $i_strEditMask): int {
 		
-		$intAnswerLength = strlen(utf8_decode($i_strAnswer));
-		$intEditMaskLength = strlen($i_intEditMask);
+		$intAnswerLength = mb_strlen($i_strAnswer, 'UTF-8');
+		$intEditMaskLength = strlen($i_strEditMask);
 		
 		// if edit mask is empty
-		if ($intEditMaskLength == 1 && $i_intEditMask == 0) {
+		if ($intEditMaskLength == 1 && $i_strEditMask == '0') {
 			// return without changings the anwer length
 			return $intAnswerLength;
 		}
@@ -108,7 +108,7 @@ class GlcrosswordContentQuestion {
 		// examine every letter in the edit mask
 		for ($i = 0; $i < $intEditMaskLength; $i++) {
 			// read length of letter on this position in answer
-			$intCurrentLetterLength = substr($i_intEditMask, $i, 1);
+			$intCurrentLetterLength = substr($i_strEditMask, $i, 1);
 			// one less
 			$intCurrentLetterLength -= 1; 
 			// substract the remaining from the whole length
@@ -122,7 +122,7 @@ class GlcrosswordContentQuestion {
 	 * Getter for the question text.
 	 * @return string
 	 */
-	public function get_strQuestion() {
+	public function get_strQuestion(): string {
 		return $this->m_strQuestion;
 	}
 	
@@ -130,7 +130,7 @@ class GlcrosswordContentQuestion {
 	 * Getter for the answer text.
 	 * @return string
 	 */
-	public function get_strAnswer() {
+	public function get_strAnswer(): string {
 		return $this->m_strAnswer;
 	}
 
@@ -138,23 +138,23 @@ class GlcrosswordContentQuestion {
 	 * Getter for the UID.
 	 * @return integer
 	 */
-	public function get_intUid() {
+	public function get_intUid(): int {
 		return $this->m_intUid;
 	}
 
 	/**
 	 * Getter for the edit mask.
-	 * @return integer
+	 * @return string
 	 */
-	public function get_intEditMask() {
-		return $this->m_intEditMask;
+	public function get_strEditMask(): string {
+		return $this->m_strEditMask;
 	}
 	
 	/**
 	 * Getter for the actual length.
 	 * @return integer
 	 */
-	public function get_intActualLength() {
+	public function get_intActualLength(): int {
 		return $this->m_intActualLength;
 	}
 }

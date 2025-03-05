@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
 *
@@ -34,7 +35,6 @@ use Loss\Glcrossword\Controller\GlcrosswordController;
  */
 class GlcrosswordBoxEmpty extends GlcrosswordBox {
 	
-
 	/**
 	 * Factory for an empty box object.
 	 * @param integer 								$i_intX 			X position of the box in the crossword
@@ -42,13 +42,13 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 	 * @param GlcrosswordCrossword				    $i_objCrossword		The main crossword class	 
 	 * @return GlcrosswordBox 										    The created empty box.
 	 */
-	public static function boxEmptyFactory($i_intX, $i_intY, $i_objCrossword) {
+	public static function boxEmptyFactory(int $i_intX, int $i_intY, GlcrosswordCrossword $i_objCrossword): GlcrosswordBox {
 		// new empty object
 		/* @var $l_objNewEmptyObject GlcrosswordBoxEmpty */ 
-		$l_objNewEmptyObject = NULL;
-		// current box object if there already exist one
+		$l_objNewEmptyObject = null;
+		// current box object if there already exists one
 		/* @var $l_objCurrentBox GlcrosswordBox */ 
-		$l_objCurrentBox = NULL;
+		$l_objCurrentBox = null;
 		// current type of this box
 		$l_strCurrentType = '';
 		// the current question text
@@ -61,8 +61,8 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 		// read the current box
 		$l_objCurrentBox = $i_objCrossword->getBox($i_intX, $i_intY);
 		
-		// if there exists no object on this coordinates
-		if (! isset($l_objCurrentBox)) {
+		// if there exists no object on these coordinates
+		if (!isset($l_objCurrentBox)) {
 			// create the empty box
 			$l_objNewEmptyObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance( 
 			                                                 GlcrosswordBoxEmpty::class,
@@ -75,12 +75,12 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 			// return the new empty box object
 			return $l_objNewEmptyObject;
 				
-		// if there exists already an object on this coordinates
+		// if there already exists an object on these coordinates
 		} else {
 			// read the current type
 			$l_strCurrentType = $l_objCurrentBox->get_strType();
 				
-			// if there is no type missmatch
+			// if there is no type mismatch
 			if ($l_strCurrentType == GlcrosswordBox::C_STR_TYPE_EMPTY) {
 				
 				// read the current empty box object
@@ -88,18 +88,16 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 				// return the current empty box object
 				return $l_objCurrentBox;
 			
-			// if there is a type missmatch
+			// if there is a type mismatch
 			} else {
-		
-		
 				// In this field is a box of type %s causing of question "%s" with UID %u
 				// and a box of type %s causing of question "%s" with UID %u
 				// at the same time.
-				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.missmatch',
+				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.mismatch',
 				                                                     GlcrosswordController::c_strExtensionName );
 				$l_strTempErrorText = sprintf($l_strTempErrorText,
 											  $l_strCurrentType,
-											  filter_var($l_strCurrentQuestionText,FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+											  filter_var($l_strCurrentQuestionText, FILTER_SANITIZE_FULL_SPECIAL_CHARS),
 											  $l_intCurrentQuestionUID,
 											  GlcrosswordBox::C_STR_TYPE_EMPTY,
 											  '',
@@ -127,8 +125,8 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 				// return the current empty box object
 				return $l_objCurrentBox;
 
-			} // if there is a type missmatch
-		} // if there exists already an object on this coordinates
+			} // if there is a type mismatch
+		} // if there already exists an object on these coordinates
 	}
 	
 	/**
@@ -137,7 +135,7 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 	 * @param integer 								$i_intY 			Y position of the box in the crossword
 	 * @param GlcrosswordCrossword				    $i_objCrossword		The main crossword class	 
 	 */
-	public function __construct($i_intX, $i_intY, $i_objCrossword ) {
+	public function __construct(int $i_intX, int $i_intY, GlcrosswordCrossword $i_objCrossword) {
 	    parent::__construct($i_intX, $i_intY, GlcrosswordBox::C_STR_TYPE_EMPTY, $i_objCrossword);
 	}
 
@@ -148,12 +146,12 @@ class GlcrosswordBoxEmpty extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string						Returns the generated HTML content.
 	 */
-	public function draw( $i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
-		// the HTML content of the qestion box
+	public function draw(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth): string {
+		// the HTML content of the empty box
 		$l_strContent = '';
 	
 		// get the plain box
-		$l_strContent = $this->getSingleBox($i_fltXScale, $i_fltYScale, $i_intBorderWidth, 'glcrossword_empty', FALSE, FALSE);
+		$l_strContent = $this->getSingleBox($i_fltXScale, $i_fltYScale, $i_intBorderWidth, 'glcrossword_empty', false, false);
 	
 		return $l_strContent;
 	}

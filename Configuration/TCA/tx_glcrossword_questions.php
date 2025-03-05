@@ -1,6 +1,6 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
+if (!defined('TYPO3')) {
+    die('Do not access the file tx_glcrossword_questions.php directly.');
 }
 
 $ll = 'LLL:EXT:glcrossword/Resources/Private/Language/locallang_db.xlf:';
@@ -21,6 +21,10 @@ $tx_glcrossword_questions = array(
         'enablecolumns' => array(
             'disabled' => 'hidden',
         ),
+        'security' => [
+            'ignoreWebMountRestriction' => false,
+            'ignoreRootLevelRestriction' => false,
+        ],
         'iconfile'          => 'EXT:glcrossword/Resources/Public/Icons/icon_tx_glcrossword_questions.gif',
     ),
 	'columns' => array(

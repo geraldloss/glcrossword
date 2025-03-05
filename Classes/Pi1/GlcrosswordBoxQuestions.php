@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
 *
@@ -54,9 +55,6 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 */
 	const C_INT_DIR_MAX = 11;
 	
-	
-	
-	
 	/**
 	 * Factory of an box question object. 
 	 * @param integer 		$i_intX 			X position of the box in the crossword
@@ -65,18 +63,18 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 		$i_intDirection 	Direction of the question
 	 * @param string  		$i_strQuestion 		Question text
 	 * @param string  		$i_strAnswer 		Answer text
-	 * @param integer 		$i_intEditMask		Edit mask for the answer text
+	 * @param string 		$i_strEditMask		Edit mask for the answer text
 	 * @param GlcrosswordCrossword	$i_objCrossword		The main crossword class 
 	 * @return GlcrosswordBox The created box.
 	 */
-	public static function boxQuestionFactory($i_intX, $i_intY, $i_intUID, $i_intDirection, 
-											  $i_strQuestion, $i_strAnswer, $i_intEditMask, $i_objCrossword ) {
+	public static function boxQuestionFactory(int $i_intX, int $i_intY, int $i_intUID, int $i_intDirection, 
+											  string $i_strQuestion, string $i_strAnswer, string $i_strEditMask, GlcrosswordCrossword $i_objCrossword): GlcrosswordBox {
 		// new question object
 		/* @var $l_objNewQuestionObject GlcrosswordBoxQuestions */
-		$l_objNewQuestionObject = NULL;
-		// current box object if there already exist one
+		$l_objNewQuestionObject = null;
+		// current box object if there already exists one
 		/* @var $l_objCurrentBox GlcrosswordBox */
-		$l_objCurrentBox = NULL;
+		$l_objCurrentBox = null;
 		// current type of this box
 		$l_strCurrentType = '';
 		// the current question text
@@ -87,15 +85,15 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$l_intCurrentQuestionUID = 0;
 		// the Causing Question of a Box
 		/* @var GlcrosswordBoxQuestions $l_objCausingQuestion */
-		$l_objCausingQuestion = Null;
+		$l_objCausingQuestion = null;
 		// the direction of the Causing Question
 		$l_intCausingDirection = 0;
 		
-		// read the box of this coordinates
+		// read the box of these coordinates
 		$l_objCurrentBox = $i_objCrossword->getBox($i_intX, $i_intY);
 		
-		// if there exists no object on this coordinates
-		if (! isset($l_objCurrentBox)) {
+		// if there exists no object on these coordinates
+		if (!isset($l_objCurrentBox)) {
 			// create it
 			$l_objNewQuestionObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GlcrosswordBoxQuestions::class,
 					$i_intX,
@@ -104,7 +102,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 					$i_intDirection,
 					$i_strQuestion,
 					$i_strAnswer,
-					$i_intEditMask,
+					$i_strEditMask,
 					$i_objCrossword );
 			// add the new box object
 			$i_objCrossword->addBox($l_objNewQuestionObject);
@@ -113,7 +111,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 			return $l_objNewQuestionObject;
 				
 			
-		// if there exists already an object on this coordinates
+		// if there exists already an object on these coordinates
 		} else {
 			// read the current type
 			$l_strCurrentType = $l_objCurrentBox->get_strType();
@@ -122,7 +120,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 			if ($l_strCurrentType == GlcrosswordBox::C_STR_TYPE_QUESTION) {
 				
 				// add the new question to this box
-				$l_objCurrentBox->addQuestion($i_intUID, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_intEditMask);
+				$l_objCurrentBox->addQuestion($i_intUID, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_strEditMask);
 				
 				// return the current question object
 				return $l_objCurrentBox;
@@ -136,7 +134,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 				// In this field is a box of type %s causing of question "%s" with UID %u
 				// and a box of type %s causing of question "%s" with UID %u
 				// at the same time.
-				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.missmatch',
+				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.mismatch',
 				                                                     GlcrosswordController::c_strExtensionName );
 				
 				$l_strTempErrorText = sprintf($l_strTempErrorText,
@@ -160,7 +158,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 							$i_intDirection,
 							$i_strQuestion,
 							$i_strAnswer,
-							$i_intEditMask,
+							$i_strEditMask,
 							$i_objCrossword );
 					// replace the old box object
 					$i_objCrossword->addBox($l_objNewQuestionObject);
@@ -175,7 +173,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 				// return the current question object
 				return $l_objCurrentBox;
 			} // if there is a type missmatch
-		} // if there exists already an object on this coordinates
+		} // if there exists already an object on these coordinates
 		
 	}
 	
@@ -187,16 +185,15 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 		       $i_intDirection 	    Direction of the question
 	 * @param string  		       $i_strQuestion 		Question text
 	 * @param string  		       $i_strAnswer 		Answer text
-	 * @param integer 		       $i_intEditMask		Edit mask for the answer text
+	 * @param string 		       $i_strEditMask		Edit mask for the answer text
 	 * @param GlcrosswordCrossword $i_objCrossword		The main crossword class	 
 	 * @param integer		       $i_intUniqueId		The unique ID of the crossword
 	 */
-	public function __construct($i_intX, $i_intY, $i_intUID, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_intEditMask, $i_objCrossword) {
+	public function __construct(int $i_intX, int $i_intY, int $i_intUID, int $i_intDirection, string $i_strQuestion, string $i_strAnswer, string $i_strEditMask, GlcrosswordCrossword $i_objCrossword) {
 		parent::__construct($i_intX, $i_intY, GlcrosswordBox::C_STR_TYPE_QUESTION, $i_objCrossword);
 		
 		// add the first question to this box
-		$this->addQuestion($i_intUID, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_intEditMask);
-		
+		$this->addQuestion($i_intUID, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_strEditMask);
 	}
 	
 	/**
@@ -205,9 +202,9 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer $i_intDirection 	Direction of the question
 	 * @param string  $i_strQuestion 	Question text
 	 * @param string  $i_strAnswer 		Answer text
-	 * @param integer $i_intEditMask	Edit mask for the answer text
+	 * @param string  $i_strEditMask	Edit mask for the answer text
 	 */
-	public function addQuestion($i_intUid, $i_intDirection, $i_strQuestion, $i_strAnswer, $i_intEditMask) {
+	public function addQuestion(int $i_intUid, int $i_intDirection, string $i_strQuestion, string $i_strAnswer, string $i_strEditMask): void {
 		
 		// the error text
 		$l_strErrorText = '';
@@ -218,46 +215,35 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 												  $i_intUid,
 												  $i_strQuestion, 	
 												  $i_strAnswer,	
-												  $i_intEditMask );
+												  $i_strEditMask );
 		
 		// try to add the question with the direction as index
 		// if already question with this direction exists
-		if (! $this->addContent($i_intDirection, $l_objQuestion)) {
+		if (!$this->addContent($i_intDirection, $l_objQuestion)) {
 			// set error flag
 			$this->set_blnIsError(true);
 			// There are two questions in this box with the same direction.\n
-		    // Theres ist the question "%s" with the UID %u and there is the
+		    // There is the question "%s" with the UID %u and there is the
 		    // question "%s" with the UID %u.
 			$l_strErrorText = LocalizationUtility::translate('code.error.double.question',
 			                                                 GlcrosswordController::c_strExtensionName );
 			$l_strErrorText = sprintf($l_strErrorText,
-									  filter_var($this->getContentObject($i_intDirection)->get_strQuestion(),FILTER_SANITIZE_FULL_SPECIAL_CHARS),
-									  $this->getContentObject($i_intDirection)->get_intUid(),
-									  filter_var($i_strQuestion,FILTER_SANITIZE_FULL_SPECIAL_CHARS),
-									  $i_intUid );
+			                          filter_var($this->get_objQuestion($i_intDirection)->get_strQuestion(), FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+			                          $this->get_objQuestion($i_intDirection)->get_intUid(),
+			                          filter_var($i_strQuestion, FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+			                          $i_intUid );
+			// set the error text
 			$this->set_strErrorText($l_strErrorText);
 		}
 	}
-	
 	
 	/**
 	 * Getter for the question.
 	 * @param integer $i_intDirection Direction of the readed answer.
 	 * @return GlcrosswordContentQuestion
 	 */
-	public function get_objQuestion($i_intDirection) {
-		/* @var $l_objContentQuestion GlcrosswordContentQuestion */
-		$l_objContentQuestion = NULL;
-		
-		$l_objContentQuestion = $this->getContentObject($i_intDirection);
-		
-		// if direction exists
-		if (isset($l_objContentQuestion)) {
-			return $l_objContentQuestion;
-		}
-		else {
-			return NULL;	
-		}
+	public function get_objQuestion(int $i_intDirection) {
+		return $this->getContentObject($i_intDirection);
 	}
 	
 	/**
@@ -266,7 +252,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @return 			GlcrosswordContentQuestion	
 	 */
 	public function getFirstQuestion(&$e_intDirection = 0) {
-		$l_objContentQuestion = NULL;
+		$l_objContentQuestion = null;
 		for ($i = 0; $i <= self::C_INT_DIR_MAX; $i++) {
 			$l_objContentQuestion = $this->get_objQuestion($i);
 			if (isset($l_objContentQuestion)) {
@@ -283,7 +269,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param 	integer $i_intDirection		The direction of the question.
 	 * @return	GlcrosswordBoxAnswer	The last answer box of this question.
 	 */
-	public function getLastAnswerBoxOfQuestion($i_intDirection) {
+	public function getLastAnswerBoxOfQuestion(int $i_intDirection) {
 		
 		$l_intAnswerLength = 0;
 		
@@ -304,7 +290,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$l_arrContent = array();
 		// the current question content object
 		/* @var $l_objContentQuestion GlcrosswordContentQuestion */
-		$l_objContentQuestion = NULL; 
+		$l_objContentQuestion = null; 
 		
 		// looking in every direction for a question
 		for ($i = 0; $i <= self::C_INT_DIR_MAX; $i++) {
@@ -315,7 +301,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 			
 			// else set an empty entry into the array
 			} else {
-				$l_arrContent[$i] = NULL;
+				$l_arrContent[$i] = null;
 			}
 		}
 		
@@ -329,12 +315,12 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string						Returns the generated HTML content.
 	 */
-	public function draw( $i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	public function draw(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth): string{
 		// the HTML content of the qestion box
 		$l_strContent = '';
 		
 		// get the plain box
-		$l_strContent = $this->getSingleBox($i_fltXScale, $i_fltYScale, $i_intBorderWidth, 'glcrossword_question', FALSE, FALSE);
+		$l_strContent = $this->getSingleBox($i_fltXScale, $i_fltYScale, $i_intBorderWidth, 'glcrossword_question', false, false);
 		
 		return $l_strContent;
 	}
@@ -347,7 +333,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string						Returns the generated HTML content.
 	 */
-	public function draw_arrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	public function draw_arrows(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth): string {
 		// draw the arrows for the questions
 		$l_strContent = $this->getQuestionsArrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth);
 		
@@ -361,12 +347,12 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer $i_intBorderWidth Thickness of the borderlines of the box
 	 * @return string The HTML content of the arrows.
 	 */
-	protected function getQuestionsArrows($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getQuestionsArrows(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		
 		// the HTML content
 		$l_strContent = '';
 		/* @var $l_objContentQuestion GlcrosswordContentQuestion */
-		$l_objContentQuestion = NULL;
+		$l_objContentQuestion = null;
 		
 		for ($i = 0; $i <= self::C_INT_DIR_MAX; $i++) {
 			
@@ -391,7 +377,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intDirection 	Direction of the arrow.
 	 * @return string 						The HTML content of the arrows.
 	 */
-	protected function getArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $i_intDirection) {
+	protected function getArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		
@@ -479,7 +465,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getLeftBottomArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getLeftBottomArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -494,10 +480,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft - round(10 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(40 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(5 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft - round(10 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(40 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(5 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -507,10 +493,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft - round(20 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(45 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft - round(20 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(45 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlDownArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -526,7 +512,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getLeftArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getLeftArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -541,10 +527,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft - round(10 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(20 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft - round(10 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(20 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlLeftArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -560,7 +546,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getLeftTopArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getLeftTopArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -575,10 +561,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft - round(10 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(15 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(5 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft - round(10 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(15 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(5 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -588,10 +574,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft - round(20 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(5 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft - round(20 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(5 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlTopArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, GlcrosswordBoxQuestions::C_INT_DIR_LEFT_TOP);
@@ -606,7 +592,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getDownRightArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getDownRightArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -621,10 +607,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(40 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(60 * $i_fltYScale);
-		$l_intGeneralXSize = round(5 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(40 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(60 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(5 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -635,10 +621,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(45 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(61 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(45 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(61 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlRightArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -654,7 +640,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getDownArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getDownArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -669,10 +655,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(20 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(60 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(20 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(60 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlDownArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -688,7 +674,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getDownLeftArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getDownLeftArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -703,10 +689,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(15 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(60 * $i_fltYScale);
-		$l_intGeneralXSize = round(5 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(15 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(60 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(5 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -717,10 +703,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(5 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(61 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(5 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(61 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlLeftArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -736,7 +722,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getRightTopArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getRightTopArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -751,10 +737,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(60 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(15 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(5 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(60 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(15 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(5 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -765,10 +751,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(60 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(5 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(60 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(5 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlTopArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, GlcrosswordBoxQuestions::C_INT_DIR_RIGHT_TOP);
@@ -783,7 +769,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getRightArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getRightArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -798,10 +784,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(60 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(20 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(60 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(20 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlRightArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -817,7 +803,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getRightBottomArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getRightBottomArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -832,10 +818,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(60 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(40 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(5 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(60 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(40 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(5 * $i_fltYScale);
 	
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -846,10 +832,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 	
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(60 * $i_fltXScale);
-		$l_intTop = $l_intTop + round(45 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(60 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop + round(45 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 	
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlDownArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -865,7 +851,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getTopLeftArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getTopLeftArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -880,10 +866,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(15 * $i_fltXScale);
-		$l_intTop = $l_intTop - round(10 * $i_fltYScale); 
-		$l_intGeneralXSize = round(5 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(15 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop - round(10 * $i_fltYScale)); 
+		$l_intGeneralXSize = (int)round(5 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -894,10 +880,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(5 * $i_fltXScale);
-		$l_intTop = $l_intTop - round(20 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(5 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop - round(20 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlLeftArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -913,7 +899,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getTopArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getTopArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -928,10 +914,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(20 * $i_fltXScale);
-		$l_intTop = $l_intTop - round(10 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(20 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop - round(10 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlTopArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, GlcrosswordBoxQuestions::C_INT_DIR_TOP);
@@ -946,7 +932,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getTopRightArrow($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getTopRightArrow(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) {
 		// the HTML content
 		$l_strContent = '';
 		// Box Properties
@@ -961,10 +947,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow line properties
-		$l_intLeft = $l_intLeft + round(40 * $i_fltXScale);
-		$l_intTop = $l_intTop - round(10 * $i_fltYScale); 
-		$l_intGeneralXSize = round(5 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(40 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop - round(10 * $i_fltYScale)); 
+		$l_intGeneralXSize = (int)round(5 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow line HTML content
 		$l_strContent .= $this->getHtmlLineOfArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize, 
@@ -975,10 +961,10 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 		$this->getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $l_intLeft, $l_intTop, $l_intWidth, $l_intHeight);
 		
 		// compute the arrow properties
-		$l_intLeft = $l_intLeft + round(45 * $i_fltXScale);
-		$l_intTop = $l_intTop - round(20 * $i_fltYScale);
-		$l_intGeneralXSize = round(10 * $i_fltXScale);
-		$l_intGeneralYSize = round(10 * $i_fltYScale);
+		$l_intLeft = (int)($l_intLeft + round(45 * $i_fltXScale));
+		$l_intTop = (int)($l_intTop - round(20 * $i_fltYScale));
+		$l_intGeneralXSize = (int)round(10 * $i_fltXScale);
+		$l_intGeneralYSize = (int)round(10 * $i_fltYScale);
 		
 		// set the arrow HTML content
 		$l_strContent .= $this->getHtmlRightArrow($l_intLeft, $l_intTop, $l_intGeneralXSize, $l_intGeneralYSize,
@@ -995,7 +981,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer	$i_intDirection		Direction of the arrow
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getHtmlTopArrow($i_intLeft, $i_intTop, $i_intGeneralXSize, $i_intGeneralYSize, $i_intDirection) {
+	protected function getHtmlTopArrow(int $i_intLeft, int $i_intTop, int $i_intGeneralXSize, int $i_intGeneralYSize, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		// create the id of this arrow
@@ -1021,7 +1007,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer	$i_intDirection		Direction of the arrow
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getHtmlDownArrow($i_intLeft, $i_intTop, $i_intGeneralXSize, $i_intGeneralYSize, $i_intDirection) {
+	protected function getHtmlDownArrow(int $i_intLeft, int $i_intTop, int $i_intGeneralXSize, int $i_intGeneralYSize, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		// create the id of this arrow
@@ -1047,7 +1033,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer	$i_intDirection		Direction of the arrow
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getHtmlRightArrow($i_intLeft, $i_intTop, $i_intGeneralXSize, $i_intGeneralYSize, $i_intDirection) {
+	protected function getHtmlRightArrow(int $i_intLeft, int $i_intTop, int $i_intGeneralXSize, int $i_intGeneralYSize, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		// create the id of this arrow
@@ -1073,7 +1059,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer	$i_intDirection		Direction of the arrow
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getHtmlLeftArrow($i_intLeft, $i_intTop, $i_intGeneralXSize, $i_intGeneralYSize, $i_intDirection) {
+	protected function getHtmlLeftArrow(int $i_intLeft, int $i_intTop, int $i_intGeneralXSize, int $i_intGeneralYSize, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		// create the id of this arrow
@@ -1099,7 +1085,7 @@ class GlcrosswordBoxQuestions extends GlcrosswordBox {
 	 * @param integer	$i_intDirection		Direction of the arrowline
 	 * @return string 						The HTML content of the arrow.
 	 */
-	protected function getHtmlLineOfArrow($i_intLeft, $i_intTop, $i_intGeneralXSize, $i_intGeneralYSize, $i_strLineType, $i_intDirection) {
+	protected function getHtmlLineOfArrow(int $i_intLeft, int $i_intTop, int $i_intGeneralXSize, int $i_intGeneralYSize, string $i_strLineType, int $i_intDirection) {
 		// the HTML content
 		$l_strContent = '';
 		// create the id of this arrowline

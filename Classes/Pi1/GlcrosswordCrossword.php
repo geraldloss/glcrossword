@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
 *  Copyright notice
 *
@@ -31,6 +32,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Loss\Glcrossword\Controller\GlcrosswordController;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 
 /**
  * The main crossword class. It contains all boxes with the questions and the answers.
@@ -42,104 +44,104 @@ class GlcrosswordCrossword  {
 	
 	/**
 	 * Static global array with all instantiated crosswords.
-	 * @var array
+	 * @var array<int, GlcrosswordCrossword>
 	 * @access public
 	 */
-	static public $m_arrCrosswords;
+	static public array $m_arrCrosswords = [];
 	
 	/**
 	 * Title of the crossword.
 	 * @var string
 	 * @access protected
 	 */
-	protected $m_strCrosswordTitle;
+	protected string $m_strCrosswordTitle;
 	
 	/**
 	 * The unique ID of this Crossword.
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intUniqueId;
+	protected int $m_intUniqueId;
 	
 	/**
 	 * Width of the crossword.
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intWidthOfCrossword;
+	protected int $m_intWidthOfCrossword;
 	
 	/**
 	 * Height of the crossword.
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intHeighthOfCrossword;
+	protected int $m_intHeightOfCrossword;
 	
 	/**
 	 * Scale factor for the x range. 0.5 means 50%.
 	 * @var float
 	 * @access protected
 	 */
-	protected $m_fltXScale;
+	protected float $m_fltXScale;
 	
 	/**
 	 * Scale factor for the y range. 0.5 means 50%.
 	 * @var float
 	 * @access protected
 	 */
-	protected $m_fltYScale;
+	protected float $m_fltYScale;
 	
 	/**
 	 * The width of the borders of the crossword.
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intBorderWidth;
+	protected int $m_intBorderWidth;
 	
 	/**
 	 * Array with the already instantiated objects of the boxes
-	 * @var array
+	 * @var array<int, GlcrosswordBox>
 	 * @access protected
 	 */
-	protected $m_arrBoxes;
+	protected array $m_arrBoxes = [];
 	
 	/**
-	 * Array with boxes, which are out of bound or with similair failures.
-	 * @var array
+	 * Array with boxes, which are out of bounds or with similar failures.
+	 * @var array<int, GlcrosswordBox>
 	 * @access protected
 	 */
-	protected $m_arrErrorBoxes;
+	protected array $m_arrErrorBoxes = [];
 	
 	/**
-	 * If this flag is true, then is in the whole crossword at least one box with error.
+	 * If this flag is true, then there is at least one box with an error in the whole crossword.
 	 * @var boolean
 	 * @access protected;
 	 */
-	protected  $m_blnIsError;
+	protected bool $m_blnIsError = false;
 	
 	/**
 	 * The content of the error dialog widget on the frontend
 	 * @var string
 	 */
-	protected  $m_strDialogError;
+	protected string $m_strDialogError = '';
 	
 	/**
-	 * Dialog local lang dependend for a wrong answer.
+	 * Dialog local language dependent for a wrong answer.
 	 * @var string
 	 */
-	protected $m_strDialogWrongAnswer;
+	protected string $m_strDialogWrongAnswer = '';
 	
 	/**
 	 * Dialog for the description of the hint mode 
 	 * @var string
 	 */
-	protected $m_strDialogHintDescription;
+	protected string $m_strDialogHintDescription = '';
 	
 	/**
 	 * Waiting data dialog for ajax hourglass
 	 * @var string
 	 */
-	protected $m_strDialogWaiting; 
+	protected string $m_strDialogWaiting = ''; 
 	
 	//	***************************************************************************************************
 	//	Class constants part
@@ -166,10 +168,22 @@ class GlcrosswordCrossword  {
 	/**
 	 * Gets a crossword with a unique ID.
 	 * @param 	integer 					$i_intUniqueId 	The unique ID of the requested crossword.
-	 * @return 	GlcrosswordCrossword					Object with the requestet crossword.
+	 * @return 	GlcrosswordCrossword|null					Object with the requestet crossword.
 	 */
-	static public function get_Crossword($i_intUniqueId) {
-		return self::$m_arrCrosswords[$i_intUniqueId];
+	public static function getCrosswordById(int $i_intUniqueId): ?GlcrosswordCrossword {
+	    return GlcrosswordCrossword::fixSessionObject(self::$m_arrCrosswords[$i_intUniqueId] ?? null);
+	}
+	
+		/**
+	 * Korrigiert Objekte aus der Session die beim deserialisieren ein __PHP_Incomplete_Class Objekt werden
+	 * @param object $i_objObject
+	 * @return Loss\Glcrossword\Pi1\GlcrosswordCrossword
+	 */
+	protected static function fixSessionObject(object $i_objObject): \Loss\Glcrossword\Pi1\GlcrosswordCrossword {
+	    if (is_object($i_objObject) && get_class($i_objObject) == '__PHP_Incomplete_Class') {
+	        return unserialize(serialize($i_objObject));
+	    }
+	    return $i_objObject;
 	}
 	
 	/**
@@ -183,15 +197,17 @@ class GlcrosswordCrossword  {
 	 * @param float			$i_fltYScale			Scale factor of the y range. 0.5 means 50%.
 	 * @param integer		$i_intBorderWidth		Border width of the crossword
 	 * @param string		$i_strRelatedQuestions	Related questions of the crossword.
+	 * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
 	 */
-	public function __construct($i_strCrosswordTitle, 
-								$i_intUniqueId, 
-								$i_intHeight, 
-								$i_intWidth,
-								$i_fltXScale, 
-								$i_fltYScale, 
-								$i_intBorderWidth,
-								$i_strRelatedQuestions) {
+	public function __construct(string $i_strCrosswordTitle, 
+								int $i_intUniqueId, 
+								int $i_intHeight, 
+								int $i_intWidth,
+								float $i_fltXScale, 
+								float $i_fltYScale, 
+								int $i_intBorderWidth,
+								string $i_strRelatedQuestions,
+	                            protected readonly PageRepository $pageRepository) {
 		
 		// one row of the crossword
 		$arrayRows = array();
@@ -207,7 +223,7 @@ class GlcrosswordCrossword  {
 		// store this crossword globally with its own unique ID
 		self::$m_arrCrosswords[$i_intUniqueId] = $this;
 		
-		$this->m_intHeighthOfCrossword = $i_intHeight;
+		$this->m_intHeightOfCrossword = $i_intHeight;
 		$this->m_intWidthOfCrossword = $i_intWidth;
 		$this->m_fltXScale = $i_fltXScale;
 		$this->m_fltYScale = $i_fltYScale;
@@ -226,7 +242,7 @@ class GlcrosswordCrossword  {
                                                                   GlcrosswordController::c_strExtensionName );
 		
 		// initialisation of the array with the boxes of the crossword
-		$arrayRows = array_fill(1, $this->m_intHeighthOfCrossword, NULL);
+		$arrayRows = array_fill(1, $this->m_intHeightOfCrossword, NULL);
 		$this->m_arrBoxes = array_fill(1, $this->m_intWidthOfCrossword, $arrayRows);
 		
 	    // build the box array for the crossword with the questions from the database
@@ -237,24 +253,17 @@ class GlcrosswordCrossword  {
 	 * Returns box from global array concerning the X and Y coordinates.
 	 * @param integer $i_intX	X value of the coordinate.
 	 * @param integer $i_intY	Y value of the coordinate.
-	 * @return GlcrosswordBox Box on this coordinetes.
+	 * @return GlcrosswordBox|null Box on this coordinates.
 	 */
-	public function getBox($i_intX, $i_intY) {
-		// if the object already exist on this coordinates
-		if (isset($this->m_arrBoxes[$i_intX][$i_intY])) {
-			return $this->m_arrBoxes[$i_intX][$i_intY];
-	
-		// if there is no object
-		} else {
-			return NULL;
-		}
+	public function getBox(int $i_intX, int $i_intY): ?GlcrosswordBox {
+		return $this->m_arrBoxes[$i_intX][$i_intY] ?? null;
 	}
 	
 	/**
 	 * Adds a box to the crossword.
 	 * @param GlcrosswordBox $i_objBox The box which is to add to the crossword.
 	 */
-	public function addBox($i_objBox) {
+	public function addBox(GlcrosswordBox $i_objBox): void {
 		
 		// The causing question object
 		/* @var $l_objCausingQuestion GlcrosswordBoxQuestions */
@@ -273,7 +282,7 @@ class GlcrosswordCrossword  {
 		
 		// if box is inside the crossword borders
 		if (   $i_objBox->get_intX() <= $this->m_intWidthOfCrossword 
-			&& $i_objBox->get_intY() <= $this->m_intHeighthOfCrossword
+			&& $i_objBox->get_intY() <= $this->m_intHeightOfCrossword
 			&& $i_objBox->get_intX() >= 1
 			&& $i_objBox->get_intY() >= 1) {
   			
@@ -337,7 +346,7 @@ class GlcrosswordCrossword  {
 	 * @param integer $i_intIndex Index in the array.
 	 * @return GlcrosswordBox Box from the array.
 	 */
-	public function getErrorBox($i_intIndex) {
+	public function getErrorBox(int $i_intIndex): ?GlcrosswordBox {
 		// if index exceed the size of the array
 		if ($i_intIndex >= sizeof($this->m_arrErrorBoxes )) {
 			return NULL;
@@ -351,15 +360,15 @@ class GlcrosswordCrossword  {
 	 * Getter of the height of the crossword.
 	 * @return integer
 	 */
-	public function get_HeightOfCrossword() {
-		return $this->m_intHeighthOfCrossword;
+	public function get_HeightOfCrossword(): int {
+		return $this->m_intHeightOfCrossword;
 	}
 
 	/**
 	 * Getter of the width of the crossword.
 	 * @return integer
 	 */
-	public function get_WidthOfCrossword() {
+	public function get_WidthOfCrossword(): int {
 		return $this->m_intWidthOfCrossword;
 	}
 	
@@ -367,7 +376,7 @@ class GlcrosswordCrossword  {
 	 * Getter of the unique ID of the crossword.
 	 * @return integer
 	 */
-	public function get_uniqueId() {
+	public function get_uniqueId(): int {
 		return $this->m_intUniqueId;
 	}
 	
@@ -375,7 +384,7 @@ class GlcrosswordCrossword  {
 	 * Getter of the error flag of the crossword.
 	 * @return boolean
 	 */
-	public function get_blnIsError() {
+	public function get_blnIsError(): bool {
 		return $this->m_blnIsError;
 	}
 	
@@ -383,7 +392,7 @@ class GlcrosswordCrossword  {
 	 * Setter of the error flag of the crossword
 	 * @param boolean $i_blnValue
 	 */
-	public function set_blnIsError($i_blnValue) {
+	public function set_blnIsError(bool $i_blnValue): void {
 		$this->m_blnIsError = $i_blnValue;
 		// set the error dialog text, because it is not available in the ajax request
 		$this->m_strDialogError = $this->readDialogErrorText();
@@ -393,7 +402,7 @@ class GlcrosswordCrossword  {
 	 * Getter for the error dialog
 	 * @return string The error dialog text
 	 */	
-	public function get_strDialogError() {
+	public function get_strDialogError(): string {
 		return $this->m_strDialogError;
 	}
 	
@@ -401,7 +410,7 @@ class GlcrosswordCrossword  {
 	 * Getter for the dialog of wrong answers.
 	 * @return string The dialog content.
 	 */
-	public function get_strDialogWrongAnswer(){
+	public function get_strDialogWrongAnswer(): string {
 		return $this->m_strDialogWrongAnswer;
 	}
 	
@@ -409,7 +418,7 @@ class GlcrosswordCrossword  {
 	 * Getter for the dialog of the hint description.
 	 * @return string The dialog content.
 	 */
-	public function get_strDialogHintDescription(){
+	public function get_strDialogHintDescription(): string {
 		return $this->m_strDialogHintDescription;
 	}
 	
@@ -417,7 +426,7 @@ class GlcrosswordCrossword  {
 	 * Getter for the waiting dialog for the hourglass
 	 * @return string The waiting dialog
 	 */
-	public function get_strDialogWaiting(){
+	public function get_strDialogWaiting(): string {
 		return $this->m_strDialogWaiting;
 	}
 	
@@ -425,7 +434,7 @@ class GlcrosswordCrossword  {
 	 * Getter for all texts in the javascript crossword. All texts are LL dependend.
 	 * @return array	An array with all texts.
 	 */
-	public function getLLTexts() {
+	public function getLLTexts(): array {
 		return array( 'errorDialog' => $this->get_strDialogError(),
 					  'wrongAnswerDialog' => $this->get_strDialogWrongAnswer(),
 					  'hintDescription' => $this->get_strDialogHintDescription() );
@@ -436,7 +445,7 @@ class GlcrosswordCrossword  {
 	 * Getter for the border width of the crossword.
 	 * @return integer The border width.
 	 */
-	public function get_intBorderWidth(){
+	public function get_intBorderWidth(): int {
 		return $this->m_intBorderWidth;
 	}
 	
@@ -444,18 +453,16 @@ class GlcrosswordCrossword  {
 	 * Get the unique ID of the crossword
 	 * @return	integer	The unique ID of the crossword.
 	 */
-	public function get_intUniqueId(){
+	public function get_intUniqueId(): int {
 		return $this->m_intUniqueId;
 	}
 	
 	/**
 	 * Draw the crossword with the initial HTML content.
-	 * @param float $i_fltXScale		The scale factor for the X dimension.
-	 * @param float $i_fltYScale		The scale factor for the Y dimension.
-	 * @param integer $i_intBorderWidth	The width of the border.
+	 
 	 * @return string					The HTML content of the crossword.
 	 */
-	public function draw(){
+	public function draw(): string {
 		
 		// the current box
 		/* @var $l_objCurrentBox GlcrosswordBox */
@@ -478,13 +485,13 @@ class GlcrosswordCrossword  {
 		$l_intButtonTopSpace = 0;
 
 		// compute the width
-		$l_intCrosswordWidth = round(GlcrosswordBox::C_INT_BOX_SIZE * $this->m_intWidthOfCrossword * $this->m_fltXScale);
+		$l_intCrosswordWidth = (int)round(GlcrosswordBox::C_INT_BOX_SIZE * $this->m_intWidthOfCrossword * $this->m_fltXScale);
 		// compute the height
-		$l_intCrosswordHeight = round(GlcrosswordBox::C_INT_BOX_SIZE * $this->m_intHeighthOfCrossword * $this->m_fltYScale);
+		$l_intCrosswordHeight = (int)round(GlcrosswordBox::C_INT_BOX_SIZE * $this->m_intHeightOfCrossword * $this->m_fltYScale);
 		$l_intActualHeight = $l_intCrosswordHeight;
 		
 		// a little gap between the crossword and the buttons
-		$l_intGapHeight = round(GlcrosswordBox::C_INT_BOX_SIZE / 4 * $this->m_fltYScale);
+		$l_intGapHeight = (int)round(GlcrosswordBox::C_INT_BOX_SIZE / 4 * $this->m_fltYScale);
 		// exceed the hight of the whole crossword with a little gap an the height of the Butt0ns
 		$l_intCrosswordHeight += $l_intGapHeight + GlcrosswordCrossword::C_INT_BUTTON_HEIGHT;
 		
@@ -494,9 +501,9 @@ class GlcrosswordCrossword  {
 			// exceed the hight with a little gap
 			$l_intCrosswordHeight += $l_intGapHeight; 
 			// compute the count of rows in the error array
-			$l_intErrorRows = ceil(count($this->m_arrErrorBoxes) / $this->m_intWidthOfCrossword);
+			$l_intErrorRows = (int)(ceil(count($this->m_arrErrorBoxes) / $this->m_intWidthOfCrossword));
 			// exceed the hight with the count of rows in the error area
-			$l_intCrosswordHeight += round($l_intErrorRows * GlcrosswordBox::C_INT_BOX_SIZE * $this->m_fltYScale);
+			$l_intCrosswordHeight += (int)round($l_intErrorRows * GlcrosswordBox::C_INT_BOX_SIZE * $this->m_fltYScale);
 		}
 		
 		// write the main div tag, with the unique ID in the ID attribute
@@ -506,7 +513,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword for the boxes itself
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 				
 				// get the HTML content of this box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -516,7 +523,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword for the arrows
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 				
 				// get the HTML content of this box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -557,7 +564,7 @@ class GlcrosswordCrossword  {
 	 * Returns an array with all texts of the questions.
 	 * @return array Array with all texts of the questions.
 	 */
-	public function getQuestionsArray() {
+	public function getQuestionsArray(): array {
 		// the current box
 		/* @var $l_objCurrentBox GlcrosswordBox */
 		$l_objCurrentBox = NULL;
@@ -567,7 +574,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 				
 				// read the box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -592,7 +599,7 @@ class GlcrosswordCrossword  {
 	 * @param 	array 	$i_arrCoordiante	Array with the coordinates of the answer box.
 	 * @return	string						Content of the answer box.
 	 */
-	public function getHintForAnswerBox($i_arrCoordiante){
+	public function getHintForAnswerBox(array $i_arrCoordiante): string {
 		/* @var $l_objCurrentBox GlcrosswordBox */
 		$l_objCurrentBox = NULL;
 		
@@ -615,7 +622,7 @@ class GlcrosswordCrossword  {
 	 * Returns an array with all the errors of the crossword.
 	 * @return array Array with all errors of the crossword.
 	 */
-	public function getErrorArray() {
+	public function getErrorArray(): array {
 		/* @var $l_objCurrentBox GlcrosswordBox */
 		$l_objCurrentBox = NULL;
 		// error array of the questions box
@@ -623,7 +630,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 				
 				// read the box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -648,7 +655,7 @@ class GlcrosswordCrossword  {
 	 * Returns an array with all the out of bound errors of the crossword.
 	 * @return array Array with all errors of the crossword.
 	 */
-	public function getErrorArrayOOB() {
+	public function getErrorArrayOOB(): array {
 		
 		// the returning array with the error descriptions
 		$l_arrErrorOOB = array();
@@ -667,7 +674,7 @@ class GlcrosswordCrossword  {
 	 * getter for the error flag.
 	 * @return boolean	 
 	 */
-	public function isError() {
+	public function isError(): bool {
 		// send error flag back
 		return $this->m_blnError;
 	}
@@ -676,7 +683,7 @@ class GlcrosswordCrossword  {
 	 * Gets the text for the error dialog widget
 	 * @return string	Text for the dialog widget
 	 */
-	public function readDialogErrorText() {
+	public function readDialogErrorText(): string {
 		// the error message data
 		$l_strErrorMessage = "";
 		
@@ -705,7 +712,7 @@ class GlcrosswordCrossword  {
 	 * 		Value: 			Length of the text in this direction.
 	 * @return array Array with the edit matrix.
 	 */
-	public function getEditMatrix() {
+	public function getEditMatrix(): array {
 		
 		// The current box in the crossword.
 		/* @var $l_objCurrentBox GlcrosswordBox */ 
@@ -721,7 +728,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 
 				// read the box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -775,7 +782,7 @@ class GlcrosswordCrossword  {
 	 * 			dir => direction of the question
 	 * 					See Constants with the prefix GlcrosswordBoxQuestions::C_INT_DIR_*
 	 * 			text => <Text of the question> */
-	public function getEditCausingQuestionArray(){
+	public function getEditCausingQuestionArray(): array {
 		// The current box in the crossword.
 		/* @var $l_objCurrentBox GlcrosswordBox */
 		$l_objCurrentBox = NULL;
@@ -797,7 +804,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 		
 				// read the box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -842,7 +849,7 @@ class GlcrosswordCrossword  {
 	 * @param integer $i_intTopSpace	Space from the top for the buttons
 	 * @return string					The HTML content.
 	 */
-	public function getHTMLButtonContent($i_intTopSpace) {
+	public function getHTMLButtonContent(int $i_intTopSpace): string {
 		// the HTML content
 		$l_strContent = '';
 
@@ -873,7 +880,7 @@ class GlcrosswordCrossword  {
 	 * 				Index 2: The y coordinate
 	 * 				value: The answer content of this box.
 	 */
-	public function getSolutionData() {
+	public function getSolutionData(): array {
 		// the current box
 		/* @var $l_objCurrentBox GlcrosswordBox */
 		$l_objCurrentBox = NULL;
@@ -883,7 +890,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 		
 				// read the box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -910,7 +917,7 @@ class GlcrosswordCrossword  {
 	 * 						width: 	The width of the box.
 	 * 						height:	The height of the box.
 	 */
-	public function getHtmlBoxSize(){
+	public function getHtmlBoxSize(): array {
 		
 		// one box of the crossword
 		/* @var $l_objCurrentBox GlcrosswordBox */
@@ -938,7 +945,7 @@ class GlcrosswordCrossword  {
 	 * Draws an invisible hourglass for later activating.
 	 * @return	string	The HTML content with the hourglass.
 	 */
-	public function drawHourGlass(){
+	public function drawHourGlass(): string {
 		
 		// the HTML content of the hourglass
 		$l_strContent = '';
@@ -952,7 +959,7 @@ class GlcrosswordCrossword  {
 		
 		$l_arrBoxSize = $this->getHtmlBoxSize();
 		
-		$l_intHourglassHeight = $this->m_intHeighthOfCrossword * $l_arrBoxSize['height'];
+		$l_intHourglassHeight = $this->m_intHeightOfCrossword * $l_arrBoxSize['height'];
 		$l_intHourglassWidth = $this->m_intWidthOfCrossword * $l_arrBoxSize['width'];
 		
 		// if only the heigth is to small
@@ -1008,7 +1015,7 @@ class GlcrosswordCrossword  {
 	 * Build the array with all the boxes of the crossword
 	 * @param string $i_strRelatedQuestions The UIDs of the related questions
 	 */
-	protected function buildBoxesArray($i_strRelatedQuestions) {
+	protected function buildBoxesArray(string $i_strRelatedQuestions): void {
 		
 		/* @var $l_objBoxQuestions GlcrosswordBoxQuestions */
 		$l_objBoxQuestions = NULL;
@@ -1026,7 +1033,7 @@ class GlcrosswordCrossword  {
 		
 		// get query builder for questions table
 		$l_objQueryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-		->getQueryBuilderForTable(GlcrosswordController::C_STR_DB_TABLE_QUESTIONS);
+		                  ->getQueryBuilderForTable(GlcrosswordController::C_STR_DB_TABLE_QUESTIONS);
 
 		// convert related Questions in an array
 		$l_arrRelatedQuestions = explode(',', $i_strRelatedQuestions);
@@ -1041,9 +1048,9 @@ class GlcrosswordCrossword  {
 		 *     )
 		 */
 		$l_arrWhere = [ $l_objQueryBuilder->expr()->in('uid', $l_arrRelatedQuestions),
-		                $l_objQueryBuilder->expr()->orX(
+		                $l_objQueryBuilder->expr()->or(
                             $l_objQueryBuilder->expr()->in('sys_language_uid', array(-1,0)),
-                            $l_objQueryBuilder->expr()->andX(
+                            $l_objQueryBuilder->expr()->and(
                                 $l_objQueryBuilder->expr()->eq('sys_language_uid', $l_objQueryBuilder->createNamedParameter($languageAspect->getId())),
     	                        $l_objQueryBuilder->expr()->eq('l10n_parent', $l_objQueryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
     	                    )
@@ -1063,19 +1070,24 @@ class GlcrosswordCrossword  {
 		                  
         // exchange fetch() with fetchAssociative() up to Typo3 v11 -> Method fetch() will be removed
 //        while($row = $l_objResult->fetchAssociative() ){
-        while($row = $l_objResult->fetch() ){
+        while($row = $l_objResult->fetchAssociative() ){
 			// if there is a valid row (should be always the case)
 			// and if the current row language is different from the currently needed language
 			// and if overlay mode is set
 			if (is_array($row) 
 				&& $row['sys_language_uid'] != $languageAspect->getContentId() 
-			    && $languageAspect->getLegacyOverlayType()) {
+			    && $languageAspect->getId() > 0) {
 				
 				// get the overlay language
-				$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(GlcrosswordController::C_STR_DB_TABLE_QUESTIONS, 
-																    $row,
-				                                                    $languageAspect->getContentId(), 
-				                                                    $languageAspect->getLegacyOverlayType());				
+// 				$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(GlcrosswordController::C_STR_DB_TABLE_QUESTIONS, 
+// 																    $row,
+// 				                                                    $languageAspect->getContentId(), 
+// 				                                                    $languageAspect->getLegacyOverlayType());	
+			    
+			        
+			        
+				$row = $this->pageRepository->getLanguageOverlay(GlcrosswordController::C_STR_DB_TABLE_QUESTIONS,
+                                            			         $row);
 			}
 
 			// if row is after the language operations still valid
@@ -1087,7 +1099,7 @@ class GlcrosswordCrossword  {
 																					 $row['direction'], 
 																					 $row['question'], 
 																					 $row['answer'],
-																					 $row['mask'],
+																					 (string)$row['mask'],
 																					 $this );
 				// add the related answer fields to the crossword
 				$this->addRelatedAnswerFields($l_objBoxQuestions, $row['direction']);
@@ -1107,11 +1119,11 @@ class GlcrosswordCrossword  {
 	/**
 	 * Fill all gaps with empty boxes in the crossword.
 	 */
-	protected function fillEmptyBoxes() {
+	protected function fillEmptyBoxes(): void {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 				
 				// if in this box is no content
 				if (! isset($this->m_arrBoxes[$x][$y])) {
@@ -1123,9 +1135,9 @@ class GlcrosswordCrossword  {
 	}
 	
 	/**
-	 * Set extra borders at the end of ansers which have another answer in the next box. 
+	 * Set extra borders at the end of answers which have another answer in the next box. 
 	 */
-	protected function setExtraBorders(){
+	protected function setExtraBorders(): void {
 		
 		// the current box
 		/* @var $l_objCurrentBox GlcrosswordBox */
@@ -1133,7 +1145,7 @@ class GlcrosswordCrossword  {
 		
 		// go through every box in the crossword
 		for ($x = 1; $x <= $this->m_intWidthOfCrossword; $x++) {
-			for ($y = 1; $y <= $this->m_intHeighthOfCrossword; $y++) {
+			for ($y = 1; $y <= $this->m_intHeightOfCrossword; $y++) {
 		
 				// get the current box
 				$l_objCurrentBox = $this->m_arrBoxes[$x][$y];
@@ -1152,7 +1164,7 @@ class GlcrosswordCrossword  {
 	 * 
 	 * @param GlcrosswordBoxQuestions $i_objQuestionBox
 	 */
-	protected function checkQuestionForExtraBorders($i_objQuestionBox) {
+	protected function checkQuestionForExtraBorders(GlcrosswordBoxQuestions $i_objQuestionBox): void {
 		// array with all questions of the current box
 		$l_arrAllQuestions = array();
 		// the last answer box of a question
@@ -1199,11 +1211,11 @@ class GlcrosswordCrossword  {
 	}
 	
 	/**
-	 * Add the related AnswerFieldBoxes of an Question to the crossword
-	 * @param GlcrosswordBoxQuestions	$i_objBoxQuestions	Object with the questions
+	 * Add the related AnswerFieldBoxes of a Question to the crossword
+	 * @param GlcrosswordBoxQuestions $i_objBoxQuestions Object with the questions
 	 * @param integer 						$i_intDirection		Direction of the question
 	 */
-	protected function addRelatedAnswerFields($i_objBoxQuestions, $i_intDirection) {
+	protected function addRelatedAnswerFields(GlcrosswordBoxQuestions $i_objBoxQuestions, int $i_intDirection): void {
 		
 		// Content of an answer letter
 		/* @var $l_objContentAnswer GlcrosswordContentAnswerfield */
@@ -1236,7 +1248,7 @@ class GlcrosswordCrossword  {
 		
 		// get the next answer letter an shift the index to the next letter
 		$l_strNextLetter = $this->getNextAnswerLetter( $i_objBoxQuestions->get_objQuestion($i_intDirection)->get_strAnswer(), 
-													   $i_objBoxQuestions->get_objQuestion($i_intDirection)->get_intEditMask(),
+		                                               $i_objBoxQuestions->get_objQuestion($i_intDirection)->get_strEditMask(),
 													   $l_intIndex,
 													   $l_intIndexEditMask);
 		// if we are at the end of the answer
@@ -1255,7 +1267,7 @@ class GlcrosswordCrossword  {
  													    $l_arrCurrentBox['Y'], 
 													    $l_objContentAnswer, 
 													    $i_objBoxQuestions, 
-													    $i_intDirection, 
+			                                            $i_intDirection, 
 													    $this );
 			
 			// move to the next box in the crossword
@@ -1263,8 +1275,8 @@ class GlcrosswordCrossword  {
 			$l_arrCurrentBox['Y'] += $l_arrDirectionVector['Y'];
 				
 			// get the next answer letter an shift the index to the next letter
-			$l_strNextLetter = $this->getNextAnswerLetter($i_objBoxQuestions->get_objQuestion($i_intDirection)->get_strAnswer(), 
-														  $i_objBoxQuestions->get_objQuestion($i_intDirection)->get_intEditMask(),
+			$l_strNextLetter = $this->getNextAnswerLetter($i_objBoxQuestions->get_objQuestion($i_intDirection)->get_strAnswer(),
+			                                              $i_objBoxQuestions->get_objQuestion($i_intDirection)->get_strEditMask(),
 														  $l_intIndex,
 													   	  $l_intIndexEditMask);
 			// if we are at the end of the answer
@@ -1282,7 +1294,7 @@ class GlcrosswordCrossword  {
 	 * @param integer	&$c_intIndexEditMask	The index of the position of the letter in the edit mask.
 	 * @return string							The next letter.
 	 */
-	protected function getNextAnswerLetter($i_strAnswerText, $i_strEditMask, &$c_intIndex, &$c_intIndexEditMask) {
+	protected function getNextAnswerLetter(string $i_strAnswerText, string $i_strEditMask, int &$c_intIndex, int &$c_intIndexEditMask): string {
 
 		// length of the letter
 		$l_intLetterLength = 0;
@@ -1291,7 +1303,7 @@ class GlcrosswordCrossword  {
 		// the next letter of the answer
 		$l_strAnswerLetter = '';
 		
-		$l_intAnswerLength = strlen(utf8_decode($i_strAnswerText));
+		$l_intAnswerLength = mb_strlen($i_strAnswerText, 'UTF-8');
 		
 		// if we are at the end of the answer
 		if ($l_intAnswerLength <= $c_intIndex) {
@@ -1320,7 +1332,7 @@ class GlcrosswordCrossword  {
 	 * @param integer $i_intIndex		Index of the position in the answer.
 	 * @return integer					The length of the current letter.
 	 */	
-	protected function getLengthOfCurrentLetter($i_strEditMask, $i_intIndex) {
+	protected function getLengthOfCurrentLetter(string $i_strEditMask, int $i_intIndex): int {
 		
 		// length of the edit mask
 		$l_intEditMaskLength = 0;
@@ -1328,7 +1340,7 @@ class GlcrosswordCrossword  {
 		$l_intEditMaskLength = strlen( $i_strEditMask );
 		
 		// if edit mask shorter then the answer string OR if edit mask is initial
-		if ( $l_intEditMaskLength < ($i_intIndex + 1) || $i_strEditMask == 0) {
+		if ( $l_intEditMaskLength < ($i_intIndex + 1) || $i_strEditMask == '0') {
 			// then return the default value 1
 			return 1;
 		
@@ -1336,7 +1348,7 @@ class GlcrosswordCrossword  {
 		} else {
 
 			// cut the length of this answer letter
-			return substr($i_strEditMask, $i_intIndex, 1);
+			return (int)substr($i_strEditMask, $i_intIndex, 1);
 		}
 	}
 	
@@ -1346,7 +1358,7 @@ class GlcrosswordCrossword  {
 	 * @param array $e_arrStartVector The vectro where the anser starts.
 	 * @param array $e_arrDirectionVector The vector for the direction in the crossword.
 	 */
-	protected function getDirectionVector($i_intDirection, &$e_arrStartVector, &$e_arrDirectionVector) {
+	protected function getDirectionVector(int $i_intDirection, array &$e_arrStartVector, array &$e_arrDirectionVector): void {
 		
 		// determine first the start vector
 		switch (true) {
@@ -1437,7 +1449,7 @@ class GlcrosswordCrossword  {
 	 * 														Second Index: 	Side of the current box where the text is going on.
 	 * 														Value: 			Length of the text in this direction.
 	 */
-	protected function getCausingQuestionData($i_objCurrentBox, $i_arrCausingQuestion) {
+	protected function getCausingQuestionData(GlcrosswordBox $i_objCurrentBox, array $i_arrCausingQuestion): array {
 		
 		// The current box in the crossword.
 		/* @var $l_objQuestionBox GlcrosswordBoxQuestions */ 
@@ -1485,7 +1497,7 @@ class GlcrosswordCrossword  {
 	 * @param 	integer 	$i_intQuestionDirection	Direction from the question box (See constants with GlcrosswordBox::C_INT_EDIT_DIR_*)
 	 * @return	integer 							Direction for the edit Matrix (See constant with GlcrosswordBox::C_INT_EDIT_DIR_*)
 	 */
-	protected function convertQDir2EDir($i_intQuestionDirection) {
+	protected function convertQDir2EDir(int $i_intQuestionDirection): int {
 		
 		// the returning value with the direction of the edit Matrix
 		$l_intEditDirection = 0;
@@ -1539,7 +1551,7 @@ class GlcrosswordCrossword  {
 	 * @param 	integer $i_intQuestionDirection The question direction.
 	 * @return	integer							The pure direction.
 	 */
-	protected function convertDirection2PureDir($i_intQuestionDirection) {
+	protected function convertDirection2PureDir(int $i_intQuestionDirection): int {
 		switch ($i_intQuestionDirection) {
 			// if the question goes to the left
 			case GlcrosswordBoxQuestions::C_INT_DIR_DOWN_LEFT:
@@ -1582,7 +1594,7 @@ class GlcrosswordCrossword  {
 	 * @param integer $e_intSide1	Affected side 1. (See constants with GlcrosswordBox::C_INT_EDIT_SIDE_*)
 	 * @param integer $e_intSide2	Affected side 2. (See constants with GlcrosswordBox::C_INT_EDIT_SIDE_*)
 	 */
-	protected function getSideForEditMatrix($i_intEditDir, &$e_intSide1, &$e_intSide2) {
+	protected function getSideForEditMatrix(int $i_intEditDir, int &$e_intSide1, int &$e_intSide2): void {
 		
 		// which edit direction is it		
 		switch ($i_intEditDir) {
@@ -1619,7 +1631,7 @@ class GlcrosswordCrossword  {
 	 * @param 	GlcrosswordBoxQuestions $i_objCausingQuestion	The causing question which is affection the current box.
 	 * @return	integer												Length of the requested side an direction.
 	 */
-	protected function getLengthForEditMatrix($i_intEditSide, $i_intEditDirection, $i_intQuestionDirection, 
+	protected function getLengthForEditMatrix(int $i_intEditSide, int $i_intEditDirection, int $i_intQuestionDirection, 
 											$i_objCurrentBox, $i_objCausingQuestion) {
 		
 		// the requested length
@@ -1733,17 +1745,15 @@ class GlcrosswordCrossword  {
 	 * @param integer $i_intQuestionSideCoord	Coordinate value of the side coordinate of the question box.
 	 * @return	integer 						The requested length.
 	 */
-	protected function getFrontsideLength($i_intCurrentLengthCoord, $i_intQuestionLengthCoord,
-										  $i_intCurrentSideCoord, $i_intQuestionSideCoord) {
+	protected function getFrontsideLength(int $i_intCurrentLengthCoord, int $i_intQuestionLengthCoord,
+										  int $i_intCurrentSideCoord, int $i_intQuestionSideCoord): int {
 		
 		// the length to compute
-		$l_intLength = 0;
-		
 		$l_intLength = abs($i_intCurrentLengthCoord - $i_intQuestionLengthCoord);
 		
-		// if the both ar on the same row/column
+		// if both are on the same row/column
 		if ($i_intCurrentSideCoord == $i_intQuestionSideCoord) {
-			// then is the length one shorter
+			// then the length is one shorter
 			$l_intLength -= 1;
 		}
 		
@@ -1760,15 +1770,12 @@ class GlcrosswordCrossword  {
 	 * @param integer $i_intLengthOfAnswer		The length of the whole answer.
 	 * @return integer							The requested length.
 	 */
-	protected function getBacksideLength($i_intCurrentLengthCoord, $i_intQuestionLengthCoord,
-										  $i_intCurrentSideCoord, $i_intQuestionSideCoord,
-										  $i_intLengthOfAnswer) {
+	protected function getBacksideLength(int $i_intCurrentLengthCoord, int $i_intQuestionLengthCoord,
+										 int $i_intCurrentSideCoord, int $i_intQuestionSideCoord,
+										 int $i_intLengthOfAnswer): int {
 		// the requested length
 		$l_intBacksideLength = 0;
 		// the frontside length
-		$l_intFrontsideLength = 0;
-		
-		// get the length of the frontside
 		$l_intFrontsideLength = $this->getFrontsideLength($i_intCurrentLengthCoord, $i_intQuestionLengthCoord, 
 														  $i_intCurrentSideCoord, $i_intQuestionSideCoord);
 		
@@ -1780,26 +1787,24 @@ class GlcrosswordCrossword  {
 	}
 	
 	/**
-	 * Merge both array into one array for the edit Matrix. Both arrays have the folltowing structure
+	 * Merge both arrays into one array for the edit Matrix. Both arrays have the following structure:
 	 * First index:		Direction of the text
 	 * Second index: 	Side of the current box
 	 * Value:			Length of the text on this side in this direction. 
-	 * @param array $i_arrOldArray	The old array with the data.
-	 * @param array $i_arrNewArray	The new array with the new data.
+	 * @param array<int, array<int, int>> $i_arrOldArray The old array with the data.
+	 * @param array<int, array<int, int>> $i_arrNewArray The new array with the new data.
+	 * @return array<int, array<int, int>> The merged array.
 	 */
-	protected function mergeEditMatrixArrays($i_arrOldArray, $i_arrNewArray) {
+	protected function mergeEditMatrixArrays(array $i_arrOldArray, array $i_arrNewArray): array {
 		
 		// the merged array
-		$l_arrMergedData = array(); 
-		
-		// first assign the old array to the merged array
 		$l_arrMergedData = $i_arrOldArray;
 		
 		// go through every element in the new array
 		foreach ($i_arrNewArray as $l_intDirKey => $l_arrDir) {
-			foreach ($l_arrDir as $l_intSideKey => $l_intlength) {
+			foreach ($l_arrDir as $l_intSideKey => $l_intLength) {
 				// and transfer it to the merged array
-				$l_arrMergedData[$l_intDirKey][$l_intSideKey] = $l_intlength;
+				$l_arrMergedData[$l_intDirKey][$l_intSideKey] = $l_intLength;
 			}
 		}
 		
@@ -1811,18 +1816,22 @@ class GlcrosswordCrossword  {
 	 * Read the text for the solution button.
 	 * @return string The text of the button.
 	 */
-	protected function getStrButtonSolution() {
+	protected function getStrButtonSolution(): string {
 	    return LocalizationUtility::translate('text.button.solution',
-	                                           GlcrosswordController::c_strExtensionName );
+	                                           GlcrosswordController::c_strExtensionName) ?? '';
 	}
 	
 	/**
 	 * Read the text for the hint button.
 	 * @return string The text of the button.
 	 */
-	protected function getStrButtonHint() {
+	protected function getStrButtonHint(): string {
 	    return LocalizationUtility::translate('text.button.hint',
-	                                           GlcrosswordController::c_strExtensionName );
+	                                           GlcrosswordController::c_strExtensionName) ?? '';
+	}
+
+	public function get_objQuestion(?int $direction): ?GlcrosswordContentQuestion {
+		return $this->m_arrQuestions[$direction] ?? null;
 	}
 }
 ?>

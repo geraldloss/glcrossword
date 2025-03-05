@@ -1,6 +1,6 @@
 # glcrossword
-[![TYPO3 10](https://img.shields.io/badge/TYPO3-10-orange.svg)](https://get.typo3.org/version/10)
 [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg)](https://get.typo3.org/version/11)
+[![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg)](https://get.typo3.org/version/12)
 [![Latest Stable Version](http://poser.pugx.org/geraldloss/glcrossword/v)](https://packagist.org/packages/geraldloss/glcrossword)
 [![License](http://poser.pugx.org/geraldloss/glcrossword/license)](https://packagist.org/packages/geraldloss/glcrossword)
 

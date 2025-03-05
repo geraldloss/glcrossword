@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
 *
@@ -127,75 +128,76 @@ abstract class GlcrosswordBox  {
 //	***************************************************************************************************
 	
 	/**
-	 * Array with an list of the priorities of the box types
-	 * @var array
+	 * Array with a list of the priorities of the box types
+	 * @var array<string, int>
 	 */
-	private static  $m_arrTypePriorityList = array(
-			GlcrosswordBox::C_STR_TYPE_QUESTION => 0,
-			GlcrosswordBox::C_STR_TYPE_ANSWER => 1,
-			GlcrosswordBox::C_STR_TYPE_EMPTY => 2 );
+	private static array $m_arrTypePriorityList = [
+		GlcrosswordBox::C_STR_TYPE_QUESTION => 0,
+		GlcrosswordBox::C_STR_TYPE_ANSWER => 1,
+		GlcrosswordBox::C_STR_TYPE_EMPTY => 2
+	];
 	
 	/**
 	 * The crossword where this box belongs to.
 	 * @var GlcrosswordCrossword
 	 * @access protected
 	 */
-	protected $m_objCrossword;
+	protected GlcrosswordCrossword $m_objCrossword;
 	
 	/**
 	 * Array with the actual content of the box
-	 * @var array 
+	 * @var array<int, mixed>
 	 * @access protected
 	 */
-	protected $m_arrContent;
+	protected array $m_arrContent = [];
 	
 	/**
 	 * Array with flags if an out of bound error for the given direction is already set
-	 * @var array
+	 * @var array<int, bool>
 	 * @access protected
 	 */
-	protected $m_arrOutOfBoundErrors;
+	protected array $m_arrOutOfBoundErrors = [];
 	
 	/**
 	 * X position of the box in the crossword
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intX;
+	protected int $m_intX;
 	/**
 	 * Y position of the box in the crossword
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intY;
+	protected int $m_intY;
 	
 	/**
 	 * Is there an error in this box
 	 * @var boolean
 	 * @access protected
 	 */
-	protected $m_blnIsError;
+	protected bool $m_blnIsError = false;
 	
 	/**
 	 * Error text
 	 * @var string
 	 * @access protected 
 	 */
-	protected $m_strErrorText;
+	protected string $m_strErrorText = '';
 	
 	/**
 	 * Type of this box -> see C_STR_TYPE* constants
 	 * @var string
 	 * @access protected
 	 */
-	protected $m_strType;
+	protected string $m_strType;
 	
 	/**
 	 * The unique ID of the crossword
 	 * @var integer
 	 * @access protected
 	 */
-	protected $m_intUniqueId;
+	protected int $m_intUniqueId;
 	
 //	***************************************************************************************************	
 //	Static methods part
@@ -210,8 +212,8 @@ abstract class GlcrosswordBox  {
 	 * @param GlcrosswordBoxQuestions	$e_objCausingQuestionBox	Object with the causing question
 	 * @param integer						$e_intCausingDirection		Direction of the causing question
 	 */
-	public static function getCausingQuestionInformation($i_objBox, &$e_strQuestionText, &$e_intUID, &$e_intActualLength, 
-														 &$e_objCausingQuestionBox, &$e_intCausingDirection) {
+	public static function getCausingQuestionInformation(GlcrosswordBox $i_objBox, string &$e_strQuestionText, int &$e_intUID, int &$e_intActualLength, 
+														 GlcrosswordBoxQuestions &$e_objCausingQuestionBox, int	 &$e_intCausingDirection) : void 	{
 		// content of the causing question
 		/* @var $l_objContentQuestion GlcrosswordContentQuestion */
 		$l_objContentQuestion = NULL;
@@ -271,7 +273,7 @@ abstract class GlcrosswordBox  {
 	 * @param string 	$i_strNewType	New type.
 	 * @return boolean 					True, if new type has higher priority.
 	 */
-	public static function typeHasHigherPriority($i_strOldType, $i_strNewType) {
+	public static function typeHasHigherPriority(string $i_strOldType, string $i_strNewType) : bool	 {
 		// if the old type has a lower priority
 		if (GlcrosswordBox::$m_arrTypePriorityList[$i_strOldType] > GlcrosswordBox::$m_arrTypePriorityList[$i_strNewType]) {
 			return true;
@@ -286,17 +288,17 @@ abstract class GlcrosswordBox  {
 	
 	/**
 	 * Constructor of this class
-	 * @param integer 					$i_intX 		X position of the box in the crossword
-	 * @param integer 					$i_intY 		Y position of the box in the crossword
-	 * @param string					$i_strType		Type of the box see C_STR_TYPE* constants
-	 * @param GlcrosswordCrossword	$i_objCrossword	Object of Crossword to which this box belongs.
+	 * @param integer $i_intX X position of the box in the crossword
+	 * @param integer $i_intY Y position of the box in the crossword
+	 * @param string $i_strType Type of the box see C_STR_TYPE* constants
+	 * @param GlcrosswordCrossword $i_objCrossword Object of Crossword to which this box belongs.
 	 */
-	protected function __construct($i_intX, $i_intY, $i_strType, $i_objCrossword) {
+	protected function __construct(int $i_intX, int $i_intY, string $i_strType, GlcrosswordCrossword $i_objCrossword) {
 		$this->m_intX = $i_intX;
 		$this->m_intY = $i_intY;
 		$this->m_strType = $i_strType;
 		$this->m_objCrossword = $i_objCrossword;
-		$this->m_blnIsError = FALSE;
+		$this->m_blnIsError = false;
 		$this->m_strErrorText = '';
 		
 		// initialize the out of bound error flag array
@@ -312,19 +314,16 @@ abstract class GlcrosswordBox  {
 	
 	/**
 	 * Adds a content object to the box
-	 * @param integer 	$i_intIndex Index for the array
-	 * @param mixed 	$i_objContent Content object
-	 * @return boolean 	True if content obejct successfully added; False if index
-	 * 					already exists.
+	 * @param integer $i_intIndex Index for the array
+	 * @param mixed $i_objContent Content object
+	 * @return boolean True if content object successfully added; False if index
+	 * already exists.
 	 */
-	public function addContent($i_intIndex, $i_objContent) {
-		
+	public function addContent(int $i_intIndex, $i_objContent): bool {
 		// if content object already exists
 		if (isset($this->m_arrContent[$i_intIndex])) {
 			// exit with FALSE
-			return FALSE;
-		
-		// if content object still not exists
+			return false;
 		} else {
 			// add this object
 			$this->m_arrContent[$i_intIndex] = $i_objContent;
@@ -335,23 +334,19 @@ abstract class GlcrosswordBox  {
 	
 	
 	/**
-	 * Get the Contentobject of a certain index.
-	 * @param integer $i_intIndex Index of the Contentobject
-	 * @return mixed Contentobject
+	 * Get the Content object of a certain index.
+	 * @param integer $i_intIndex Index of the Content object
+	 * @return mixed|null Content object
 	 */
-	public function getContentObject($i_intIndex) {
-	    if (array_key_exists($i_intIndex, $this->m_arrContent)){
-	       return $this->m_arrContent[$i_intIndex];
-	    } else {
-	       return null;
-	    }
+	public function getContentObject(int $i_intIndex) {
+		return $this->m_arrContent[$i_intIndex] ?? null;
 	}
 	
 	/**
 	 * Getter of the array with the content of this box.
 	 * @return array:
 	 */
-	public function getContentArray() {
+	public function getContentArray() : array {
 		return  $this->m_arrContent;
 	}
 	
@@ -359,7 +354,7 @@ abstract class GlcrosswordBox  {
 	 * Get X position of the box in the crossword
 	 * @return integer 
 	 */
-	public function get_intX() {
+	public function get_intX() : int {
 		return $this->m_intX;
 	}
 	
@@ -367,7 +362,7 @@ abstract class GlcrosswordBox  {
 	 * Get Y position of the box in the crossword
 	 * @return integer 
 	 */
-	public function get_intY() {
+	public function get_intY() : int {
 		return $this->m_intY;
 	}
 	
@@ -375,7 +370,7 @@ abstract class GlcrosswordBox  {
 	 * Get the information if there is an error in this box
 	 * @return boolean
 	 */
-	public function get_blnIsError() {
+	public function get_blnIsError(): bool {
 		return $this->m_blnIsError;
 	}
 	
@@ -383,7 +378,7 @@ abstract class GlcrosswordBox  {
 	 * Set the information if there is an error in this box
 	 * @param boolean $i_blnValue Value of this property
 	 */
-	public function set_blnIsError($i_blnValue) {
+	public function set_blnIsError(bool $i_blnValue) : void {
 		$this->m_blnIsError = $i_blnValue;
 		
 		// if there is an error
@@ -396,22 +391,21 @@ abstract class GlcrosswordBox  {
 	 * Get the error text if there is an error
 	 * @return string 
 	 */
-	public function get_strErrorText() {
+	public function get_strErrorText() : string {
 		return $this->m_strErrorText;
 	}
 	
 	/**
 	 * Set the error text if there is an error.
-	 * @param string 	$i_strValue 				Value of the error text
-	 * @param integer	$i_intOutOfBoundDirection	Direction of the out of bound error
+	 * @param string $i_strValue Value of the error text
+	 * @param integer $i_intOutOfBoundDirection Direction of the out of bound error
 	 */
-	public function set_strErrorText($i_strValue, $i_intOutOfBoundDirection = -1) {
-		
-		// if hte out of bound direction is set
+	public function set_strErrorText(string $i_strValue, int $i_intOutOfBoundDirection = -1) : void {
+		// if the out of bound direction is set
 		if ($i_intOutOfBoundDirection != -1) {
 			// check the array if we have already set this error text
 			if ($this->m_arrOutOfBoundErrors[$i_intOutOfBoundDirection]) {
-				// then leave this method for preventing doublet
+				// then leave this method for preventing duplicate
 				return;
 			} else {
 				// set the flag for the first time
@@ -423,13 +417,9 @@ abstract class GlcrosswordBox  {
 		if ($this->m_strErrorText == '') {
 			// add the value
 			$this->m_strErrorText = $i_strValue;
-		
-		// if there exist already an error text
 		} else {
-			// this error text to the existing
-			$this->m_strErrorText = $this->m_strErrorText . 
-									'<br>--------------------<br>' .
-									$i_strValue; 
+			// append this error text to the existing
+			$this->m_strErrorText .= '<br>--------------------<br>' . $i_strValue;
 		}
 	} 
 	
@@ -437,7 +427,7 @@ abstract class GlcrosswordBox  {
 	 * Get the type of this box -> see C_STR_TYPE* constants
 	 * @return string 
 	 */
-	public function get_strType() {
+	public function get_strType(): string {
 		return $this->m_strType;
 	}
 	
@@ -445,7 +435,7 @@ abstract class GlcrosswordBox  {
 	 * Getter for the crossword.
 	 * @return GlcrosswordCrossword
 	 */
-	public function get_crossword() {
+	public function get_crossword() : GlcrosswordCrossword {
 		return $this->m_objCrossword;
 	}
 
@@ -456,7 +446,7 @@ abstract class GlcrosswordBox  {
 	 * @param integer $i_intBorderWidth Thickness of the borderlines of the box
 	 * @return string	Returns the generated HTML content.
 	 */
-	public function draw( $i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	public function draw( float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth) : string {
 		// the HTML content of the qestion box
 		$l_strContent = '';
 	
@@ -476,8 +466,8 @@ abstract class GlcrosswordBox  {
 	 * 												first out of bounds error boxes.
 	 * @return string								Returns the generated HTML content.
 	 */
-	public function drawErrorBox( $i_intErrorCount, $i_fltXScale, $i_fltYScale, $i_intBorderWidth, 
-								  $i_intTopSpace ) {
+	public function drawErrorBox( int $i_intErrorCount, float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth, 
+								  int $i_intTopSpace ) : string {
 		// the HTML content of the qestion box
 		$l_strContent = '';
 		// the properties of the box
@@ -505,7 +495,7 @@ abstract class GlcrosswordBox  {
 	 * @param integer $i_intOffset		Offset from this box.
 	 * @return	GlcrosswordBox		Box with the x and y coordinates of the wanted box.
 	 */
-	public function getBoxFromOffset($i_intDirection, $i_intOffset) {
+	public function getBoxFromOffset(int $i_intDirection, int $i_intOffset) : ?GlcrosswordBox	 {
 		
 		$l_arrNewCoord = array( "x" => 0,
 								"y" => 0);
@@ -594,7 +584,7 @@ abstract class GlcrosswordBox  {
 	 * @param 	bool  $i_blnNoRound	Don't round the result. (default is false)
 	 * @return 	array				Array with the width and the heigth of the HTML element of this box.
 	 */
-	public function getGeneralBoxSize($i_fltXScale, $i_fltYScale, $i_blnNoRound = false){
+	public function getGeneralBoxSize(float $i_fltXScale, float $i_fltYScale, bool $i_blnNoRound = false) : array 	{
 		
 		// the returning array
 		$l_arrSize = array();
@@ -618,8 +608,8 @@ abstract class GlcrosswordBox  {
 //	Protected methods part
 //	***************************************************************************************************
 	
-	protected function getSingleErrorBox($i_intErrorCount, $i_intLeft, $i_intTop, $i_intWidth, 
-										 $i_intHeight, $i_intBorderWidth) {
+	protected function getSingleErrorBox(int $i_intErrorCount, int $i_intLeft, int $i_intTop, int $i_intWidth, 
+										 int $i_intHeight, int $i_intBorderWidth) : string {
 		// the ID of the box
 		$l_strBoxId = '';
 		// the html content of this box
@@ -658,8 +648,8 @@ abstract class GlcrosswordBox  {
 	 * @param integer &$e_intHeight 				Height of the box.
 	 * @return string 								HTML content of a single box
 	 */
-	protected function getErrorBoxProperties($i_intErrorCount, $i_fltXScale, $i_fltYScale, $i_intBorderWidth,
-											 $i_intTopSpace, &$e_intLeft, &$e_intTop, &$e_intWidth, &$e_intHeight){
+	protected function getErrorBoxProperties(int $i_intErrorCount, float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth,
+											 int $i_intTopSpace, &$e_intLeft, &$e_intTop, &$e_intWidth, &$e_intHeight) : void 	{
 	
 		// the x and y coordinates
 		$l_intErrorX = 0;
@@ -698,9 +688,9 @@ abstract class GlcrosswordBox  {
 	 * @param integer $i_intY			Optionaly the y coordinates
 	 * @return string HTML content of a single box
 	 */
-	protected function getBoxProperties($i_fltXScale, $i_fltYScale, $i_intBorderWidth,
+	protected function getBoxProperties(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth,
 										&$e_intLeft, &$e_intTop, &$e_intWidth, &$e_intHeight,
-										$i_intX = -1, $i_intY = -1){
+										int $i_intX = -1, int $i_intY = -1) : void 		{
 		
 		// the x and y coordinate
 		$l_intX = 0;
@@ -748,8 +738,8 @@ abstract class GlcrosswordBox  {
 	 * @param bool		$i_blnNoClosingDivTag 	True if omit the closing div tag. (Default is true)
 	 * @return string 						HTML content of a single box
 	 */
-	protected function getSingleBox($i_fltXScale, $i_fltYScale, $i_intBorderWidth, $i_strDivClass, 
-									$i_blnNoClosingStyleTag = true, $i_blnNoClosingDivTag = true){
+	protected function getSingleBox(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth, string $i_strDivClass, 
+									bool $i_blnNoClosingStyleTag = true, bool $i_blnNoClosingDivTag = true) : string 		{
 		
 		// the coordinates from the left
 		$l_intLeft = 0;

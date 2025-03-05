@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
  *
@@ -35,14 +36,14 @@ class GlcrosswordData  {
      * @var GlcrosswordCrossword
      * @access protected
      */
-    protected $htmlContent;
+    protected string $htmlContent;
     
     /**
      * Returns the content
      *
      * @return string $content
      */
-    public function getHtmlContent() {
+    public function getHtmlContent(): string {
         return $this->htmlContent;
     }
     
@@ -52,7 +53,7 @@ class GlcrosswordData  {
      * @param string $content
      * @return void
      */
-    public function setHtmlContent($htmlContent) {
+    public function setHtmlContent(string $htmlContent): void {
         $this->htmlContent = $htmlContent;
     }
 }

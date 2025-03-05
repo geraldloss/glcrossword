@@ -23,7 +23,7 @@
 						  und von Frage "%s" mit UID %u wird Buchstabe "%s" verlangt.]]>
 				</target>
 			</trans-unit>
-			<trans-unit id="code.error.box.type.missmatch">
+			<trans-unit id="code.error.box.type.mismatch">
 				<source><![CDATA[In this field is a box of type %s causing of question %s with UID %u 
 						 and a box of type %s causing of question %s with UID %u
 						 at the same time.]]>

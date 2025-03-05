@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
  *
@@ -29,6 +30,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Core\Http\ServerRequestFactory;
+use TYPO3\CMS\Core\Http\ServerRequest;
 
 /**
  * Plugin 'glcrossword AJAX manager' for the 'glcrossword' extension.
@@ -38,31 +41,37 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  */
 class GlcrosswordAjax {
 
-	protected $m_strLocalLang = '';
+	protected string $m_strLocalLang = '';
 	
-	public function handleAjaxRequest() {
+	public function handleAjaxRequest(): string {
 		
 		// the unique ID
 		$l_intUniqueId = 0;
 		// the requested process
 		$l_strfuncRequestedProcess = '';
 		// the parameters of the ajax backend method
-		$l_arrParams = array();
+		$l_arrParams = [];
 		/** @var $feUserObject \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication */
-		$feUserObject = NULL;
+		$feUserObject = null;
+		/** @var $request \TYPO3\CMS\Core\Http\ServerRequest */
+		$request = null;
+		$request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
 		
         // read the stored crosswords from the session
 		GlcrosswordCrossword::$m_arrCrosswords = $GLOBALS['TSFE']->fe_user->getKey('ses', 'glcrossword_arrCrosswords');
 		
 		// get the unique ID of the requestet crossword
-		$l_intUniqueId = GeneralUtility::_GET('intUniqueId');
+		$l_intUniqueId = (int)($request->getQueryParams()['intUniqueId'] ?? 0);
 		// get the requestet process
-		$l_strfuncRequestedProcess = GeneralUtility::_GET('strProcess');
-		// get the parameters of the backend method
-		$l_arrParams = GeneralUtility::_GET('params');
+		$l_strfuncRequestedProcess = (string)($request->getQueryParams()['strProcess'] ?? '');
 		
-		return json_encode(array('result' => $this->$l_strfuncRequestedProcess($l_intUniqueId, $l_arrParams),
-								 'intUniqueId' => $l_intUniqueId ));
+		// get the parameters of the backend method
+		$l_arrParams = (array)($request->getQueryParams()['params'] ?? []);
+		
+		return json_encode([
+			'result' => $this->$l_strfuncRequestedProcess($l_intUniqueId, $l_arrParams),
+			'intUniqueId' => $l_intUniqueId 
+		]);
 	}
 	
 	/**
@@ -72,22 +81,19 @@ class GlcrosswordAjax {
 	 * @param	array	$i_arrParams	Array with parameters for this method.
 	 * @return 	array					Array with all the important data of the crossword.
 	 */
-	protected function getGeneralCrosswordData($i_intUniqueId, $i_arrParams) {
+	protected function getGeneralCrosswordData(int $i_intUniqueId, array $i_arrParams):array {
 		
 		// the crossword object
 		/* @var GlcrosswordCrossword $l_objCrossword */
-		$l_objCrossword = NULL;
+		$l_objCrossword = null;
 		// the array with the result of this request
-		$l_arrResult = array();
+		$l_arrResult = [];
 		
 		// get the Crossword with this ID
-		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
-		
-		// repair defect object from session
-		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
+		$l_objCrossword = GlcrosswordCrossword::getCrosswordById($i_intUniqueId);
 		
 		// create all data infostructures of the crossword for the frontend
-		$l_arrResult = array(
+		$l_arrResult = [
 					// array with all questiondata
 					'questions' 	=> $l_objCrossword->getQuestionsArray(),
 					// array with all errors in the crossword setup if the are some
@@ -113,23 +119,10 @@ class GlcrosswordAjax {
 					'editMatrix'	=> $l_objCrossword->getEditMatrix(),
 					// return the edit causing question array
 					'editCausingQuestions' => $l_objCrossword->getEditCausingQuestionArray() 
-				);
+				];
 		
 		// returns the crossword data array
 		return $l_arrResult;
-	}
-	
-	/**
-	 * Korrigiert Objekte aus der Session die beim deserialisieren ein __PHP_Incomplete_Class Objekt werden
-	 * @param object $i_objObject
-	 * @return object
-	 */
-	protected function fixSessionObject(&$i_objObject){
-	    
-	    if (is_object ($i_objObject) && get_class($i_objObject) == '__PHP_Incomplete_Class')
-	       return ($i_objObject = unserialize(serialize($i_objObject)));
-	    
-	    return $i_objObject;
 	}
 	
 	/**
@@ -139,23 +132,20 @@ class GlcrosswordAjax {
 	 * @param	array	$i_arrParams	Array with parameters for this method.
 	 * @return 	array 					Array with all the solution data of the crossword.
 	 */
-	protected function getSolutionData($i_intUniqueId, $i_arrParams) {
+	protected function getSolutionData(int $i_intUniqueId, array $i_arrParams):array {
 		// the crossword object
 		/* @var GlcrosswordCrossword $l_objCrossword */
-		$l_objCrossword = NULL;
+		$l_objCrossword = null;
 		// the array with the result of this request
-		$l_arrResult = array();
+		$l_arrResult = [];
 		
 		// get the Crossword with this ID
-		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
-		
-		// repair defect object from session
-		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
+		$l_objCrossword = GlcrosswordCrossword::getCrosswordById($i_intUniqueId);
 		
 		// create all data infostructures of the crossword for the frontend
-		$l_arrResult = array(
+		$l_arrResult = [
 					'solution' => $l_objCrossword->getSolutionData() 				
-				);
+				];
 
 		// returns the crossword data array
 		return $l_arrResult;
@@ -168,23 +158,20 @@ class GlcrosswordAjax {
 	 * @param	array	$i_arrParams	Array with parameters for this method.
 	 * @return 	array					Array with all the solution data of the crossword.
 	 */
-	protected function getHintData($i_intUniqueId, $i_arrParams) {
+	protected function getHintData(int $i_intUniqueId, array $i_arrParams):array {
 		// the crossword object
 		/* @var GlcrosswordCrossword $l_objCrossword */
-		$l_objCrossword = NULL;
+		$l_objCrossword = null;
 		// the array with the result of this request
-		$l_arrResult = array();
+		$l_arrResult = [];
 		
 		// get the Crossword with this ID
-		$l_objCrossword = GlcrosswordCrossword::get_Crossword($i_intUniqueId);
-		
-		// repair defect object from session
-		$l_objCrossword = $this->fixSessionObject($l_objCrossword);
+		$l_objCrossword = GlcrosswordCrossword::getCrosswordById($i_intUniqueId);
 		
 		// create all data infostructures of the crossword for the frontend
-		$l_arrResult = array(
+		$l_arrResult = [
 				'hint' => $l_objCrossword->getHintForAnswerBox($i_arrParams)
-		);
+		];
 		
 		// returns the crossword data array
 		return $l_arrResult;
