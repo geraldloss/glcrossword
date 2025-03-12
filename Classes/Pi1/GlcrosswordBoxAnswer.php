@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
 *
@@ -36,7 +37,7 @@ use Loss\Glcrossword\Controller\GlcrosswordController;
 class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	
 	/**
-	 * Default index for the anserbox content object
+	 * Default index for the answer box content object
 	 * @var integer
 	 */
 	const C_INT_CONTENT_INDEX = 0;
@@ -49,71 +50,71 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	
 	/**
 	 * Key for direction in the array with the causing questions
-	 * @var unknown
+	 * @var string
 	 */
 	const C_STR_KEY_CAUSING_DIRECTION = 'direction';
 
 	/**
-	 * Extra Border on the left side. If we dont have another question, empty box or 
+	 * Extra Border on the left side. If we don't have another question, empty box or 
 	 * crossword border at the end of an answer.
 	 * 
 	 * @var boolean
 	 */
-	protected $m_blnExtraBorderLeft = false;
+	protected bool $m_blnExtraBorderLeft = false;
 	
 	/**
-	 * Extra Border on the top side. If we dont have another question, empty box or 
+	 * Extra Border on the top side. If we don't have another question, empty box or 
 	 * crossword border at the end of an answer.
 	 * 
 	 * @var boolean
 	 */
-	protected $m_blnExtraBorderTop = false;
+	protected bool $m_blnExtraBorderTop = false;
 	
 	/**
-	 * Extra Border on the right side. If we dont have another question, empty box or 
+	 * Extra Border on the right side. If we don't have another question, empty box or 
 	 * crossword border at the end of an answer.
 	 * 
 	 * @var boolean
 	 */
-	protected $m_blnExtraBorderRight = false;
+	protected bool $m_blnExtraBorderRight = false;
 	
-		/**
-	 * Extra Border on the bottom side. If we dont have another question, empty box or 
+	/**
+	 * Extra Border on the bottom side. If we don't have another question, empty box or 
 	 * crossword border at the end of an answer.
 	 * 
 	 * @var boolean
 	 */
-	protected $m_blnExtraBorderBottom = false;
+	protected bool $m_blnExtraBorderBottom = false;
 	
-/**
-	 * Array with the queststions, which causes this answer letter.
-	 * Every entry is one array with on object of type GlcrosswordBoxQuestions
+	/**
+	 * Array with the questions, which causes this answer letter.
+	 * Every entry is one array with an object of type GlcrosswordBoxQuestions
 	 * and the direction of the question. 
 	 * First Index: Counter with all causing questions starting with 0.
 	 * Value:
 	 * 			First Index: "question" => The question object which caused this answer letter
 	 * 			Second Index: "direction" => The direction of this causing question 
-	 * @var array
+	 * @var array<int, array<string, mixed>>
 	 */
-	protected $m_arrCausingQuestions;
+	protected array $m_arrCausingQuestions = [];
 
 	/**
 	 * Factory for an answer box object.
 	 * @param integer 							$i_intX 			X position of the box in the crossword
 	 * @param integer 					        $i_intY 			Y position of the box in the crossword
 	 * @param GlcrosswordContentAnswerfield	    $i_objAnswerField	Object with the answer in this field
-	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the questionbox, which causes this answer
+	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the question box, which causes this answer
 	 * @param integer							$i_intDirection		Direction of the Question, which causes this answer
 	 * @param GlcrosswordCrossword				$i_objCrossword		Object of the crossword class	 
 	 * @return GlcrosswordBox 										The created answer box.
 	 */
-	public static function boxAnswerFactory($i_intX, $i_intY, $i_objAnswerField, $i_objQuestionBox, $i_intDirection, $i_objCrossword) {
+	public static function boxAnswerFactory(int $i_intX, int $i_intY, GlcrosswordContentAnswerfield $i_objAnswerField, GlcrosswordBoxQuestions $i_objQuestionBox, int $i_intDirection, GlcrosswordCrossword $i_objCrossword): GlcrosswordBox {
 		// new question object
 		/* @var $l_objNewAnswerObject GlcrosswordBoxAnswer */ 
-		$l_objNewAnswerObject = NULL;
-		// current box object if there already exist one
+		$l_objNewAnswerObject = null;
+		// current box object if there already exists one
 		/* @var $l_objCurrentBox GlcrosswordBox */ 
-		$l_objCurrentBox = NULL;
+		$l_objCurrentBox = null;
 		// current type of this box
 		$l_strCurrentType = '';
 		// the current question text
@@ -124,15 +125,15 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		$l_intCurrentQuestionUID = 0;
 		// the Causing Question of a Box
 		/* @var GlcrosswordBoxQuestions $l_objCausingQuestion */
-		$l_objCausingQuestion = Null;
+		$l_objCausingQuestion = null;
 		// the direction of the Causing Question
 		$l_intCausingDirection = 0;
 		
 		// read the current box
 		$l_objCurrentBox = $i_objCrossword->getBox($i_intX, $i_intY);
 				
-		// if there exists no object on this coordinates
-		if (! isset($l_objCurrentBox)) {
+		// if there exists no object on these coordinates
+		if (!isset($l_objCurrentBox)) {
 			// create the answer box
 			$l_objNewAnswerObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 			                                                    GlcrosswordBoxAnswer::class,
@@ -149,33 +150,33 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 			return $l_objNewAnswerObject;
 				
 				
-		// if there exists already an object on this coordinates
+		// if there already exists an object on these coordinates
 		} else {
 			// read the current type
 			$l_strCurrentType = $l_objCurrentBox->get_strType();
 				
-			// if there is no type missmatch
+			// if there is no type mismatch
 			if ($l_strCurrentType == GlcrosswordBox::C_STR_TYPE_ANSWER) {
 		
-				// adds the answer letter, if there is already an different answer letter, then set the error text
+				// adds the answer letter, if there is already a different answer letter, then set the error text
 				$l_objCurrentBox->addAnswerLetter($i_objAnswerField, $i_objQuestionBox, $i_intDirection);
 				
 				// return the current answer box object
 				return $l_objCurrentBox;
 				
-			// if there is a type missmatch
+			// if there is a type mismatch
 			} else {
 			    // read the current type and uid
 			    $l_strCurrentType = $l_objCurrentBox->get_strType();
 			    
-			    // get all informations of this object for the error message
+			    // get all information of this object for the error message
 				GlcrosswordBox::getCausingQuestionInformation($l_objCurrentBox, $l_strCurrentQuestionText, $l_intCurrentQuestionUID,
 				                                              $l_intActualLength, $l_objCausingQuestion, $l_intCausingDirection );
 				
 				// In this field is a box of type %s causing of question "%s" with UID %u
 				// and a box of type %s causing of question "%s" with UID %u
 				// at the same time.
-				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.missmatch',
+				$l_strTempErrorText = LocalizationUtility::translate('code.error.box.type.mismatch',
 				                                                     GlcrosswordController::c_strExtensionName );
 				$l_strTempErrorText = sprintf($l_strTempErrorText,
 											  $l_strCurrentType,
@@ -214,8 +215,8 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 				return $l_objCurrentBox;
 				
 				
-			} // if there is a type missmatch
-		} // if there exists already an object on this coordinates
+			} // if there is a type mismatch
+		} // if there already exists an object on these coordinates
 	}
 	
 	/**
@@ -223,47 +224,47 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * @param integer 								$i_intX 			X position of the box in the crossword
 	 * @param integer 								$i_intY 			Y position of the box in the crossword
 	 * @param GlcrosswordContentAnswerfield	$i_objAnswerField	Object with the answer in this field
-	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the questionbox, which causes this answer
+	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the question box, which causes this answer
 	 * @param integer								$i_intDirection		Direction of the Question, which causes this answer
 	 * @param GlcrosswordCrossword				$i_objCrossword		Object of crossword class
 	 */
-	public function __construct($i_intX, $i_intY, $i_objAnswerField, $i_objQuestionBox, $i_intDirection, $i_objCrossword) {
+	public function __construct(int $i_intX, int $i_intY, GlcrosswordContentAnswerfield $i_objAnswerField, GlcrosswordBoxQuestions $i_objQuestionBox, int $i_intDirection, GlcrosswordCrossword $i_objCrossword) {
 		parent::__construct($i_intX, $i_intY, GlcrosswordBox::C_STR_TYPE_ANSWER, $i_objCrossword);
 		
-		// initialise the array
-		$this->m_arrCausingQuestions = array();
+		// initialize the array
+		$this->m_arrCausingQuestions = [];
 		
-		// adds the answer letter, if there is already an different answer letter, then set the error text
+		// adds the answer letter, if there is already a different answer letter, then set the error text
 		$this->addAnswerLetter($i_objAnswerField, $i_objQuestionBox, $i_intDirection);
 	}
 	
 	/**
-	 * Returns the all causing questions
-	 * @return array: Array with with all cousing questions.
+	 * Returns all causing questions
+	 * @return array<int, array<string, mixed>> Array with all causing questions.
 	 */
-	public function getAllCausingQuestions() {
+	public function getAllCausingQuestions(): array {
 		return $this->m_arrCausingQuestions;
 	}
 	
 	/**
 	 * Returns the first causing question
-	 * @return array: Array with an object of type GlcrosswordBoxQuestions and
+	 * @return array<string, mixed> Array with an object of type GlcrosswordBoxQuestions and
 	 * 				  the direction of the causing question.
 	 */
-	public function getFirstCausingQuestion() {
+	public function getFirstCausingQuestion(): array {
 		return $this->m_arrCausingQuestions[0];
 	}
 	
 	
 	/**
-	 * Draws a  answer box in HTML.
+	 * Draws an answer box in HTML.
 	 * @param float 	$i_fltXScale 		Scale of the boxes 1 means 100% 0.5 means 50% of the width
 	 * @param float 	$i_fltYScale 		Scale of the boxes 1 means 100% 0.5 means 50% of the height
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string						Returns the generated HTML content.
 	 */
-	public function draw( $i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
-		// the HTML content of the qestion box
+	public function draw(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth): string {
+		// the HTML content of the question box
 		$l_strContent = '';
 	
 		// get the plain box
@@ -282,7 +283,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @return boolean
 	 */
-	public function get_blnExtraBorderLeft() {
+	public function get_blnExtraBorderLeft(): bool {
 		return $this->m_blnExtraBorderLeft;
 	}
 	
@@ -291,7 +292,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @param boolean $i_blnValue
 	 */
-	public function set_blnExtraBorderLeft( $i_blnValue) {
+	public function set_blnExtraBorderLeft(bool $i_blnValue): void {
 		$this->m_blnExtraBorderLeft = $i_blnValue;
 	}
 	
@@ -300,7 +301,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @return boolean
 	 */
-	public function get_blnExtraBorderTop() {
+	public function get_blnExtraBorderTop(): bool {
 		return $this->m_blnExtraBorderTop;
 	}
 	
@@ -309,16 +310,16 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @param boolean $i_blnValue
 	 */
-	public function set_blnExtraBorderTop( $i_blnValue) {
+	public function set_blnExtraBorderTop(bool $i_blnValue): void {
 		$this->m_blnExtraBorderTop = $i_blnValue;
 	}
 	
 	/**
-	 * Getter for the Flag extra border on the rigth side.
+	 * Getter for the Flag extra border on the right side.
 	 * 
 	 * @return boolean
 	 */
-	public function get_blnExtraBorderRight() {
+	public function get_blnExtraBorderRight(): bool {
 		return $this->m_blnExtraBorderRight;
 	}
 	
@@ -327,7 +328,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @param boolean $i_blnValue
 	 */
-	public function set_blnExtraBorderRight( $i_blnValue) {
+	public function set_blnExtraBorderRight(bool $i_blnValue): void {
 		$this->m_blnExtraBorderRight = $i_blnValue;
 	}
 	
@@ -336,7 +337,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @return boolean
 	 */
-	public function get_blnExtraBorderBottom() {
+	public function get_blnExtraBorderBottom(): bool {
 		return $this->m_blnExtraBorderBottom;
 	}
 	
@@ -345,7 +346,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @param boolean $i_blnValue
 	 */
-	public function set_blnExtraBorderBottom( $i_blnValue) {
+	public function set_blnExtraBorderBottom(bool $i_blnValue): void {
 		$this->m_blnExtraBorderBottom = $i_blnValue;
 	}
 	
@@ -354,7 +355,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * 
 	 * @param integer $i_intQuestionDirection
 	 */
-	public function setExtraBorder($i_intQuestionDirection) {
+	public function setExtraBorder(int $i_intQuestionDirection): void {
 		switch ($i_intQuestionDirection) {
 			// if the question goes to the left
 			case GlcrosswordBoxQuestions::C_INT_DIR_DOWN_LEFT:
@@ -398,8 +399,9 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * Get the flag of the border in the opposite direction.
 	 * 
 	 * @param integer $i_intQuestionDirection Direction of the question.
+	 * @return boolean
 	 */
-	public function getOppositeBorderFlag($i_intQuestionDirection) {
+	public function getOppositeBorderFlag(int $i_intQuestionDirection): bool {
 		switch ($i_intQuestionDirection) {
 			// if the question goes to the left
 			case GlcrosswordBoxQuestions::C_INT_DIR_DOWN_LEFT:
@@ -442,37 +444,37 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	/**
 	 * Try to add an answer letter to this box
 	 * @param GlcrosswordContentAnswerfield	$i_objAnswerField	Object with the answer in this field
-	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the questionbox, which causes this answer
+	 * @param GlcrosswordBoxQuestions			$i_objQuestionBox	Object with the question box, which causes this answer
 	 * @param integer								$i_intDirection		Direction of the Question, which causes this answer
 	 */
-	protected function addAnswerLetter($i_objAnswerField, $i_objQuestionBox, $i_intDirection) {
+	protected function addAnswerLetter(GlcrosswordContentAnswerfield $i_objAnswerField, GlcrosswordBoxQuestions $i_objQuestionBox, int $i_intDirection): void {
 		/* @var $l_objOldAnswerField GlcrosswordContentAnswerfield */
-		$l_objOldAnswerField = NULL;
+		$l_objOldAnswerField = null;
 		/* @var $l_objCausingQuestion GlcrosswordBoxQuestions */ 
-		$l_objCausingQuestion = NULL;
+		$l_objCausingQuestion = null;
 		$l_intCausingDirection = 0;
 		// the error text
 		$l_strErrorText = '';
 		
 		// if NOT already exist
-		if ( $this->addContent(GlcrosswordBoxAnswer::C_INT_CONTENT_INDEX, $i_objAnswerField)) { 
+		if ($this->addContent(GlcrosswordBoxAnswer::C_INT_CONTENT_INDEX, $i_objAnswerField)) { 
 
 			// add question, which causes this answer
-			array_push(	$this->m_arrCausingQuestions,
-						array( GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_QUESTION => $i_objQuestionBox,
-						GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_DIRECTION => $i_intDirection ));
+			array_push($this->m_arrCausingQuestions,
+						[GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_QUESTION => $i_objQuestionBox,
+						GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_DIRECTION => $i_intDirection]);
 			
 		// if already exist
 		} else {
 			// get old answer letter object
 			$l_objOldAnswerField = $this->getContentObject(GlcrosswordBoxAnswer::C_INT_CONTENT_INDEX);
 			// if it is the same answer letter
-			if (   $l_objOldAnswerField->get_strAnswerLetter() == $i_objAnswerField->get_strAnswerLetter() 
-				&& $l_objOldAnswerField->get_intLength() == $i_objAnswerField->get_intLength() ) {
+			if ($l_objOldAnswerField->get_strAnswerLetter() == $i_objAnswerField->get_strAnswerLetter() 
+				&& $l_objOldAnswerField->get_intLength() == $i_objAnswerField->get_intLength()) {
 				// add question, which causes this answer
-				array_push(	$this->m_arrCausingQuestions,
-							array( GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_QUESTION => $i_objQuestionBox,
-							GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_DIRECTION => $i_intDirection ));
+				array_push($this->m_arrCausingQuestions,
+							[GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_QUESTION => $i_objQuestionBox,
+							GlcrosswordBoxAnswer::C_STR_KEY_CAUSING_DIRECTION => $i_intDirection]);
 				
 			// if it is a different answer letter
 			} else {
@@ -497,7 +499,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 												filter_var($i_objQuestionBox->get_objQuestion($i_intDirection)->get_strQuestion(),
 														   FILTER_SANITIZE_FULL_SPECIAL_CHARS),
 												$i_objQuestionBox->get_objQuestion($i_intDirection)->get_intUid(),
-												$i_objAnswerField->get_strAnswerLetter() );
+												$i_objAnswerField->get_strAnswerLetter());
 				// set the error text
 				$this->set_strErrorText($l_strErrorText);
 				// set error flag true
@@ -513,16 +515,16 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @return string						Returns the generated HTML content.
 	 */
-	protected function getContentHtmlOptions($i_fltXScale, $i_fltYScale, $i_intBorderWidth) {
+	protected function getContentHtmlOptions(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth): string {
 		
 		// the own content object with the answer
 		/* @var $l_objContentAnswerfield GlcrosswordContentAnswerfield */
-		$l_objContentAnswerfield = NULL;
-		// returnung content
+		$l_objContentAnswerfield = null;
+		// returning content
 		$l_strContent = '';
 		// the font size
 		$l_intFontSize = 0;
-		// the with and the height of the info box
+		// the width and the height of the info box
 		$l_intXInfoBoxWidth = 0;
 		$l_intYInfoBoxWidth = 0;
 		// the font size of the info box
@@ -542,14 +544,8 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		// the height of the box
 		$l_intHeight = 0;
 		
-		
-		
 		// get the smaller scale option, this will determine the size of the font
-		if ($i_fltXScale < $i_fltYScale) {
-			$l_fltFontScale = $i_fltXScale;
-		} else {
-			$l_fltFontScale = $i_fltYScale;
-		}
+		$l_fltFontScale = min($i_fltXScale, $i_fltYScale);
 		
 		$l_objContentAnswerfield = $this->getContentObject(self::C_INT_CONTENT_INDEX); 
 		
@@ -559,10 +555,8 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		// close the open div element
 		$l_strContent = '" >' . "\n";
 		
-		// if the answer is longer then 1 letters in this box
+		// if the answer is longer than 1 letter in this box
 		if ($l_objContentAnswerfield->get_intLength() > 1) {
-
-			
 			// get the font size in dependence of the letter count
 			$l_intFontSize = $this->getFontSize($l_objContentAnswerfield->get_intLength(), $l_fltFontScale);
 		
@@ -578,7 +572,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		if ($l_objContentAnswerfield->get_intLength() == 1) {
            
 		    // compute the font size
-		    $l_intFontSize = round( 36 * $l_fltFontScale );
+		    $l_intFontSize = round(36 * $l_fltFontScale);
 		    
 		    // insert an input box
 		    $l_strContent .= "\t\t\t" . '<input id="content' . $this->m_intX . 'x' . $this->m_intY . '_' . 
@@ -588,9 +582,9 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		        'px;" type="text" value="">';
 		}
 		
-		// if there are more then one letter in this box
+		// if there are more than one letter in this box
 		if ($l_objContentAnswerfield->get_intLength() > 1) {
-			// the with and the height of the info box 
+			// the width and the height of the info box 
 			$l_intXInfoBoxWidth = round($i_fltXScale * 10);
 			$l_intYInfoBoxWidth = round($i_fltYScale * 10);
 			// the font size of the info box
@@ -608,7 +602,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		$l_intCaretTop = round($i_fltYScale * 54);
 		$l_intCaretWidth = round($i_fltXScale * 50);
 		
-		//always insert an invisible caret
+		// always insert an invisible caret
 		$l_strContent .= "\t\t\t" . '<div id="' . $l_strCaretId . '" class="glcrossword_caret_inactive" '; 
 		$l_strContent .= 'style="left: ' . $l_intCaretLeft . 'px; top: ' . $l_intCaretTop . 'px; ';
 		$l_strContent .= 'width: ' . $l_intCaretWidth . 'px; height: 0px; border-width: 1px"></div>';
@@ -620,14 +614,14 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	}
 	
 	/**
-	 * Set the extra borders if ther is the flag is set.
+	 * Set the extra borders if the flag is set.
 	 * 
 	 * @param float 	$i_fltXScale 		Scale of the boxes 1 means 100% 0.5 means 50% of the width
 	 * @param float 	$i_fltYScale 		Scale of the boxes 1 means 100% 0.5 means 50% of the height
 	 * @param integer 	$i_intBorderWidth 	Thickness of the borderlines of the box
 	 * @param string 	$c_strContent		HTML content, which needs to be changed for extra borders.
 	 */
-	protected function setExtraHtmlBorders($i_fltXScale, $i_fltYScale, $i_intBorderWidth, &$c_strContent) {
+	protected function setExtraHtmlBorders(float $i_fltXScale, float $i_fltYScale, int $i_intBorderWidth, string &$c_strContent): void {
 		
 		// the width of the extra border
 		$l_intExtraBorderWidth = 0;
@@ -675,7 +669,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 	 * @param float 	$i_fltFontScale		Scale factor of the font size.
 	 * @return integer						The font size.
 	 */
-	protected function getFontSize($i_intLetterCount, $i_fltFontScale) {
+	protected function getFontSize(int $i_intLetterCount, float $i_fltFontScale): int {
 		
 		$l_intFontSize = 0;
 		
@@ -708,7 +702,7 @@ class GlcrosswordBoxAnswer extends GlcrosswordBox {
 		}
 		
 		// return the font size with the scale factor
-		return round($l_intFontSize * $i_fltFontScale);
+		return (int)round($l_intFontSize * $i_fltFontScale);
 	}
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
 *
@@ -25,7 +26,7 @@
 namespace Loss\Glcrossword\Pi1;
 
 /**
- * Class with the one field of the answert
+ * Class to define the content of an answer field
  *
  * @author	Gerald Loß <gerald.loss@gmx.de>
  * @package	glcrossword
@@ -33,37 +34,39 @@ namespace Loss\Glcrossword\Pi1;
 class GlcrosswordContentAnswerfield {
 
 	/**
-	 * Text of the answerletter in this single box 
+	 * The answer text of this field
 	 * @var string
-	 * @access protected
 	 */
-	protected $m_strAnswerLetter;
+	protected string $m_strAnswerLetter;
 	
 	/**
 	 * Length of the answertletter
 	 * @var integer
-	 * @access protected
 	 */
-	protected $m_intLength;
+	protected int $m_intLength;
 
 	/**
 	 * Constructor of the answer content object
 	 * @param string $i_strAnswerLetter The answer letter.
 	 */
-	public function __construct($i_strAnswerLetter) {
+	public function __construct(string $i_strAnswerLetter) {
 		$this->m_strAnswerLetter = $i_strAnswerLetter;
-		$this->m_intLength = strlen(utf8_decode($this->m_strAnswerLetter));
+		$this->m_intLength = mb_strlen($this->m_strAnswerLetter, 'UTF-8');
 	}
 	
 	/**
 	 * Getter of the answer letter.
 	 * @return string Answer letter.
 	 */
-	public function get_strAnswerLetter() {
+	public function get_strAnswerLetter(): string {
 		return $this->m_strAnswerLetter;
 	}
 	
-	public function get_intLength() {
+	/**
+	 * Get the length of the answer letter
+	 * @return integer The length of the answer letter
+	 */
+	public function get_intLength(): int {
 		return $this->m_intLength;
 	}
 }

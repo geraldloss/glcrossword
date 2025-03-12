@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array (
 		See under https://www.schulze-thulin.de/en/games/welsh-crossword for an online example.
 		This extension use jQuery 3.x and Bootstrap 3.x.',
 	'category' => 'plugin',
-	'version' => '7.0.1',
+	'version' => '8.0.0',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',
@@ -33,8 +33,8 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'php' => '7.3.0-8.0.99',
-		    'typo3' => '10.0.00-11.9.99',
+			'php' => '8.0.0-8.4.99',
+		    'typo3' => '12.0.00-12.4.99',
 		),
 		'conflicts' => 
 		array (

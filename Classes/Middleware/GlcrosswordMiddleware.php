@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /***************************************************************
  *  Copyright notice
  *
@@ -43,10 +45,9 @@ use Loss\Glcrossword\Ajax\GlcrosswordAjax;
  *
  * @internal
  */
-class GlcrosswordMiddleware implements MiddlewareInterface{
+class GlcrosswordMiddleware implements MiddlewareInterface {
     
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
     
     public function __construct(ResponseFactoryInterface $responseFactory)
     {
@@ -60,7 +61,10 @@ class GlcrosswordMiddleware implements MiddlewareInterface{
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface{
+    public function process(
+        ServerRequestInterface $request, 
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
         
         $psr15eID = $request->getParsedBody()['PSR-15-eID'] ?? $request->getQueryParams()['PSR-15-eID'] ?? null;
         

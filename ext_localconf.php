@@ -1,10 +1,10 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
+if (!defined('TYPO3')) {
+    die('Do not access the file ext_localconf.php directly.');
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Loss.glcrossword',
+    'Glcrossword',
     'Pi1',
     array(
         \Loss\Glcrossword\Controller\GlcrosswordController::class => 'main',
