@@ -125,6 +125,10 @@
 				<source><![CDATA[Select the relatet questions]]>
 				</source>
 			</trans-unit>
+			<trans-unit id="flexform.plugin.name">
+				<source><![CDATA[Crossword]]>
+				</source>
+			</trans-unit>
 			<trans-unit id="glcrossword.subcategory.libraries">
 				<source><![CDATA[Libraries]]>
 				</source>

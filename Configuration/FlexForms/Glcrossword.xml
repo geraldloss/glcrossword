@@ -5,151 +5,126 @@
 	<sheets>
 		<sDEF>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.sheet_title</sheetTitle>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.sheet_title</sheetTitle>
 				<type>array</type>
 				<el>
 					<settings.titleOfCrossword>
-						<TCEforms>
-							<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.crossword_title</label>
-							<config>
-								<type>input</type>
-							</config>
-						</TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.crossword_title</label>
+						<config>
+							<type>input</type>
+						</config>
 					</settings.titleOfCrossword>
 					<settings.widthOfCrossword>
-						<TCEforms>
-							<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.width</label>
-							<config>
-								<type>input</type>
-								<size>5</size>
-								<max>5</max>
-  								<eval>int</eval> 
-								<range>
-									<!-- usually we should set the lower parameter to 2
-										 but unfortunately because of a bug in Typo3 7.x 
-										 we are then not able to fill numbers beginning with 1 -->
-									<lower>1</lower>
-									<upper>99999</upper>
-								</range>
-							</config>
-						</TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.width</label>
+						<config>
+							<type>input</type>
+							<size>5</size>
+							<max>5</max>
+							<eval>int</eval> 
+							<range>
+								<!-- usually we should set the lower parameter to 2
+										but unfortunately because of a bug in Typo3 7.x 
+										we are then not able to fill numbers beginning with 1 -->
+								<lower>1</lower>
+								<upper>99999</upper>
+							</range>
+						</config>
 					</settings.widthOfCrossword>
 					<settings.heightOfCrossword>
-						<TCEforms>
-							<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.height</label>
-							<config>
-								<type>input</type>
-								<size>5</size>
-								<max>5</max>
-  								<eval>int</eval> 
-								<range>
-									<!-- usually we should set the lower parameter to 2
-										 but unfortunately because of a bug in Typo3 7.x 
-										 we are then not able to fill numbers beginning with 1 -->
-									<lower>1</lower>
-									<upper>99999</upper>
-								</range>
-							</config>
-						</TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.height</label>
+						<config>
+							<type>input</type>
+							<size>5</size>
+							<max>5</max>
+							<eval>int</eval> 
+							<range>
+								<!-- usually we should set the lower parameter to 2
+										but unfortunately because of a bug in Typo3 7.x 
+										we are then not able to fill numbers beginning with 1 -->
+								<lower>1</lower>
+								<upper>99999</upper>
+							</range>
+						</config>
 					</settings.heightOfCrossword>
 			        <settings.scaleXFactor>
-						<TCEforms>
-							<exclude>1</exclude>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.scale_xfactor</label>
-							<config>
-								<type>input</type>
-								<size>2</size>
-								<max>5</max>
-								<default>1</default>
-  								<eval>double2</eval> 
-								<range>
-									<lower>0</lower>
-									<upper>99</upper>
-								</range>
-							</config>
-						</TCEforms>
+						<exclude>1</exclude>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.scale_xfactor</label>
+						<config>
+							<type>input</type>
+							<size>2</size>
+							<max>5</max>
+							<default>1</default>
+							<eval>double2</eval> 
+							<range>
+								<lower>0</lower>
+								<upper>99</upper>
+							</range>
+						</config>
 			        </settings.scaleXFactor>
 			        <settings.scaleYFactor>
-						<TCEforms>
-							<exclude>1</exclude>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.scale_yfactor</label>
-							<config>
-								<type>input</type>
-								<size>2</size>
-								<max>5</max>
-								<default>1</default>
-  								<eval>double2</eval> 
-								<range>
-									<lower>0</lower>
-									<upper>99</upper>
-								</range>
-							</config>
-						</TCEforms>
+						<exclude>1</exclude>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.scale_yfactor</label>
+						<config>
+							<type>input</type>
+							<size>2</size>
+							<max>5</max>
+							<default>1</default>
+							<eval>double2</eval> 
+							<range>
+								<lower>0</lower>
+								<upper>99</upper>
+							</range>
+						</config>
 			        </settings.scaleYFactor>
 			        <settings.borderWidth>
-						<TCEforms>
-							<exclude>1</exclude>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.border_width</label>
-							<config>
-								<type>input</type>
-								<size>2</size>
-								<max>5</max>
-								<default>1</default>
-  								<eval>num</eval> 
-								<range>
-									<lower>0</lower>
-									<upper>99</upper>
-								</range>
-							</config>
-						</TCEforms>
+						<exclude>1</exclude>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.border_width</label>
+						<config>
+							<type>input</type>
+							<size>2</size>
+							<max>5</max>
+							<default>1</default>
+							<eval>num</eval> 
+							<range>
+								<lower>0</lower>
+								<upper>99</upper>
+							</range>
+						</config>
 			        </settings.borderWidth>
 			        <settings.cssFile>
-						<TCEforms>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.css.file</label>
-							<config>
-								<type>input</type>
-							</config>
-						</TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.css.file</label>
+						<config>
+							<type>input</type>
+						</config>
 			        </settings.cssFile>
 			        <settings.darkCssFile>
-						<TCEforms>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.darkcss.file</label>
-							<config>
-								<type>check</type>
-								<default>1</default>
-							</config>
-						</TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.general.darkcss.file</label>
+						<config>
+							<type>check</type>
+							<default>1</default>
+						</config>
 			        </settings.darkCssFile>
 				</el>
 			</ROOT>
 		</sDEF>
 		<sQUESTIONS>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.questions.sheet_title</sheetTitle>
-					<cshFile>LLL:EXT:glcrossword/Resources/Private/Language/locallang_csh_flexform.xml</cshFile>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.questions.sheet_title</sheetTitle>
 				<type>array</type>
 				<el>
 					<settings.relatetQuestions>
-			            <TCEforms>
-			                <label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.questions.questions</label>
-			                <config>
-			                    <type>group</type>
-			                    <internal_type>db</internal_type>
-			                    <allowed>tx_glcrossword_questions</allowed>
-			                    <size>5</size>
-			                    <autoSizeMax>30</autoSizeMax>
-			                    <maxitems>99999</maxitems>
-			                    <minitems>0</minitems>
-			                    <show_thumbs>0</show_thumbs>
-			                    <filter>
-			                    	<userFunc>Loss\Glcrossword\Filters\GlcrosswordFilters->filterQuestions</userFunc>
-			                    </filter>
-			                </config>
-			            </TCEforms>
+						<label>LLL:EXT:glcrossword/Resources/Private/Language/locallang.xlf:flexform.plugin.questions.questions</label>
+						<config>
+							<type>group</type>
+							<allowed>tx_glcrossword_questions</allowed>
+							<size>5</size>
+							<autoSizeMax>30</autoSizeMax>
+							<maxitems>99999</maxitems>
+							<minitems>0</minitems>
+							<filter>
+								<userFunc>Loss\Glcrossword\Filters\GlcrosswordFilters->filterQuestions</userFunc>
+							</filter>
+						</config>
 			        </settings.relatetQuestions>
 				</el>
 			</ROOT>

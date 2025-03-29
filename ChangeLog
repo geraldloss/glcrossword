@@ -1,20 +1,20 @@
-2013-02-17  Gerald Lo?  <gerald.loss@gmx.de>
+2013-02-17  Gerald Loss  <gerald.loss@gmx.de>
 
 	* Initial code generated with kickstarter
 
-2013-12-22  Gerald Loß	<gerald.loss@gmx.de>
+2013-12-22  Gerald Loss	<gerald.loss@gmx.de>
 
 	* Basic functionality (edit crossword, solution, get hints)
 	* more then one crossword in one html-page
 	* multi language support
 	* documentation
 
-2014-01-03  Gerald Loß	<gerald.loss@gmx.de>
+2014-01-03  Gerald Loss	<gerald.loss@gmx.de>
 
 	* Bugfix: Disable caching for this plugin. Otherwise the ajax content is not corect written in the session.
 	* Bugfix: Resolve UTF issue for the session. Add an extra troubleshooting chapter in the documentation.
 	* Bugfix: Resolf UTF error in the answers of the crossword. Answers with umlauts are now posible
-	* The editing of special letters with umlauts äöü or éà is now possible.
+	* The editing of special letters with umlauts ï¿½ï¿½ï¿½ or ï¿½ï¿½ is now possible.
 	* Bugfix: If you click in an answerfield with more then one letter, then backspace don't work. This is now resolved.
 	* Compressing the javascript library of glcrossword for better performance.
 	* Insert the ext_autoload.php feature.
@@ -38,7 +38,7 @@
 2017-03-12
 
 	* Change to jQuery 3.x and Bootstrap 3.x library
-	* Remove qTip² and jQuery UI library
+	* Remove qTipï¿½ and jQuery UI library
 	* Compatibility issues with Typo3 7.x
 	* Change old documentation to new ReST documentation
 	
@@ -51,3 +51,7 @@
 	* make it compatible with Typo3 major version 9
 	* switch to fluid functionality
 	* Attention! Compatibility break. You need to reconfigure felxform.
+
+2025-03-29
+
+	* Compatibility update for version 12 and 13

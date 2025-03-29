@@ -77,7 +77,10 @@ class GlcrosswordMiddleware implements MiddlewareInterface {
             ->withHeader('Content-Type', 'application/json; charset=utf-8');
         
         /** @var GlcrosswordAjax $glcrosswordAjax */
-        $glcrosswordAjax = GeneralUtility::makeInstance(GlcrosswordAjax::class);
+        $glcrosswordAjax = GeneralUtility::makeInstance(
+            GlcrosswordAjax::class,
+            $request
+        );
             
         $response->getBody()->write($glcrosswordAjax->handleAjaxRequest());
         

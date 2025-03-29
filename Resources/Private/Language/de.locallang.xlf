@@ -194,6 +194,12 @@
 				<target><![CDATA[Wählen Sie die zugehörigen Fragen aus]]>
 				</target>
 			</trans-unit>
+			<trans-unit id="flexform.plugin.name">
+				<source><![CDATA[Crossword]]>
+				</source>
+				<target><![CDATA[Kreuzworträtsel]]>
+				</target>
+			</trans-unit>
 			<trans-unit id="glcrossword.subcategory.libraries">
 				<source><![CDATA[Libraries]]>
 				</source>
@@ -223,6 +229,10 @@
 				</source>
 				<target><![CDATA[Füge die Bootstrap CSS-Datei durch diese Extension ein. Deaktiviere dieses Einstellung, wenn Sie eine eigene Bootstrap CSS-Datei eingebunden haben. Beachten Sie, dass sie Bootstrap 3.x benötigen]]>
 				</target>
+			</trans-unit>
+			<trans-unit id="flexform.plugin.name">
+				<source><![CDATA[Pairs Game]]>
+				</source>
 			</trans-unit>
 		</body>
 	</file>

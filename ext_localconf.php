@@ -5,20 +5,16 @@ if (!defined('TYPO3')) {
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Glcrossword',
-    'Pi1',
-    array(
+    'Crossword',
+    [
         \Loss\Glcrossword\Controller\GlcrosswordController::class => 'main',
-    ),
+    ],
     // non-cacheable actions
-    array(
+    [
         \Loss\Glcrossword\Controller\GlcrosswordController::class => 'main',
-    )
+    ],
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
-
-// register new content element wizard 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-    <INCLUDE_TYPOSCRIPT: source="FILE:EXT:glcrossword/Configuration/TSconfig/ContentElementWizard.txt">
-');
 
 // register Wizard icon
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);

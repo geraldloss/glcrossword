@@ -32,6 +32,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Http\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Plugin 'glcrossword AJAX manager' for the 'glcrossword' extension.
@@ -43,8 +44,14 @@ class GlcrosswordAjax {
 
 	protected string $m_strLocalLang = '';
 	
+	protected ?ServerRequestInterface $request = null;
+	
+	public function __construct(ServerRequestInterface $request)
+	{
+		$this->request = $request;
+	}
+	
 	public function handleAjaxRequest(): string {
-		
 		// the unique ID
 		$l_intUniqueId = 0;
 		// the requested process
@@ -57,16 +64,19 @@ class GlcrosswordAjax {
 		$request = null;
 		$request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
 		
-        // read the stored crosswords from the session
-		GlcrosswordCrossword::$m_arrCrosswords = $GLOBALS['TSFE']->fe_user->getKey('ses', 'glcrossword_arrCrosswords');
+			
+        /** @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $frontendUser */
+        $frontendUser = $this->request->getAttribute('frontend.user');
+        $session = $frontendUser->getSession();
+        GlcrosswordCrossword::$m_arrCrosswords = $session->get('glcrossword_arrCrosswords');
 		
 		// get the unique ID of the requestet crossword
-		$l_intUniqueId = (int)($request->getQueryParams()['intUniqueId'] ?? 0);
+		$l_intUniqueId = (int)($this->request->getQueryParams()['intUniqueId'] ?? 0);
 		// get the requestet process
-		$l_strfuncRequestedProcess = (string)($request->getQueryParams()['strProcess'] ?? '');
+		$l_strfuncRequestedProcess = (string)($this->request->getQueryParams()['strProcess'] ?? '');
 		
 		// get the parameters of the backend method
-		$l_arrParams = (array)($request->getQueryParams()['params'] ?? []);
+		$l_arrParams = (array)($this->request->getQueryParams()['params'] ?? []);
 		
 		return json_encode([
 			'result' => $this->$l_strfuncRequestedProcess($l_intUniqueId, $l_arrParams),

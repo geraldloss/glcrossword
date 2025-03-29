@@ -11,7 +11,6 @@ $tx_glcrossword_questions = array(
         'label'     => 'question',
         'tstamp'    => 'tstamp',
         'crdate'    => 'crdate',
-        'cruser_id' => 'cruser_id',
         'origUid' => 't3_origuid',
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
@@ -29,39 +28,30 @@ $tx_glcrossword_questions = array(
     ),
 	'columns' => array(
 		't3ver_label' => array(		
-			'label'  => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.versionLabel',
+			'label'  => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xml:LGL.versionLabel',
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
 				'max'  => '30',
 			)
 		),
-		'sys_language_uid' => array(		
-			'exclude' => 1,
-			'label'  => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.language',
-		    // for typo 11 change the whole config array to this simple sssstatement 
-// 		    'config' => array(
-// 		        'type'       => 'language',
-// 		    )
-		    'config' => array(
-			    'type'                => 'select',
-			    'foreign_table'       => 'sys_language',
-			    'foreign_table_where' => 'ORDER BY sys_language.title',
-			    'items' => array(
-			        array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.allLanguages', -1),
-			        array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.default_value', 0)
-			    ),
-			    'renderType' => 'selectSingle',
-			    'default' => 0,
-			)
-		),
+		'sys_language_uid' => [
+			'exclude' => true,
+			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+			'config' => [
+				'type' => 'language',
+			],
+		],
 		'l10n_parent' => array(		
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
-			'label'       => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.l18n_parent',
+			'label'       => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xml:LGL.l18n_parent',
 			'config'      => array(
 				'type'  => 'select',
 				'items' => array(
-					array('', 0),
+					[
+						'label' => '',
+						'value' => 0
+					],
 				),
 				'foreign_table'       => 'tx_glcrossword_questions',
 				'foreign_table_where' => 'AND tx_glcrossword_questions.pid=###CURRENT_PID### AND tx_glcrossword_questions.sys_language_uid IN (-1,0)',
@@ -75,7 +65,7 @@ $tx_glcrossword_questions = array(
 		),
 		'hidden' => array(		
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xml:LGL.hidden',
+			'label'   => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xml:LGL.hidden',
 			'config'  => array(
 				'type'    => 'check',
 				'default' => '0'
@@ -86,8 +76,9 @@ $tx_glcrossword_questions = array(
 			'label' => $ll . 'tx_glcrossword_questions.question',		
 			'config' => array(
 				'type' => 'input',	
-				'size' => '30',	
-				'eval' => 'required,trim',
+				'size' => '30',
+				'required' => true,	
+				'eval' => 'trim',
 			)
 		),
 		'answer' => array(		
@@ -95,29 +86,27 @@ $tx_glcrossword_questions = array(
 			'label' => $ll . 'tx_glcrossword_questions.answer',		
 			'config' => array(
 				'type' => 'input',	
-				'size' => '30',	
-				'eval' => 'required, trim, upper',
+				'size' => '30',
+				'required' => true,	
+				'eval' => 'trim,upper',
 			)
 		),
 		'mask' => array(		
 			'exclude' => 0,		
 			'label' => $ll . 'tx_glcrossword_questions.mask',		
 			'config' => array(
-				'type' => 'input',	
-				'size' => '30',	
-				'eval' => 'int',
+				'type' => 'number',	
+				'size' => '30',
 			)
 		),
 		'xpos' => array(		
 			'exclude' => 0,		
 			'label' => $ll . 'tx_glcrossword_questions.xpos',		
 			'config' => array(
-				'type'     => 'input',
-				'size'     => '5',
-				'max'      => '5',
-				'eval'     => 'int,required',
-				'checkbox' => '0',
-				'range'    => array(
+				'type' => 'number',
+				'size' => '5',
+				'required' => true,
+				'range' => array(
 					'upper' => '99999',
 					'lower' => '1'
 				),
@@ -128,12 +117,10 @@ $tx_glcrossword_questions = array(
 			'exclude' => 0,		
 			'label' => $ll . 'tx_glcrossword_questions.ypos',		
 			'config' => array(
-				'type'     => 'input',
-				'size'     => '5',
-				'max'      => '5',
-				'eval'     => 'int,required',
-				'checkbox' => '0',
-				'range'    => array(
+				'type' => 'number',
+				'size' => '5',
+				'required' => true,
+				'range' => array(
 					'upper' => '99999',
 					'lower' => '1'
 				),
@@ -146,18 +133,54 @@ $tx_glcrossword_questions = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array($ll . 'tx_glcrossword_questions.direction.I.0', '0'),
-					array($ll . 'tx_glcrossword_questions.direction.I.1', '1'),
-					array($ll . 'tx_glcrossword_questions.direction.I.2', '2'),
-					array($ll . 'tx_glcrossword_questions.direction.I.3', '3'),
-					array($ll . 'tx_glcrossword_questions.direction.I.4', '4'),
-					array($ll . 'tx_glcrossword_questions.direction.I.5', '5'),
-					array($ll . 'tx_glcrossword_questions.direction.I.6', '6'),
-					array($ll . 'tx_glcrossword_questions.direction.I.7', '7'),
-					array($ll . 'tx_glcrossword_questions.direction.I.8', '8'),
-					array($ll . 'tx_glcrossword_questions.direction.I.9', '9'),
-					array($ll . 'tx_glcrossword_questions.direction.I.10', '10'),
-					array($ll . 'tx_glcrossword_questions.direction.I.11', '11'),
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.0',
+						'value' => '0'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.1',
+						'value' => '1'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.2',
+						'value' => '2'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.3',
+						'value' => '3'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.4',
+						'value' => '4'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.5',
+						'value' => '5'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.6',
+						'value' => '6'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.7',
+						'value' => '7'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.8',
+						'value' => '8'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.9',
+						'value' => '9'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.10',
+						'value' => '10'
+					],
+					[
+						'label' => $ll . 'tx_glcrossword_questions.direction.I.11',
+						'value' => '11'
+					],
 				),
 				'size' => 1,	
 				'maxitems' => 1,

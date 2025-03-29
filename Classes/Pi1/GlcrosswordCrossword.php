@@ -33,6 +33,7 @@ use Loss\Glcrossword\Controller\GlcrosswordController;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * The main crossword class. It contains all boxes with the questions and the answers.
@@ -177,7 +178,7 @@ class GlcrosswordCrossword  {
 		/**
 	 * Korrigiert Objekte aus der Session die beim deserialisieren ein __PHP_Incomplete_Class Objekt werden
 	 * @param object $i_objObject
-	 * @return Loss\Glcrossword\Pi1\GlcrosswordCrossword
+	 * @return \Loss\Glcrossword\Pi1\GlcrosswordCrossword
 	 */
 	protected static function fixSessionObject(object $i_objObject): \Loss\Glcrossword\Pi1\GlcrosswordCrossword {
 	    if (is_object($i_objObject) && get_class($i_objObject) == '__PHP_Incomplete_Class') {
@@ -1052,7 +1053,7 @@ class GlcrosswordCrossword  {
                             $l_objQueryBuilder->expr()->in('sys_language_uid', array(-1,0)),
                             $l_objQueryBuilder->expr()->and(
                                 $l_objQueryBuilder->expr()->eq('sys_language_uid', $l_objQueryBuilder->createNamedParameter($languageAspect->getId())),
-    	                        $l_objQueryBuilder->expr()->eq('l10n_parent', $l_objQueryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+    	                        $l_objQueryBuilder->expr()->eq('l10n_parent', $l_objQueryBuilder->createNamedParameter(0, ParameterType::INTEGER))
     	                    )
 		                )
 		              ];
@@ -1066,7 +1067,7 @@ class GlcrosswordCrossword  {
         //$l_TestSql = $l_objQueryBuilder->getSQL();
         //$l_TestParameters = $l_objQueryBuilder->getParameters();
 		                  
-        $l_objResult = $l_objQueryBuilder->execute(); 
+        $l_objResult = $l_objQueryBuilder->executeQuery(); 
 		                  
         // exchange fetch() with fetchAssociative() up to Typo3 v11 -> Method fetch() will be removed
 //        while($row = $l_objResult->fetchAssociative() ){

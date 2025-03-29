@@ -24,9 +24,9 @@ copyright = '2019, Gerald Loß'
 author = 'Gerald Loß'
 
 # The short X.Y version
-version = '7.0'
+version = '9.0'
 # The full version, including alpha/beta/rc tags
-release = '7.0.1'
+release = '9.0.0'
 
 
 # -- General configuration ---------------------------------------------------

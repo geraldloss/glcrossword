@@ -1,11 +1,11 @@
 # ==============================================
 # FE-Plugin configuration for EXT:glcrossword
 # ==============================================
-tt_content.list.20.glcrossword_pi1 = USER
-tt_content.list.20.glcrossword_pi1 {
+tt_content.list.20.glcrossword_crossword = USER
+tt_content.list.20.glcrossword_crossword {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = Glcrossword
-    pluginName = Pi1
+    pluginName = Crossword
     vendorName = Loss
     controller = Glcrossword
     action = main

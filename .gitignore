@@ -3,3 +3,5 @@
 .pydevproject
 .buildpath
 Documentation-GENERATED-temp
+Resources/Public/js/glcrossword.js
+Resources/Public/js/glcrossword.min.js.map

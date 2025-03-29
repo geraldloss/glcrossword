@@ -33,7 +33,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Loss\Glcrossword\Pi1\GlcrosswordData;
 use Loss\Glcrossword\Pi1\GlcrosswordCrossword;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -61,13 +60,13 @@ class GlcrosswordController extends ActionController {
 	 * The name of this extension
 	 * @var string
 	 */
-	const c_strExtensionName = 'glcrossword';
+	const c_strExtensionName = 'Glcrossword';
 	
 	/**
 	 * The Plugin Name
 	 * @var string
 	 */
-	const c_strPluginName = 'pi1';
+	const c_strPluginName = 'Crossword';
 	
 	/**
 	 * The session name of the Crossword game. 
@@ -109,14 +108,16 @@ class GlcrosswordController extends ActionController {
 	 * @see ActionController::initializeAction()
 	 */
 	protected function initializeAction(): void {
+	    
+	    //get the page information from request
+	    $pageInformation = $this->request->getAttribute('frontend.page.information');
+	    $l_intUniqueId = $pageInformation->getId();
+	    
 	    // path to the css file
 	    $l_strPathCss = '';
 	    // the header content
 	    $l_strHeaderContent = '';
     	    
-	    // get the UID of the crossword
-	    $l_intUniqueId = (int)$GLOBALS['TSFE']->id;
-	    
 	    // read the alternate CSS file
 	    $l_strAlternateCssFile = (string)$this->settings['cssFile'];
 	    
@@ -183,14 +184,15 @@ class GlcrosswordController extends ActionController {
 	 */
 	public function mainAction(): ResponseInterface {
 		
-		/* @var GlcrosswordData $l_objCrosswordData */
+	    /* @var GlcrosswordData $l_objCrosswordData */
 		$l_objCrosswordData = NULL;
-		
-		$this->view->assign('contentObjectData', $this->contentObjectRenderer->data);
-		if (is_object($GLOBALS['TSFE'])) {
-		    $this->view->assign('pageData', $GLOBALS['TSFE']->page);
-		}
-		
+	
+		// get the page information from request
+		$pageInformation = $this->request->getAttribute('frontend.page.information');
+	
+		$this->view->assign('contentObjectData', $this->contentObjectRenderer->getData('uid'));
+		$this->view->assign('pageData', $pageInformation->getPageRecord());
+
 		// the height and the width of the crossword
 		$l_intHeightOfCrossword = 0;
 		$l_intWidthOfCrossword = 0;
@@ -203,7 +205,7 @@ class GlcrosswordController extends ActionController {
 		// the borderwidth of the crossword
 		$l_intBorderWidth = 0;
 		// the unique ID of this content element
-		$l_intUniqueId = $GLOBALS['TSFE']->id;
+		$l_intUniqueId = (int)$pageInformation->getId();
 		// title of the crossword
 		$l_strCrosswordTitle = '';
 		
@@ -241,8 +243,11 @@ class GlcrosswordController extends ActionController {
 		// return content
 		$l_objCrosswordData->setHtmlContent($this->m_objCrossword->draw());
 	
-		// write the array with all crosswords back into the session, for later access over the ajax connection
-		$GLOBALS['TSFE']->fe_user->setAndSaveSessionData('glcrossword_arrCrosswords', GlcrosswordCrossword::$m_arrCrosswords);
+		/** @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $frontendUser */
+		$frontendUser = $this->request->getAttribute('frontend.user');
+		
+ 		  // write the array with all crosswords back into the session, for later access over the ajax connection
+		$frontendUser->setAndSaveSessionData('glcrossword_arrCrosswords', GlcrosswordCrossword::$m_arrCrosswords);
 	
 		// assign the data to the view
 		$this->view->assign('crossworddata', $l_objCrosswordData);

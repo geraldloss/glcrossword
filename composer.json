@@ -8,7 +8,7 @@
 		}
 	],
 	"require" : {
-		"typo3/cms-core" : "^12.4",
+		"typo3/cms-core" : "^13.4",
 		"php" : "^8.0 || ^8.1 || ^8.2 || ^8.3"
 	},
 	"autoload" : {
@@ -19,7 +19,7 @@
 	"replace" : {
 		"typo3-ter/glcrossword" : "self.version"
 	},
-	"homepage" : "https://www.schulze-thulin.de/en/games/welsh-crossword",
+	"homepage" : "https://schulze-thulin.de/en/games",
 	"support" : {
 		"email" : "gerald.loss@gmx.de",
 		"issues" : "https://github.com/geraldloss/glcrossword/issues",
